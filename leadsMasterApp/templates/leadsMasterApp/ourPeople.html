@@ -1,0 +1,33 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load render_table from django_tables2 %}
+{% load static %}
+
+<head>
+</head>
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+
+
+<div class="row">
+    <div class="col-md-12">
+     <h2 style="color:#000">Our People </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="row">
+        <div class="col-md-7">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Our People</div>
+                    <div class="panel-body">
+                        {% render_table table %}
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
