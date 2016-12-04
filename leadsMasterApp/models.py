@@ -28,6 +28,7 @@ class Person(models.Model):
     isintroducer = models.IntegerField(choices=introducer_CHOICES, default=0)  # Field name made lowercase.
     isclient = models.IntegerField(choices=client_CHOICES,default=0)  # Field name made lowercase.
     leadfrom = models.IntegerField()  # Field name made lowercase.
+    wasclient = models.IntegerField(choices=client_CHOICES,default=0)
 
 
 class Generalbusinessplans(models.Model):
@@ -56,7 +57,7 @@ class LifeContract(models.Model):
     issuedate = models.DateTimeField('date issued')
     expirationdate = models.DateTimeField('expiration date')
     plan = models.ManyToManyField(Lifebusinessplans)
-    annualpremium = models.FloatField(blank=True, null=True)
+    annualpremium = models.FloatField()
     doses = models.IntegerField(blank=True, null=True)
     nextpayment = models.DateTimeField(blank=True, null=True)
     price = models.FloatField()
@@ -68,7 +69,7 @@ class GeneralContract(models.Model):
     issuedate = models.DateTimeField()  # Field name made lowercase.
     expirationdate = models.DateTimeField()  # Field name made lowercase.
     plan = models.ManyToManyField(Generalbusinessplans)
-    annualpremium = models.FloatField( blank=True, null=True)  # Field name made lowercase.
+    annualpremium = models.FloatField()  # Field name made lowercase.
     doses = models.IntegerField(blank=True, null=True)
     nextpayment = models.DateTimeField( blank=True, null=True)  # Field name made lowercase.
     price = models.FloatField()
@@ -80,6 +81,8 @@ class Employee(models.Model):
     position = models.CharField( max_length=45)  # Field name made lowercase.
     salary = models.FloatField()  # Field name made lowercase.
     hourspermonth = models.IntegerField()  # Field name made lowercase.
+    password = models.CharField( max_length=40)
+
 
 class Activity(models.Model):
     activityid = models.AutoField(primary_key=True)  # Field name made lowercase.

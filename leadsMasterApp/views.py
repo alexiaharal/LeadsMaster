@@ -2,14 +2,9 @@ from __future__ import division
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response,render,redirect
-from django.template import loader
-from django.http import Http404
-from django.urls import reverse
+from reportlab.pdfgen import canvas
 import random
 from datetime import datetime, timedelta
-from django.views import generic
-from django_tables2 import RequestConfig
-from .tables import PersonTable
 from .models import Calendar, Person, Activity, GeneralContract, LifeContract
 from django.template.context_processors import csrf
 import re

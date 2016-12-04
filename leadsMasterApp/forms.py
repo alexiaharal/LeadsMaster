@@ -1,8 +1,9 @@
 from django.db import models
 from django.forms import ModelForm,extras
 from django import forms
-from leadsMasterApp.models import Person
-
+from leadsMasterApp.models import Person, Employee
+from django.contrib.auth.models import User
+from django import forms
 class PersonForm(forms.ModelForm):
     DOY = ('1926','1927','1928','1929','1930','1931','1932','1933','1934','1935','1936','1937',
            '1938','1939','1940','1941','1942','1943','1944','1945','1946','1947','1948','1949',
@@ -26,13 +27,3 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = ['idperson','name', 'surname','telephone', 'email','dateofbirth','isclient','isintroducer', 'leadfrom']
 
-# class PersonForm(forms.Form):
-#     idperson = forms.IntegerField()
-#     name = forms.CharField(max_length = 50)
-#     surname = forms.CharField(max_length = 50)
-#     telephone = forms.CharField(max_length = 15)
-#     email = forms.CharField(max_length = 45,required=False)
-#     dateofbirth = forms.DateField()
-#     isclient = forms.IntegerField()
-#     isintroducer = forms.IntegerField()
-#     leadfrom = forms.IntegerField()
