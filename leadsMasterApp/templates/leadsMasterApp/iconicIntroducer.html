@@ -14,26 +14,43 @@
 
  <div class="table-responsive">
         <table class="table table-bordered">
-            <h4 style="color:#000">Introducers</h4>
+            <h4 style="color:#000">Introducers with successful leads over 70% :</h4>
             <thead>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>Profits</th>
                 <th>Percentage Success</th>
             </thead>
             <tbody>
-                {% for introducer in succPercenSorted.keys() %}
+                {% for person,percentage in succPercenSorted.items %}
                 <tr>
-                    <td>{{introducer.name}}</td>
-                    <td>{{introducer.surname}}</td>
-                    <td>{{profitBasedSorted[introducer]}}</td>
-                    <td>{{succPercenSorted[introducer}}</td>
+                    <td>{{person.name}}</td>
+                    <td>{{person.surname}}</td>
+                    <td>{{percentage}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        </div>
+ </div>
 
+ <div class="table-responsive">
+        <table class="table table-bordered">
+            <h4 style="color:#000">Introducers based on profits gained: </h4>
+            <thead>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Profits</th>
+            </thead>
+            <tbody>
+                {% for person,profit in profitBasedSorted.items %}
+                <tr>
+                    <td>{{person.name}}</td>
+                    <td>{{person.surname}}</td>
+                    <td>{{profit}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+ </div>
 
 
 

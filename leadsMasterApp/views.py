@@ -1,3 +1,4 @@
+from __future__ import division
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response,render,redirect
@@ -196,12 +197,6 @@ def EditProfileView(request, pk):
                 person = form.save(commit=False)
                 person.save()
                 return redirect('ourPeople')
-    # elif request.method == 'POST' and request.POST.get('name')=='deleteBtn':
-    #         form = PersonForm(request.POST, instance=person)
-    #         if form.is_valid():
-    #             person = form.save(commit=False)
-    #             person.delete()
-    #             return redirect('ourPeople')
     else:
         form = PersonForm(instance=person)
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
@@ -219,14 +214,14 @@ def IconicIntroducerView(request):
     numOfSuccLeadsPerIntroducer={}
     for introducer in introducers:
         # Initialise dictionaries for both leads and successful leads
-        numOfLeadsPerIntroducer[introducer.idperson] = 0
-        numOfSuccLeadsPerIntroducer[introducer.idperson]=0
+        numOfLeadsPerIntroducer[introducer] = 0
+        numOfSuccLeadsPerIntroducer[introducer]=0
+        clientsFromThisIntroducer = Person.objects.filter(leadfrom=introducer.idperson)
         # Calculate
-        for person in Person.objects.all():
-            if person.leadfrom == introducer.idperson:
-                numOfLeadsPerIntroducer[introducer.idperson]+=1
-            if person.isclient == True:
-                numOfSuccLeadsPerIntroducer[introducer.idperson]+=1
+        for person in clientsFromThisIntroducer:
+            numOfLeadsPerIntroducer[introducer]+=1
+            if person.isclient == 1:
+                numOfSuccLeadsPerIntroducer[introducer]+=1
 
     #Calculate successful PERCENTAGE for each introducer
         # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
@@ -234,23 +229,24 @@ def IconicIntroducerView(request):
     successfulPercentage={}
     successfulIntroducers ={}
     for introducer in introducers:
-        if numOfLeadsPerIntroducer[introducer.idperson]>0:
-            successfulPercentage[introducer.idperson]= ((numOfLeadsPerIntroducer[introducer.idperson]-numOfSuccLeadsPerIntroducer[introducer.idperson])/numOfLeadsPerIntroducer[introducer.idperson])*100
+        if numOfLeadsPerIntroducer[introducer]>0:
+            percentage=numOfSuccLeadsPerIntroducer[introducer]/numOfLeadsPerIntroducer[introducer]*100.0
+            successfulPercentage[introducer]= percentage
         else:
-            successfulPercentage[introducer.idperson]=0
-        if successfulPercentage[introducer.idperson]>70:
-            successfulIntroducers[introducer]=successfulPercentage[introducer.idperson]
+            successfulPercentage[introducer]=0
+        if successfulPercentage[introducer]>50:
+            successfulIntroducers[introducer]=successfulPercentage[introducer]
 
-    succPercenSorted = OrderedDict(sorted(successfulIntroducers.items(), key=lambda v: v, reverse=True))
+    succPercenSorted = OrderedDict(sorted(successfulIntroducers.items(), key=lambda v: v[1], reverse=True))
 
     #Calculate profit gained from each lead given from introducer
     profits={}
     generalContracts=GeneralContract.objects.all()
     lifeContracts=LifeContract.objects.all()
     for introducer in introducers:
-        profits[introducer.idperson]=0
+        profits[introducer]=0
     for introducer in introducers:
-        clientsFromThisIntroducer = Person.objects.filter(isclient=True, leadfrom=introducer.idperson)
+        clientsFromThisIntroducer = Person.objects.filter(isclient='1', leadfrom=introducer.idperson)
         for person in clientsFromThisIntroducer:
             # General Business profits from this introducer
             genContracts= generalContracts.filter(client = person.idperson)
@@ -259,7 +255,7 @@ def IconicIntroducerView(request):
                     profit = 0
                     for plan in contract.plan.all():
                         profit += (contract.annualpremium * plan.commission)
-                    profits[introducer.idperson] += profit
+                    profits[introducer] += profit
 
             # Life Business profits from this introducer
             lifeContr = lifeContracts.filter(client = person.idperson)
@@ -298,10 +294,10 @@ def IconicIntroducerView(request):
 
                     # sum up profit from this contract
                     profit = firstyear + nextyears
-                    profits[introducer.idperson] += profit
+                    profits[introducer] += profit
 
-        profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda v: v, reverse=True))
+        profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
 
-    return render(request, 'leadsMasterApp/iconicIntroducer.html', {'succPercenSorted': succPercenSorted,'profitBasedSorted':profitBasedSorted})
+    return render(request, 'leadsMasterApp/iconicIntroducer.html', {'successfulPercentage':successfulPercentage,'introducers':introducers,'succPercenSorted': succPercenSorted,'profitBasedSorted':profitBasedSorted})
 
 

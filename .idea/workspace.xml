@@ -5,43 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f77a866e-e118-4521-9ea8-c6de0c5eec81" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/forms.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/ajax.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/.gitattributes" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/.jshintrc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/Gruntfile.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/bower.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/dist/jquery.searchable-1.0.0.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/dist/jquery.searchable-1.1.0.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/dist/jquery.searchable-ie-1.1.0.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/jquery.searchable-ie.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/jquery.searchable.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-searchable-master/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addProfile.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/templatetags/base_extras.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery.metisMenu.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-1.10.2.js" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/jquery-3.1.1.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/settings.py" afterPath="$PROJECT_DIR$/leadsMaster/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/urls.py" afterPath="$PROJECT_DIR$/leadsMaster/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/models.py" afterPath="$PROJECT_DIR$/leadsMasterApp/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" afterPath="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexPayments.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexPayments.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexRenewals.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexRenewals.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexToDo.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexToDo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/views.py" afterPath="$PROJECT_DIR$/leadsMasterApp/views.py" />
     </list>
     <ignored path="leadsMaster.iws" />
@@ -82,10 +48,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
+            <state relative-caret-position="850">
               <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -94,33 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="276" column="58" selection-start-line="276" selection-start-column="58" selection-end-line="276" selection-end-column="58" />
-              <folding>
-                <element signature="e#0#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="41" column="42" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/css/custom.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6290">
-              <caret line="370" column="0" selection-start-line="370" selection-start-column="0" selection-end-line="370" selection-end-column="0" />
+            <state relative-caret-position="-318">
+              <caret line="239" column="91" selection-start-line="239" selection-start-column="91" selection-end-line="239" selection-end-column="91" />
               <folding />
             </state>
           </provider>
@@ -129,8 +73,8 @@
       <file leaf-file-name="iconicIntroducer.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+            <state relative-caret-position="493">
+              <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
               <folding>
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -141,7 +85,7 @@
       <file leaf-file-name="indexBase.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="850">
               <caret line="50" column="7" selection-start-line="50" selection-start-column="7" selection-end-line="72" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#h4#0;n#table#0;n#div#1;n#div#1;n#div#0;n#div#2;n#div#0;n#div#1;n#!!top" expanded="true" />
@@ -216,7 +160,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1370" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -245,7 +189,6 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -374,6 +317,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -537,10 +481,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1370" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14641288" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14623338" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -575,6 +519,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/leadsMasterApp/views.py</url>
+          <line>1</line>
         </line-breakpoint>
       </breakpoints>
       <option name="time" value="1" />
@@ -618,9 +563,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="28" column="134" selection-start-line="28" selection-start-column="134" selection-end-line="28" selection-end-column="134" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -695,9 +638,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="28" column="134" selection-start-line="28" selection-start-column="134" selection-end-line="28" selection-end-column="134" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -890,7 +831,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6290">
           <caret line="370" column="0" selection-start-line="370" selection-start-column="0" selection-end-line="370" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -902,35 +842,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="32" column="89" selection-start-line="32" selection-start-column="89" selection-end-line="32" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="333">
           <caret line="41" column="42" selection-start-line="41" selection-start-column="42" selection-end-line="41" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
-          <folding>
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="850">
           <caret line="50" column="7" selection-start-line="50" selection-start-column="7" selection-end-line="72" selection-end-column="30" />
           <folding>
             <element signature="n#style#0;n#h4#0;n#table#0;n#div#1;n#div#1;n#div#0;n#div#2;n#div#0;n#div#1;n#!!top" expanded="true" />
@@ -939,23 +860,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
+    <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="276" column="58" selection-start-line="276" selection-start-column="58" selection-end-line="276" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="510">
+          <caret line="32" column="89" selection-start-line="32" selection-start-column="89" selection-end-line="32" selection-end-column="89" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
+        <state relative-caret-position="850">
           <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="50" column="20" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-318">
+          <caret line="239" column="91" selection-start-line="239" selection-start-column="91" selection-end-line="239" selection-end-column="91" />
+          <folding />
         </state>
       </provider>
     </entry>
