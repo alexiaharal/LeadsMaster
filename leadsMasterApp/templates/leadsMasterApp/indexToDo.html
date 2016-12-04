@@ -1,118 +1,14 @@
-{% extends 'leadsMasterApp/base.html' %}
+{% extends 'leadsMasterApp/indexBase.html' %}
 {% load static %}
 {% block title %} {{index_page }} {% endblock %}}
-
-{%block body_block %}
-
-<div class="row">
-    <div class="col-md-12">
-     <h2 style="color:#000">User Dashboard </h2>
-        <h5>Welcome back! </h5>
-    </div>
-</div>
-<hr />
-<div class="row">
-    <div class = "row">
-            <div class="col-md-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Notifications</div>
-                    <div class="panel-body">
-                        <!--<input class="btn btn-default" id="allButt" name="button" value="All">
-                        <input class="btn btn-default" id="todoButt" name="button" value="To Do">
-                        <input class="btn btn-default" id="birthdaysButt" name="button" value="Birthdays">
-                        <input class="btn btn-default" id="renewalsButt" name="button" value="Renewals">
-                        <input class="btn btn-default" id="PaymentsButt" name="button" value="Payments">
-                        <input class="btn btn-default" id="leadsButt" name="button" value="Leads To Contact">
-                        -->
-
-                        <a class="btn btn-default " href="{% url 'indexToDo' %}">To Do</a>
-                        <a class="btn btn-default " href="{% url 'indexBirthday' %}">Birthdays</a>
-                        <a class="btn btn-default " href="{% url 'indexRenewals' %}">Renewals</a>
-                        <a class="btn btn-default " href="{% url 'indexPayments' %}">Payments</a>
-                        <a class="btn btn-default " href="#">Leads To Contact</a>
-                        <a class="btn btn-default " href="{% url 'index' %}">All</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Results</div>
-                    <div class="panel-body">
-                        {% if activities %}
-                            {% for a in activities%}
-                                <li> {{a.datetime.time}} => {{ a.activityname }} with {{a.customerid.name}} {{a.customerid.surname}} </li>
-                            {% endfor %}
-                        {% else %}
-                            <h5 style="color:#000">Free from tasks today</h5>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Sales This Day Last Year</div>
-                    <div class="panel-body">
-                        <div id="sales-profits-chart" style="position: relative;">
-                            <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <h4 style="color:#000">General Sales</h4>
-                                <thead>
-                                    <th>Name</th>
-                                    <th>Surname</th>
-                                    <th>Plan</th>
-                                    <th>Annual Premium</th>
-                                </thead>
-                                <tbody>
-                                    {% for c in generalsales %}
-                                    <tr>
-                                        <td>{{c.client.name}}</td>
-                                        <td>{{c.client.surname}}</td>
-                                        <td>{% for p in c.plan.all %} {{p.name}} , {% endfor %}</td>
-                                        <td>{{c.annualpremium}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            </div>
-                            <h5 style="float:right">Total General Sales Last Year: {{totalGeneralSales}} </h5>
-
-                            <hr />
-                            <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <h4 style="color:#000">Life Sales</h4>
-                                <thead>
-                                    <th>Name</th>
-                                    <th>Surname</th>
-                                    <th>Plan</th>
-                                    <th>Annual Premium</th>
-                                </thead>
-                                <tbody>
-                                    {% for c in lifesales %}
-                                    <tr>
-                                        <td>{{c.client.name}}</td>
-                                        <td>{{c.client.surname}}</td>
-                                        <td>{% for p in c.plan.all %} {{p.name}} , {% endfor %}</td>
-                                        <td>{{c.annualpremium}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            </div>
-                            <h5 style="float:right">Total Life Sales Last Year: {{totalLifeSales}} </h5>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-    </div>
-</div>
-
-
-
-
+{%block results_block %}
+    {% if activities %}
+        {% for a in activities%}
+            <li> {{a.datetime.time}} => {{ a.activityname }} with {{a.customerid.name}} {{a.customerid.surname}} </li>
+        {% endfor %}
+    {% else %}
+        <h5 style="color:#000">Free from tasks today</h5>
+    {% endif %}
 
 {% endblock %}
-
-
 

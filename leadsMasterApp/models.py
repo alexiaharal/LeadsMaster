@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+from django import forms
 from django.db import models
 
 # Create your models here.
@@ -11,14 +11,22 @@ class Company(models.Model):
     name = models.CharField(max_length=45)  # Field name made lowercase.
 
 class Person(models.Model):
+    client_CHOICES = (
+        (1, 'Yes'),
+        (0, 'No'),
+    )
+    introducer_CHOICES = (
+        (1, 'Yes'),
+        (0, 'No'),
+    )
     idperson = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
     telephone = models.CharField( max_length = 15)
     email = models.CharField( max_length=45, blank=True, null=True)
     dateofbirth = models.DateField()  # Field name made lowercase.
-    isintroducer = models.IntegerField()  # Field name made lowercase.
-    isclient = models.IntegerField()  # Field name made lowercase.
+    isintroducer = models.IntegerField(choices=introducer_CHOICES, default=0)  # Field name made lowercase.
+    isclient = models.IntegerField(choices=client_CHOICES,default=0)  # Field name made lowercase.
     leadfrom = models.IntegerField()  # Field name made lowercase.
 
 
@@ -35,7 +43,7 @@ class Lifebusinessplans(models.Model):
     firstyearcommission = models.FloatField()  # Field name made lowercase.
     maxpercentage = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
     minpercentage = models.IntegerField( blank=True, null=True)  # Field name made lowercase.
-    futureprofit1 = models.FloatField()  # Field name made lowercase.
+    futureprofit = models.FloatField()  # Field name made lowercase.
     futureprofit2 = models.FloatField(blank=True, null=True)  # Field name made lowercase.
     futureprofit3 = models.FloatField(blank=True, null=True)  # Field name made lowercase.
     futureprofit4 = models.FloatField( blank=True, null=True)  # Field name made lowercase.

@@ -1,32 +1,73 @@
 {% extends 'leadsMasterApp/base.html' %}
 {% load render_table from django_tables2 %}
 {% load static %}
-
 <head>
 </head>
+{% block nav-ourPeople %}class="active-menu"{% endblock %}
+
 {% block title %} {{index_page }} {% endblock %}}
 
 {%block body_block %}
-
-
 <div class="row">
-    <div class="col-md-12">
-     <h2 style="color:#000">Our People </h2>
+    <div class="col-md-5">
+        <h2 style="color:#000">Our People </h2>
     </div>
-</div>
-<div class="row">
-    <div class="row">
-        <div class="col-md-7">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Our People</div>
-                    <div class="panel-body">
-                        {% render_table table %}
-                    </div>
-                </div>
-            </div>
-    </div>
-</div>
 
+</div>
+<hr />
+
+<!-- Filtering/Searching Implementation -->
+
+
+
+<!-- /Filtering Implementation -->
+
+<!-- People Table Implementation -->
+<div class="row">
+
+    <div class="col-md-2">
+        <a href="{% url 'ourPeople_new' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add New</a>
+    </div>
+
+    <div class="col-md-9">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Telephone</th>
+                    <th>Is Client</th>
+                    <th>Is Introducer</th>
+                </thead>
+                <tbody>
+                    {% for p in people %}
+                        {% if p.isclient == 1 %}
+                            <tr class ="info">
+                                <td><a class="btn btn-default btn-sm" href="{% url 'editProfile' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                                <td>{{p.name}}</td>
+                                <td>{{p.surname}}</td>
+                                <td>{{p.telephone}}</td>
+                                <td> Yes </td>
+                                <td>{% if p.isintroducer == 1 %} Yes {% else %} No {% endif %}</td>
+                            </tr>
+                        {% else %}
+                            <tr class ="danger">
+                                    <td><a class="btn btn-default btn-sm" href="{% url 'editProfile' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.surname}}</td>
+                                    <td>{{p.telephone}}</td>
+                                    <td> No </td>
+                                    <td>{% if p.isintroducer == 1 %} Yes {% else %} No {% endif %}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
 
 

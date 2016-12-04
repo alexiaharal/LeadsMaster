@@ -47,15 +47,15 @@ font-size: 16px;"> Thank you, Goodbye! &nbsp; <a href="#" class="btn btn-danger 
 
 
                     <li>
-                        <a class="active-menu" href="{% url 'index' %}"><i class="fa fa-home fa-3x"></i> Home</a>
+                        <a {%block nav-index %}{% endblock %} href="{% url 'index' %}"><i class="fa fa-home fa-3x"></i> Home</a>
                     </li>
 
                     <li>
-                        <a  href="{% url 'calendar' %}"><i class="fa fa-calendar fa-3x"></i> Calendar</a>
+                        <a {%block nav-calendar %}{% endblock %} href="{% url 'calendar' %}"><i class="fa fa-calendar fa-3x"></i> Calendar</a>
                     </li>
 
                     <li>
-                        <a  href="{% url 'ourPeople' %}"><i class="fa fa-user fa-3x"></i> Our People</a>
+                        <a {%block nav-ourPeople %}{% endblock %} href="{% url 'ourPeople' %}"><i class="fa fa-user fa-3x"></i> Our People</a>
                     </li>
                     <li>
                         <a href="{% url 'reports' %}"><i class="fa fa-bar-chart-o fa-3x"></i> Reports<span class="fa arrow"></span></a>
@@ -100,12 +100,11 @@ font-size: 16px;"> Thank you, Goodbye! &nbsp; <a href="#" class="btn btn-danger 
 
 
     <!-- JQUERY SCRIPTS -->
-    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
       <!-- BOOTSTRAP SCRIPTS -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
       <!-- CUSTOM SCRIPTS -->
     <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/ajax.js' %}"></script>
 
 </body>

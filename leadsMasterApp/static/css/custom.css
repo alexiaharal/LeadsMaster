@@ -222,9 +222,7 @@ font-weight: 700;
     content: "\f104";
 }
 
-.active > a > .fa.arrow:before {
-    content: "\f107";
-}
+
 
 
 .nav-second-level li,
@@ -347,6 +345,7 @@ font-size: 12px;
 line-height: 1.428571429;
 }
 
+
 /*==============================================
     MEDIA QUERIES     
     =============================================*/
@@ -358,8 +357,7 @@ line-height: 1.428571429;
         min-height: 1200px;
 		
     }
-	
-	
+
     .navbar-side {
         z-index: 1;
         position: absolute;
@@ -367,9 +365,16 @@ line-height: 1.428571429;
     }
 
    .navbar {
- border-radius: 0px; 
-}
-   
-}
+        border-radius: 0px;
+    }
 
 
+}
+.glyphicon glyphicon-pencil{
+    font-size:10px;}
+
+#reportsTables{
+margin: 0 auto;
+widtth:100px;
+
+}

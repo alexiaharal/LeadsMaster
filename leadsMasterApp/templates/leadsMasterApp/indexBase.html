@@ -1,6 +1,9 @@
 {% extends 'leadsMasterApp/base.html' %}
 {% load static %}
 {% block title %} {{index_page }} {% endblock %}}
+{% block nav-index %}class="active-menu"{% endblock %}
+
+
 {%block body_block %}
 
 <div class="row">
@@ -70,10 +73,11 @@
                         </div>
                         <h5 style="float:right">Total General Sales Last Year: <b>{{totalGeneralSales}} </b></h5>
                     {% else %}
-                        <h5 style="float:right">Make your first General sale for this day of the year! </h5>
+                        <h5 style="float:right">Make your FIRST General sale for this day of the year! </h5>
                     {% endif %}
 
-                        <hr />
+                    <br><br><hr>
+
 
                     {% if lifesales %}
                         <div class="table-responsive">
@@ -101,7 +105,7 @@
                         </div>
                         <h5 style="float:right">Total Life Sales Last Year: <b>{{totalLifeSales}}</b> </h5>
                     {% else %}
-                        <h5 style="float:right">Make your first Life sale for this day of the year! </h5>
+                        <h5 style="float:right">Make your FIRST Life sale for this day of the year! </h5>
                     {% endif %}
 
 

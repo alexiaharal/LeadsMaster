@@ -24,7 +24,12 @@ urlpatterns = [
     url(r'^todo$', views.IndexToDoView, name='indexToDo'),
     url(r'^renewals$', views.IndexRenewalsView, name='indexRenewals'),
     url(r'^payments$', views.IndexPaymentsView, name='indexPayments'),
+    url(r'^leadsToContact$', views.IndexLeadsToContactView, name='indexLeadsToContact'),
     url(r'^calendar/$', views.CalendarView, name='calendar'),
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
+    url(r'^ourPeople/new$', views.AddProfileView, name='ourPeople_new'),
+    url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),
     url(r'^reports/$', views.ReportsView, name='reports'),
+    url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
+
 ]

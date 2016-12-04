@@ -1,0 +1,43 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="color:#000">Reports </h2>
+        <hr/>
+        <h3 style="color:#000" >Iconic Introducer Profile</h3>
+    </div>
+</div>
+
+ <div class="table-responsive">
+        <table class="table table-bordered">
+            <h4 style="color:#000">Introducers</h4>
+            <thead>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Profits</th>
+                <th>Percentage Success</th>
+            </thead>
+            <tbody>
+                {% for introducer in succPercenSorted.keys() %}
+                <tr>
+                    <td>{{introducer.name}}</td>
+                    <td>{{introducer.surname}}</td>
+                    <td>{{profitBasedSorted[introducer]}}</td>
+                    <td>{{succPercenSorted[introducer}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+
+
+
+{% endblock %}
+
+
+
