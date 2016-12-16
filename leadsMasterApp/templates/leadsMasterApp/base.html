@@ -20,6 +20,7 @@
 <!-- Body -->
 
 <body>
+{% if user.is_authenticated %}
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -31,10 +32,19 @@
                 </button>
                 <a class="navbar-brand" href="{% url 'index' %}">Leads Master</a>
             </div>
+
             <div style="color: white;
 padding: 15px 50px 5px 50px;
 float: right;
-font-size: 16px;"> Thank you, Goodbye! &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+font-size: 16px;"> Goodbye {{ user.get_username }} , Thanks! &nbsp; <a href="{% url 'logout' %}" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+            <div style="color: white;
+padding: 15px 50px 5px 50px;
+float: right;
+font-size: 16px;"> Register a user: &nbsp; <a href="{% url 'register' %}" class="btn btn-danger square-btn-adjust">Register</a> </div>
+
+
+
+
         </nav>
            <!-- /. NAV TOP  -->
 
@@ -97,6 +107,19 @@ font-size: 16px;"> Thank you, Goodbye! &nbsp; <a href="#" class="btn btn-danger 
         </div>
     <!-- /. WRAPPER  -->
 
+{% else %}
+
+        <h5 style="color:#000">Login to Leads Master</h5>
+        <form id="login_form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        Username: <input type="text" name="username" value="" size="50" />
+        <br />
+        Password: <input type="password" name="password" value="" size="50" />
+        <br />
+
+        <input type="submit" value="Login" />
+        </form>
+{% endif %}
 
 
     <!-- JQUERY SCRIPTS -->

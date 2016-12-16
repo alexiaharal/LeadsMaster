@@ -1,0 +1,34 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+<head>
+</head>
+{% block nav-ourPeople %}class="active-menu"{% endblock %}
+
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-5">
+        <h2 style="color:#000">Log in: </h2>
+    </div>
+
+</div>
+<hr />
+
+<h5 style="color:#000">Login to Leads Master</h5>
+
+<form id="login_form" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    Username: <input type="text" name="username" value="" size="50" />
+    <br />
+    Password: <input type="password" name="password" value="" size="50" />
+    <br />
+
+    <input type="submit" value="Login" />
+</form>
+
+
+{% endblock %}
+
+
+

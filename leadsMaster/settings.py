@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'schedule',
     'djangobower',
-    'django_tables2',
     'django_extensions',
     'bootstrapform',
+    'ajax_search',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'leadsMaster.wsgi.application'
-
+CSRF_COOKIE_DOMAIN=None
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

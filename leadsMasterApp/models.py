@@ -1,15 +1,9 @@
 from __future__ import unicode_literals
 from django import forms
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-
-
-class Company(models.Model):
-    idcompany = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45)  # Field name made lowercase.
-
 class Person(models.Model):
     client_CHOICES = (
         (1, 'Yes'),
@@ -29,6 +23,30 @@ class Person(models.Model):
     isclient = models.IntegerField(choices=client_CHOICES,default=0)  # Field name made lowercase.
     leadfrom = models.IntegerField()  # Field name made lowercase.
     wasclient = models.IntegerField(choices=client_CHOICES,default=0)
+
+
+    def __unicode__(self):
+        return str(self.name) + ' ' + str(self.surname) + ' -- ' + str(self.idperson)
+
+class UserProfile(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+
+    # The additional attributes we wish to include.
+    website = models.URLField(blank=True)
+    employeeid = models.OneToOneField(Person, primary_key=True)  # Field name made lowercase.
+    position = models.CharField( max_length=45)  # Field name made lowercase.
+    salary = models.FloatField()  # Field name made lowercase.
+    hourspermonth = models.IntegerField()  # Field name made lowercase.
+
+
+    # Override the __unicode__() method to return out something meaningful!
+    def __unicode__(self):
+        return self.user.username
+
+class Company(models.Model):
+    idcompany = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)  # Field name made lowercase.
 
 
 class Generalbusinessplans(models.Model):

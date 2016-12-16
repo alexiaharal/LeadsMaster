@@ -8,8 +8,12 @@
 
 <div class="row">
     <div class="col-md-12">
-     <h2 style="color:#000">User Dashboard </h2>
-        <h5>Welcome back! </h5>
+        {% if user.is_authenticated %}
+             <h2 style="color:#000">{{ user.get_username }}'s Dashboard </h2>
+                <h5>Welcome back! </h5>
+        {% else %}
+            Please Login!
+        {% endif %}
     </div>
 </div>
 <hr />

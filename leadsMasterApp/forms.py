@@ -1,9 +1,25 @@
 from django.db import models
 from django.forms import ModelForm,extras
 from django import forms
-from leadsMasterApp.models import Person, Employee
+from leadsMasterApp.models import Person, UserProfile,Lifebusinessplans, LifeContract,GeneralContract
 from django.contrib.auth.models import User
 from django import forms
+
+# User Form
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+# User Profile form with addition fields
+# I.e. This is an employee entity
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website', 'employeeid','position','salary','hourspermonth')
+
 class PersonForm(forms.ModelForm):
     DOY = ('1926','1927','1928','1929','1930','1931','1932','1933','1934','1935','1936','1937',
            '1938','1939','1940','1941','1942','1943','1944','1945','1946','1947','1948','1949',
@@ -22,8 +38,30 @@ class PersonForm(forms.ModelForm):
     isclient = forms.ChoiceField(choices=Person.client_CHOICES,label="Is Client  ")
     isintroducer = forms.ChoiceField(choices=Person.introducer_CHOICES, label='Is Introducer  ')
     leadfrom = forms.IntegerField(label='Lead from person with ID  ')
+    wasclient = forms.ChoiceField(choices=Person.client_CHOICES,label= "Was Client ")
 
     class Meta:
         model = Person
         fields = ['idperson','name', 'surname','telephone', 'email','dateofbirth','isclient','isintroducer', 'leadfrom']
+
+class ContractForm(forms.ModelForm):
+
+    idcontract = forms.IntegerField(label= 'Contract Number')
+    client= forms.IntegerField(label = 'Client')
+    issuedate = forms.DateTimeField(label = 'Issue Date')
+    expirationdate = forms.DateTimeField(label = 'Expiration Date')
+    annualpremium = forms.FloatField(label = 'Annual Premium')
+    doses = forms.IntegerField(label = 'Payment Doses')
+    nextpayment = forms.DateTimeField(label = 'Next Payment Due')
+    price = forms.FloatField(label = 'Next Payment Cost')
+    notes = forms.CharField(label = 'Notes ')
+
+    class Meta:
+        model = LifeContract
+        fields = ('idcontract','client','issuedate','expirationdate','plan',
+                'annualpremium', 'doses','nextpayment', 'price','notes')
+
+
+class SearchForm(forms.ModelForm):
+    searchbox= forms.CharField(label='Search: ')
 

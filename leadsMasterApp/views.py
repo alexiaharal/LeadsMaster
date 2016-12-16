@@ -1,19 +1,118 @@
 from __future__ import division
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse,HttpResponseRedirect
-from django.shortcuts import render_to_response,render,redirect
+from django.shortcuts import render, get_object_or_404,render_to_response,redirect
+from django.http import HttpResponse,HttpResponseRedirect, Http404
 from reportlab.pdfgen import canvas
-import random
+from django.template.context import RequestContext
 from datetime import datetime, timedelta
 from .models import Calendar, Person, Activity, GeneralContract, LifeContract
-from django.template.context_processors import csrf
-import re
-from .forms import PersonForm
+from django.db.models import Q
+from .forms import PersonForm, ContractForm, UserForm, UserProfileForm
 from collections import OrderedDict
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+#####----- Views -----######
 
 today = datetime.now()
 
-# Create your views here.
+def register(request):
+    # get the request's context.
+    context = RequestContext(request)
+
+    # Set to False initially. Code changes value to True when registration succeeds.
+    registered = False
+
+    # If it's a HTTP POST, we're processing form data.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        # If the two forms are valid...
+        if user_form.is_valid() and profile_form.is_valid():
+
+            # Save the user's form data to the database.
+            user = user_form.save()
+            # Now we hash the password with the set_password method.
+            # Once hashed, we can update the user object.
+            user.set_password(user.password)
+            user.save()
+
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            # Now we save the UserProfile model instance.
+            profile.save()
+
+            #tell the template registration was successful.
+            registered = True
+
+        # Invalid form or forms - mistakes or something else?
+        else:
+            print user_form.errors, profile_form.errors
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    # Render the template depending on the context.
+    return render(request,
+            'leadsMasterApp/register.html',
+            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+            context)
+
+def user_login(request):
+    context = RequestContext(request)
+
+    # If the request is a HTTP POST, try to pull out the relevant information.
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username=username, password=password)
+
+        # If we have a User object, the details are correct.
+        # If None, no user
+        # with matching credentials was found.
+        if user:
+            # Is the account active? It could have been disabled.
+            if user.is_active:
+                # If the account is valid and active, we can log the user in.
+                # send the user back to the homepage.
+                login(request, user)
+                return redirect('index')
+            else:
+                # An inactive account was used - no logging in!
+                return HttpResponse("Your account is disabled.")
+        else:
+            # Bad login details were provided. So we can't log the user in.
+            print "Invalid login details: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render(request,'leadsMasterApp/login.html', {}, context)
+
+
+# Use the login_required() decorator to ensure only those logged in can access the view.
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return redirect('login')
+
 def IndexView(request):
     #Gather all activities for current day
     activities=[]
@@ -174,8 +273,11 @@ def OurPeopleView(request):
     return render(request, 'leadsMasterApp/ourPeople.html', {'people':people})
 
 def AddProfileView(request):
+    context = RequestContext(request)
+    added = False
     if request.method == "POST":
-        form = PersonForm(request.POST)
+        form = PersonForm(data=request.POST)
+
         if form.is_valid():
             person = form.save(commit=False)
             person.save()
@@ -195,6 +297,35 @@ def EditProfileView(request, pk):
     else:
         form = PersonForm(instance=person)
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
+
+def addContractView(request):
+    context = RequestContext(request)
+    added = False
+
+    # If it's a HTTP POST, we're processing form data.
+    if request.method == 'POST':
+        contract_form = ContractForm(data=request.POST)
+
+        # If the two forms are valid...
+        if contract_form.is_valid():
+            profile = contract_form.save(commit=False)
+            profile.save()
+            added = True
+
+        # Invalid form or forms - mistakes or something else?
+        else:
+            print contract_form.errors
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        contract_form = ContractForm()
+
+    # Render the template depending on the context.
+    return render(request,
+            'leadsMasterApp/addContract.html',
+            {'add_contract_form':contract_form,'added': added},
+            context)
 
 
 def ReportsView(request):

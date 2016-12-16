@@ -8,8 +8,10 @@ from .models import Employee
 from .models import Generalbusinessplans
 from .models import Lifebusinessplans
 from .models import Person
+from .models import UserProfile
 
 # Register your models here.
+admin.site.register(UserProfile)
 admin.site.register(Activity)
 admin.site.register(Calendar)
 admin.site.register(Company)

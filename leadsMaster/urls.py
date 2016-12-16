@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from leadsMasterApp import views
+from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,9 +28,14 @@ urlpatterns = [
     url(r'^leadsToContact$', views.IndexLeadsToContactView, name='indexLeadsToContact'),
     url(r'^calendar/$', views.CalendarView, name='calendar'),
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
-    url(r'^ourPeople/new$', views.AddProfileView, name='ourPeople_new'),
+    url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
     url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),
     url(r'^reports/$', views.ReportsView, name='reports'),
     url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
+    url(r'^register/$', views.register, name='register'),
+    url(r'^login/$', views.user_login , name='login'),
+    url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^addContract/$', views.addContractView, name='addContract'),
 
 ]
