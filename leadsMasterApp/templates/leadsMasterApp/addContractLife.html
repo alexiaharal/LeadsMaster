@@ -11,7 +11,7 @@
 {%block body_block %}
 <div class="row">
     <div class="col-md-5">
-        <h2 style="color:#000">Contract Insertion</h2>
+        <h2 style="color:#000">Add Contract</h2>
     </div>
 
 </div>
@@ -22,9 +22,8 @@
     <a class="btn btn-default " href="{% url 'ourPeople' %}">Clients</a>
 
 {% else %}
-    <h5 style="color:#000">New Contract: </h5>
 
-    <form id="contract_form" method="post" action="{% url 'addContract' %}"
+    <form id="contract_form" method="post" action="{% url 'addContractLife' %}"
             enctype="multipart/form-data">{% csrf_token %}
         {{ add_contract_form|bootstrap }}
         <input type="submit" name="submit" value="Submit" />

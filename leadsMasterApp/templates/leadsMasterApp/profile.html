@@ -1,0 +1,30 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block nav-ourPeople %}class="active-menu"{% endblock %}
+
+
+<head>
+</head>
+{% block title %} {{addProfile_page}} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="color:#000">Add/Edit a Profile </h2>
+    </div>
+</div>
+<hr />
+
+<div class="col-md-6">
+    <form method="POST" class="personForm">{% csrf_token %}
+        <!--{{ form.as_p}}-->
+        {{ form|bootstrap }}
+        <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
+
+        <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Cancel</a>
+    </form>
+</div>
+
+{% endblock %}
+

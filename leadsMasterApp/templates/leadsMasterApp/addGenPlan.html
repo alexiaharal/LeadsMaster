@@ -1,0 +1,30 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+<head>
+</head>
+{% block nav-ourPeople %}class="active-menu"{% endblock %}
+
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-5">
+        <h2 style="color:#000">Add Company</h2>
+    </div>
+
+</div>
+<hr />
+<div class="col-md-6">
+    <form method="POST" >{% csrf_token %}
+        {{ form|bootstrap }}
+        <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
+        <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Cancel</a>
+    </form>
+</div>
+
+{% endblock %}
+
+
+

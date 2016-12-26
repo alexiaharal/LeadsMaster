@@ -1,0 +1,36 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+<head>
+</head>
+{% block nav-ourPeople %}class="active-menu"{% endblock %}
+
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-5">
+        <h2 style="color:#000">Add Life Contract</h2>
+    </div>
+
+</div>
+<hr />
+
+{% if added %}
+    <h5 style="color:#000">Contract Added!</h5>
+    <a class="btn btn-default " href="{% url 'ourPeople' %}">Clients</a>
+
+{% else %}
+
+    <form id="contract_form" method="post" action="{% url 'addContractLife' %}"
+            enctype="multipart/form-data">{% csrf_token %}
+        {{ add_contract_form|bootstrap }}
+        <input type="submit" name="submit" value="Submit" />
+    </form>
+{% endif %}
+
+{% endblock %}
+
+
+
