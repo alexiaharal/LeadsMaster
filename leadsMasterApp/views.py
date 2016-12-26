@@ -4,9 +4,10 @@ from django.http import HttpResponse,HttpResponseRedirect, Http404
 from reportlab.pdfgen import canvas
 from django.template.context import RequestContext
 from datetime import datetime, timedelta
-from .models import Calendar, Person, Activity, GeneralContract, LifeContract
+from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Company, Generalbusinessplans, \
+    Lifebusinessplans
 from django.db.models import Q
-from .forms import PersonForm, ContractForm, UserForm, UserProfileForm
+from .forms import PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -266,6 +267,25 @@ def CalendarView(request):
     output=Calendar.objects.all()
     return render(request, 'leadsMasterApp/calendar.html', {'output':output })
 
+def successfulLeadsPercentage(introducer):
+    numOfLeads = 0
+    numOfSuccLeads = 0
+    leadsFromIntroducer = Person.objects.filter(leadfrom=introducer.idperson)
+    # Calculate
+    for person in leadsFromIntroducer:
+        numOfLeads += 1
+        if person.isclient == 1:
+            numOfSuccLeads += 1
+    #Calculate successful PERCENTAGE
+        # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
+    successfulPercentage=0
+    successfulIntroducers ={}
+    if numOfLeads>0:
+        percentage=numOfSuccLeads/numOfLeads*100.0
+    else:
+        percentage=0
+    return percentage
+
 def OurPeopleView(request):
     people=[]
     for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person ORDER BY RANDOM() LIMIT 10'):
@@ -282,8 +302,7 @@ def AddProfileView(request):
             person = form.save(commit=False)
             person.save()
             return redirect('ourPeople')
-    else:
-        form = PersonForm()
+
     return render(request, 'leadsMasterApp/addProfile.html', {'form':form})
 
 def EditProfileView(request, pk):
@@ -298,39 +317,159 @@ def EditProfileView(request, pk):
         form = PersonForm(instance=person)
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
 
-def addContractView(request):
+def ProfileView (request, pk):
+    person = get_object_or_404(Person, pk=pk)
+    generalContracts = GeneralContract.objects.filter(client = person)
+    lifeContracts = LifeContract.objects.filter(client = person)
+    leads = Person.objects.filter(leadfrom=person)
+    percentage=successfulLeadsPercentage(person)
+    return render(request, 'leadsMasterApp/profile.html',
+                  {'person':person , 'generalContracts':generalContracts,
+                   'lifeContracts':lifeContracts,'leads':leads,'percentage':percentage})
+
+
+
+def addContractLifeView(request, pk=None):
     context = RequestContext(request)
     added = False
 
     # If it's a HTTP POST, we're processing form data.
     if request.method == 'POST':
-        contract_form = ContractForm(data=request.POST)
+        contract_form = LifeContractForm(data=request.POST)
 
         # If the two forms are valid...
         if contract_form.is_valid():
             profile = contract_form.save(commit=False)
+            p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
+            print p
+            if p.isclient == 0:
+                print 'in if'
+                p.isclient = 1
+                p.save()
             profile.save()
+            contract_form.save_m2m()
+            print profile.plan
             added = True
-
-        # Invalid form or forms - mistakes or something else?
         else:
             print contract_form.errors
 
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # Not a HTTP POST
     # These forms will be blank, ready for user input.
     else:
-        contract_form = ContractForm()
+        contract_form = LifeContractForm()
 
     # Render the template depending on the context.
     return render(request,
-            'leadsMasterApp/addContract.html',
+                  'leadsMasterApp/addContractLife.html',
+                  {'add_contract_form': contract_form, 'added': added},
+                  context)
+
+
+def editContractLifeView(request, pk):
+    contract = get_object_or_404(LifeContract, pk=pk)
+    if request.method =='POST':
+        form = LifeContractForm(request.POST, instance=contract)
+        profile = form.save(commit=False)
+        p = Person.objects.get(idperson=form.cleaned_data['client'].idperson)
+        if p.isclient == 0:
+            p.isclient = 1
+            p.save()
+        profile.save()
+        form.save_m2m()
+    else:
+        form = LifeContractForm(instance=contract)
+
+    return render(request,
+        'leadsMasterApp/addContractLife.html',
+        {'add_contract_form':form})
+
+def addContractGeneralView(request, pk=None):
+    context = RequestContext(request)
+    added = False
+
+    # If it's a HTTP POST, we're processing form data.
+    if request.method == 'POST':
+        contract_form = GeneralContractForm(data=request.POST)
+
+        # If the two forms are valid...
+        if contract_form.is_valid():
+            profile = contract_form.save(commit=False)
+            p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
+            print p
+            if p.isclient == 0:
+                print 'in if'
+                p.isclient = 1
+                p.save()
+            profile.save()
+            contract_form.save_m2m()
+            print profile.plan
+            added = True
+        else:
+            print contract_form.errors
+
+    # Not a HTTP POST
+    # These forms will be blank, ready for user input.
+    else:
+        contract_form = GeneralContractForm()
+
+    # Render the template depending on the context.
+    return render(request,
+            'leadsMasterApp/addContractGeneral.html',
             {'add_contract_form':contract_form,'added': added},
             context)
-
 
 def ReportsView(request):
     table = Person.objects.all()
     return render(request, 'leadsMasterApp/reports.html', {'table':table })
+
+def CompaniesView(request):
+    companies= Company.objects.all()
+    genPlans = Generalbusinessplans.objects.all()
+    lifePlans = Lifebusinessplans.objects.all()
+
+    return render(request, 'leadsMasterApp/companies.html', {'companies':companies,'genPlans':genPlans,'lifePlans':lifePlans})
+
+def AddCompanyView(request):
+    context = RequestContext(request)
+    if request.method == "POST":
+        form = CompanyForm(data=request.POST)
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.save()
+            return redirect('companies')
+    else:
+        form=CompanyForm()
+
+    return render(request, 'leadsMasterApp/addCompany.html', {'form':form})
+
+def AddGenPlanView(request):
+    context = RequestContext(request)
+    if request.method == "POST":
+        form = GeneralPlansForm(data=request.POST)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.save()
+            return redirect('companies')
+    else:
+        form=GeneralPlansForm()
+
+    return render(request, 'leadsMasterApp/addGenPlan.html', {'form':form})
+
+
+def AddLifePlanView(request):
+    def AddGenPlanView(request):
+        context = RequestContext(request)
+        if request.method == "POST":
+            form = LifePlansForm(data=request.POST)
+            if form.is_valid():
+                plan = form.save(commit=False)
+                plan.save()
+                return redirect('companies')
+        else:
+            form = LifePlansForm()
+
+        return render(request, 'leadsMasterApp/addLifePlan.html', {'form': form})
+
 
 def IconicIntroducerView(request):
     introducers=Person.objects.filter(isintroducer=True)

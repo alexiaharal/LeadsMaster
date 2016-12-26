@@ -33,5 +33,4 @@
         mainApp.main_fun();
     });
 
-
 }(jQuery));

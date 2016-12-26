@@ -21,9 +21,11 @@ class Person(models.Model):
     dateofbirth = models.DateField()  # Field name made lowercase.
     isintroducer = models.IntegerField(choices=introducer_CHOICES, default=0)  # Field name made lowercase.
     isclient = models.IntegerField(choices=client_CHOICES,default=0)  # Field name made lowercase.
-    leadfrom = models.IntegerField()  # Field name made lowercase.
+    leadfrom = models.ForeignKey('self', blank=True, null=True)  # Field name made lowercase.
     wasclient = models.IntegerField(choices=client_CHOICES,default=0)
 
+    class Meta:
+        ordering = ['name']
 
     def __unicode__(self):
         return str(self.name) + ' ' + str(self.surname) + ' -- ' + str(self.idperson)
@@ -48,12 +50,18 @@ class Company(models.Model):
     idcompany = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)  # Field name made lowercase.
 
+    def __unicode__(self):
+        return str(self.name)
+
 
 class Generalbusinessplans(models.Model):
     planid = models.AutoField(primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=45)  # Field name made lowercase.
     company = models.ForeignKey(Company)  # Field name made lowercase.
     commission = models.FloatField()  # Field name made lowercase.
+
+    def __unicode__(self):
+        return str(self.company) + ' -- ' + str(self.name)
 
 class Lifebusinessplans(models.Model):
     planlifeid = models.AutoField( primary_key=True)  # Field name made lowercase.
@@ -69,6 +77,11 @@ class Lifebusinessplans(models.Model):
     agelimit = models.IntegerField()  # Field name made lowercase.
     duration = models.IntegerField()  # Field name made lowercase.
 
+
+    def __unicode__(self):
+        return str(self.company) + ' -- ' + str(self.name)
+
+
 class LifeContract(models.Model):
     idcontract = models.IntegerField(primary_key=True)
     client= models.ForeignKey(Person)
@@ -81,6 +94,9 @@ class LifeContract(models.Model):
     price = models.FloatField()
     notes = models.CharField(max_length =80)
 
+    def __unicode__(self):
+        return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())
+
 class GeneralContract(models.Model):
     idcontract = models.IntegerField(primary_key=True)
     client=models.ForeignKey(Person)
@@ -92,6 +108,10 @@ class GeneralContract(models.Model):
     nextpayment = models.DateTimeField( blank=True, null=True)  # Field name made lowercase.
     price = models.FloatField()
     notes = models.CharField(max_length =80)
+
+
+    def __unicode__(self):
+        return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())
 
 
 class Employee(models.Model):

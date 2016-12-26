@@ -8,9 +8,117 @@
 
 <div class="row">
     <div class="col-md-12">
-     <h2 style="color:#000">Calendar </h2>
+     <h2 style="color:#000">Companies </h2>
     </div>
+</div>
 
+<div class="row">
+    <div class="col-md-4">
+            <a href="{% url 'addCompany' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add Company</a>
+    </div>
+    <div class="col-md-4">
+            <a href="{% url 'addGenPlan' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add General Plan</a>
+    </div>
+    <div class="col-md-4">
+            <a href="{% url 'addLifePlan' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add Life Plan</a>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                </thead>
+                <tbody>
+                    {% for c in companies %}
+                        <tr class ="warning" align="center">
+                                <td>{{c.idcompany}}</td>
+                                <td>{{c.name}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<hr />
+<h4 style="color:#000"><b>General Plans Available</b> </h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Commission</th>
+                </thead>
+                <tbody>
+                    {% for gp in genPlans %}
+                        <tr class ="warning" align="center">
+                                <td>{{gp.planid}}</td>
+                                <td>{{gp.name}}</td>
+                                <td>{{gp.company}}</td>
+                                <td>{{gp.commission}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<hr />
+<h4 style="color:#000"><b>Life Plans Available </b></h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>First Commission</th>
+                    <th>Max %</th>
+                    <th>Min %</th>
+                    <th>Future Profit</th>
+                    <th>Future Profit 2</th>
+                    <th>Future Profit 3</th>
+                    <th>Future Profit 4</th>
+                    <th>Age Limit</th>
+                    <th>Duration</th>
+
+                </thead>
+                <tbody>
+                    {% for lp in lifePlans %}
+                        <tr class ="warning" >
+                                <td>{{lp.planlifeid}}</td>
+                                <td>{{lp.name}}</td>
+                                <td>{{lp.company}}</td>
+                                <td>{{lp.firstyearcommission}}</td>
+                                <td>{{lp.maxpercentage}}%</td>
+                                <td>{{lp.minpercentage}}%</td>
+                                <td>{{lp.futureprofit}}%</td>
+                                <td>{{lp.futureprofit2}}%</td>
+                                <td>{{lp.futureprofit3}}%</td>
+                                <td>{{lp.futureprofit4}}%</td>
+                                <td>{{lp.agelimit}}</td>
+                                <td>{{lp.duration}}</td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 

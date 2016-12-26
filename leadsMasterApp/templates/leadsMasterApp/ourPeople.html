@@ -8,12 +8,12 @@
 
 {%block body_block %}
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <h2 style="color:#000">Our People </h2>
     </div>
-    <div class="col-md-2">
-        <a href="{% url 'addProfile' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add New</a>
-    </div>
+    <a href="{% url 'addProfile' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add Person</a>
+    <a href="{% url 'addContractLife' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add LIFE Contract</a>
+    <a href="{% url 'addContractGeneral' %}" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-plus"></span> Add GENERAL Contract</a>
 
 </div>
 <hr />
@@ -39,8 +39,8 @@
                 <tbody>
                     {% for p in people %}
                         {% if p.isclient == 1 %}
-                            <tr class ="info" align="center">
-                                <td><a class="btn btn-default btn-sm" href="{% url 'editProfile' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                            <tr class ="info " align="center" >
+                                <td><a class="btn btn-default btn-sm" href="{% url 'ProfileView' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
                                 <td>{{p.name}}</td>
                                 <td>{{p.surname}}</td>
                                 <td>{{p.telephone}}</td>
@@ -50,7 +50,7 @@
                             </tr>
                         {% else %}
                             <tr class ="danger" align="center">
-                                    <td><a class="btn btn-default btn-sm" href="{% url 'editProfile' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                                    <td><a class="btn btn-default btn-sm" href="{% url 'ProfileView' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
                                     <td>{{p.name}}</td>
                                     <td>{{p.surname}}</td>
                                     <td>{{p.telephone}}</td>
@@ -64,10 +64,9 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 
 </div>
 {% endblock %}
-
-
 

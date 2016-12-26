@@ -11,7 +11,7 @@
 {%block body_block %}
 <div class="row">
     <div class="col-md-5">
-        <h2 style="color:#000">Add Life Contract</h2>
+        <h2 style="color:#000">Add General Contract</h2>
     </div>
 
 </div>
@@ -23,7 +23,7 @@
 
 {% else %}
 
-    <form id="contract_form" method="post" action="{% url 'addContractLife' %}"
+    <form id="contract_form" method="post" action="{% url 'addContractGeneral' %}"
             enctype="multipart/form-data">{% csrf_token %}
         {{ add_contract_form|bootstrap }}
         <input type="submit" name="submit" value="Submit" />

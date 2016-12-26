@@ -1,18 +1,3 @@
-"""leadsMaster URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url
 from django.contrib import admin
 from leadsMasterApp import views
@@ -28,6 +13,11 @@ urlpatterns = [
     url(r'^leadsToContact$', views.IndexLeadsToContactView, name='indexLeadsToContact'),
     url(r'^calendar/$', views.CalendarView, name='calendar'),
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
+    url(r'^companies/$', views.CompaniesView, name='companies'),
+    url(r'^companies/addCompany$', views.AddCompanyView, name='addCompany'),
+    url(r'^companies/addGenPlan$', views.AddGenPlanView, name='addGenPlan'),
+    url(r'^companies/addLifePlan$', views.AddLifePlanView, name='addLifePlan'),
+
     url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
     url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),
     url(r'^reports/$', views.ReportsView, name='reports'),
@@ -36,6 +26,10 @@ urlpatterns = [
     url(r'^login/$', views.user_login , name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^logout/$', views.user_logout, name='logout'),
-    url(r'^addContract/$', views.addContractView, name='addContract'),
+    url(r'^addContractLife/$', views.addContractLifeView, name='addContractLife'),
+    url(r'^editContractLife/(?P<pk>\d+)/$', views.editContractLifeView, name='editContractLife'),
+    url(r'^addContractGeneral/$', views.addContractGeneralView, name='addContractGeneral'),
+    url(r'^editContractGeneral/(?P<pk>\d+)/$', views.addContractGeneralView, name='editContractGeneral'),
+    url(r'^profile/(?P<pk>\d+)/$', views.ProfileView, name='ProfileView'),
 
 ]

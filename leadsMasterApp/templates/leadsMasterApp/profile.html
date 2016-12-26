@@ -11,20 +11,166 @@
 {%block body_block %}
 <div class="row">
     <div class="col-md-12">
-        <h2 style="color:#000">Add/Edit a Profile </h2>
+        <h2 style="color:#000"> <u>{{person.name}}  {{person.surname}} </u></h2>
     </div>
 </div>
 <hr />
 
-<div class="col-md-6">
-    <form method="POST" class="personForm">{% csrf_token %}
-        <!--{{ form.as_p}}-->
-        {{ form|bootstrap }}
-        <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
+<div class="row">
 
-        <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Cancel</a>
-    </form>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-2">
+                <h3 style="color:#000">Details <a class="btn btn-default "  href="{% url 'editProfile' pk=person.idperson %}"> <span class="glyphicon glyphicon-pencil"></span></a></h3>
+            </div>
+        </div>
+        <div class="table-responsive">
+        <table class="table ">
+            <tbody>
+                <tr>
+                    <td>ID</td>
+                    <td>{{person.idperson}}</td>
+                </tr>
+                <tr>
+                    <td>Date Of Birth</td>
+                    <td>{{person.dateofbirth.day}}/{{person.dateofbirth.month}}/{{person.dateofbirth.year}}</td>
+                </tr>
+                <tr>
+                    <td>Telephone</td>
+                    <td>{{person.telephone}}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{person.email}}</td>
+                </tr>
+                <tr>
+                    <td>Client</td>
+                    {% if person.isclient == 1 %}
+                        <td>Yes</td>
+                    {% else %}
+                        <td>No</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Introducer</td>
+                    {% if person.isintroducer == 1 %}
+                        <td>Yes</td>
+                    {% else %}
+                        <td>No</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Lead From: </td>
+                    <td>{{person.leadfrom}}</td>
+                </tr>
+                {% if person.isclient == 1 %}
+                    <tr>
+                        <td>Has Cancelled Contracts: </td>
+                        {% if person.wasclient == 1 %}
+                            <td>Yes</td>
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+
+    <div class="col-md-4">
+        <div class="panel panel-warning">
+            <div class="panel-heading">Successful Leads Percentage: {{percentage}}%</div>
+            <div class="panel-body">
+                <h3 style="color:#000">Leads Given:</h3>
+
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Client</th>
+                        </thead>
+                        <tbody>
+                        {% for lead in leads%}
+                            <tr>
+                                <td>{{lead.idperson}}</td>
+                                <td>{{lead.name}}</td>
+                                <td>{{lead.surnmae}}</td>
+                                {% if lead.isclient == 1 %}
+                                    <td><span class="glyphicon glyphicon-ok"></span></td>
+                                {% else %}
+                                    <td><span class="glyphicon glyphicon-remove"></span></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+    {% if generalContracts %}
+        <div class="col-md-8">
+            <div class="row">
+                <h3 style="color:#000">General Contracts</h3>
+            </div>
+            <div class="table-responsive">
+            <table class="table ">
+                <thead>
+                    <th>No</th>
+                    <th>Plan</th>
+                    <th>Expiration Date</th>
+                    <th>Next Payment</th>
+                </thead>
+                <tbody>
+                {% for c in generalContracts %}
+                    <tr>
+                        <td>{{c.idcontract}}<a class="btn btn-default btn-sm" href="{% url 'editContractGeneral' pk=c.idcontract %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
+                        <td>{{c.expirationdate.day}}/{{c.expirationdate.month}}/{{c.expirationdate.year}}</td>
+                        <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% if lifeContracts %}
+    <div class="col-md-8">
+        <div class="row">
+            <h3 style="color:#000">Life Contracts</h3>
+        </div>
+        <div class="table-responsive">
+        <table class="table ">
+            <thead>
+                <th>No</th>
+                <th>View</th>
+                <th>Plan</th>
+                <th>Expiration Date</th>
+                <th>Next Payment</th>
+            </thead>
+            <tbody>
+            {% for c in lifeContracts %}
+                <tr>
+                    <td>{{c.idcontract}}</td>
+                    <td><a class="btn btn-default btn-sm" href="{% url 'editContractLife' pk=c.idcontract %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
+                    <td>{{c.expirationdate.day}}/{{c.expirationdate.month}}/{{c.expirationdate.year}}</td>
+                    <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+{% endif %}
 
 {% endblock %}
 
