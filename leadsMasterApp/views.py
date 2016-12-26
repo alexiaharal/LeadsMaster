@@ -430,9 +430,8 @@ def CompaniesView(request):
     return render(request, 'leadsMasterApp/companies.html', {'companies':companies,'genPlans':genPlans,'lifePlans':lifePlans})
 
 def AddCompanyView(request):
-    context = RequestContext(request)
     if request.method == "POST":
-        form = CompanyForm(data=request.POST)
+        form = CompanyForm(request.POST)
         if form.is_valid():
             company = form.save(commit=False)
             company.save()
@@ -442,33 +441,68 @@ def AddCompanyView(request):
 
     return render(request, 'leadsMasterApp/addCompany.html', {'form':form})
 
-def AddGenPlanView(request):
-    context = RequestContext(request)
+def EditCompanyView(request,pk):
+    instance=get_object_or_404(Company, pk=pk)
     if request.method == "POST":
-        form = GeneralPlansForm(data=request.POST)
+        form = CompanyForm(request.POST, instance=instance)
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.save()
+            return redirect('companies')
+    else:
+        form=CompanyForm(instance=instance)
+
+    return render(request, 'leadsMasterApp/addCompany.html', {'form':form})
+
+def AddGenPlanView(request):
+    if request.method == "POST":
+        form = GeneralPlansForm(request.POST)
         if form.is_valid():
             plan = form.save(commit=False)
             plan.save()
             return redirect('companies')
     else:
-        form=GeneralPlansForm()
+        form = GeneralPlansForm()
 
     return render(request, 'leadsMasterApp/addGenPlan.html', {'form':form})
 
+def EditGenPlanView(request,pk):
+    instance = get_object_or_404(Generalbusinessplans, pk=pk)
+    if request.method == "POST":
+        form = GeneralPlansForm(request.POST, instance=instance)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.save()
+            return redirect('companies')
+    else:
+        form = GeneralPlansForm(instance=instance)
+
+    return render(request, 'leadsMasterApp/addGenPlan.html', {'form':form})
 
 def AddLifePlanView(request):
-    def AddGenPlanView(request):
-        context = RequestContext(request)
-        if request.method == "POST":
-            form = LifePlansForm(data=request.POST)
-            if form.is_valid():
-                plan = form.save(commit=False)
-                plan.save()
-                return redirect('companies')
-        else:
-            form = LifePlansForm()
+    if request.method == "POST":
+        form = LifePlansForm(request.POST)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.save()
+            return redirect('companies')
+    else:
+        form = LifePlansForm()
 
-        return render(request, 'leadsMasterApp/addLifePlan.html', {'form': form})
+    return render(request, 'leadsMasterApp/addGenPlan.html', {'form':form})
+
+def EditLifePlanView(request,pk):
+    instance = get_object_or_404(Lifebusinessplans, pk=pk)
+    if request.method == "POST":
+        form = LifePlansForm(request.POST, instance=instance)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.save()
+            return redirect('companies')
+    else:
+        form = LifePlansForm(instance=instance)
+
+    return render(request, 'leadsMasterApp/addGenPlan.html', {'form':form})
 
 
 def IconicIntroducerView(request):

@@ -14,9 +14,12 @@ urlpatterns = [
     url(r'^calendar/$', views.CalendarView, name='calendar'),
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
     url(r'^companies/$', views.CompaniesView, name='companies'),
+    url(r'^companies/(?P<pk>\d+)/editCompany$', views.EditCompanyView, name='editCompany'),
     url(r'^companies/addCompany$', views.AddCompanyView, name='addCompany'),
+    url(r'^companies/addGenPlan/(?P<pk>\d+)/editGenPlan$', views.EditGenPlanView, name='editGenPlan'),
     url(r'^companies/addGenPlan$', views.AddGenPlanView, name='addGenPlan'),
     url(r'^companies/addLifePlan$', views.AddLifePlanView, name='addLifePlan'),
+    url(r'^companies/addLifePlan/(?P<pk>\d+)/editLifePlan$', views.EditLifePlanView, name='editLifePlan'),
 
     url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
     url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),

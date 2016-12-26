@@ -20,7 +20,7 @@
     <form method="POST" >{% csrf_token %}
         {{ form|bootstrap }}
         <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
-        <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Cancel</a>
+        <a class="btn btn-default" href="{% url 'companies' %}" role="button"> Cancel</a>
     </form>
 </div>
 
