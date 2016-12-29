@@ -11,8 +11,12 @@ urlpatterns = [
     url(r'^renewals$', views.IndexRenewalsView, name='indexRenewals'),
     url(r'^payments$', views.IndexPaymentsView, name='indexPayments'),
     url(r'^leadsToContact$', views.IndexLeadsToContactView, name='indexLeadsToContact'),
-    url(r'^calendar/$', views.CalendarView, name='calendar'),
+    url(r'^calendar/$',views.calendar, name = 'calendar'),
+
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
+    url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
+    url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),
+
     url(r'^companies/$', views.CompaniesView, name='companies'),
     url(r'^companies/(?P<pk>\d+)/editCompany$', views.EditCompanyView, name='editCompany'),
     url(r'^companies/addCompany$', views.AddCompanyView, name='addCompany'),
@@ -21,18 +25,18 @@ urlpatterns = [
     url(r'^companies/addLifePlan$', views.AddLifePlanView, name='addLifePlan'),
     url(r'^companies/addLifePlan/(?P<pk>\d+)/editLifePlan$', views.EditLifePlanView, name='editLifePlan'),
 
-    url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
-    url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),
+
     url(r'^reports/$', views.ReportsView, name='reports'),
     url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login , name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
     url(r'^logout/$', views.user_logout, name='logout'),
+
     url(r'^addContractLife/$', views.addContractLifeView, name='addContractLife'),
     url(r'^editContractLife/(?P<pk>\d+)/$', views.editContractLifeView, name='editContractLife'),
     url(r'^addContractGeneral/$', views.addContractGeneralView, name='addContractGeneral'),
-    url(r'^editContractGeneral/(?P<pk>\d+)/$', views.addContractGeneralView, name='editContractGeneral'),
+    url(r'^editContractGeneral/(?P<pk>\d+)/$', views.editContractGeneralView, name='editContractGeneral'),
     url(r'^profile/(?P<pk>\d+)/$', views.ProfileView, name='ProfileView'),
 
 ]

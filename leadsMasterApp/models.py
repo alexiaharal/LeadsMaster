@@ -93,6 +93,7 @@ class LifeContract(models.Model):
     nextpayment = models.DateTimeField(blank=True, null=True)
     price = models.FloatField()
     notes = models.CharField(max_length =80)
+    active = models.IntegerField(default=1)
 
     def __unicode__(self):
         return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())
@@ -108,7 +109,7 @@ class GeneralContract(models.Model):
     nextpayment = models.DateTimeField( blank=True, null=True)  # Field name made lowercase.
     price = models.FloatField()
     notes = models.CharField(max_length =80)
-
+    active = models.IntegerField(default=1)
 
     def __unicode__(self):
         return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())

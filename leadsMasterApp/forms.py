@@ -139,6 +139,6 @@ class LifePlansForm(forms.ModelForm):
                   'agelimit': 'Age Limit of Plan',
                   'duration': 'Duration of plan'}
 
-class SearchForm(forms.ModelForm):
+class SearchForm(forms.Form):
     searchbox= forms.CharField(label='Search: ')
 

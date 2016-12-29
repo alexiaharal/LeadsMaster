@@ -1,13 +1,16 @@
 from __future__ import division
+
+from calendar import monthrange
+
 from django.shortcuts import render, get_object_or_404,render_to_response,redirect
 from django.http import HttpResponse,HttpResponseRedirect, Http404
 from reportlab.pdfgen import canvas
 from django.template.context import RequestContext
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Company, Generalbusinessplans, \
     Lifebusinessplans
 from django.db.models import Q
-from .forms import PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm
+from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -263,9 +266,11 @@ def IndexLeadsToContactView(request):
                    'totalLifeSales':totalLifeSales,
                    'result_entities':result_entities})
 
-def CalendarView(request):
-    output=Calendar.objects.all()
-    return render(request, 'leadsMasterApp/calendar.html', {'output':output })
+
+def calendar(request):
+
+    return
+
 
 def successfulLeadsPercentage(introducer):
     numOfLeads = 0
@@ -287,34 +292,48 @@ def successfulLeadsPercentage(introducer):
     return percentage
 
 def OurPeopleView(request):
-    people=[]
-    for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person ORDER BY RANDOM() LIMIT 10'):
-        people.append(p)
-    return render(request, 'leadsMasterApp/ourPeople.html', {'people':people})
+    query=""
+    if request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['searchbox']
+    else:
+        form=SearchForm()
+
+    if query!="":
+        people=[]
+        for p in Person.objects.filter( Q(name__startswith=query)):
+           people.append(p)
+        for p in Person.objects.filter(Q(surname__startswith=query)):
+           people.append(p)
+        for p in Person.objects.filter(Q(idperson__startswith=query)):
+           people.append(p)
+    else:
+        people=[]
+        for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person ORDER BY RANDOM() LIMIT 10'):
+            people.append(p)
+    return render(request, 'leadsMasterApp/ourPeople.html', {'form':form,'people':people})
 
 def AddProfileView(request):
-    context = RequestContext(request)
-    added = False
     if request.method == "POST":
-        form = PersonForm(data=request.POST)
-
+        form = PersonForm(request.POST)
         if form.is_valid():
             person = form.save(commit=False)
             person.save()
             return redirect('ourPeople')
+    else:
+        form=PersonForm()
 
     return render(request, 'leadsMasterApp/addProfile.html', {'form':form})
 
 def EditProfileView(request, pk):
     person = get_object_or_404(Person, pk=pk)
-    if request.method == 'POST':
-            form = PersonForm(request.POST, instance=person)
-            if form.is_valid():
-                person = form.save(commit=False)
-                person.save()
-                return redirect('ourPeople')
-    else:
-        form = PersonForm(instance=person)
+    form = PersonForm(data = request.POST or None, instance=person)
+
+    if form.is_valid():
+        person.save()
+        return redirect('ourPeople')
+
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
 
 def ProfileView (request, pk):
@@ -329,46 +348,32 @@ def ProfileView (request, pk):
 
 
 
-def addContractLifeView(request, pk=None):
-    context = RequestContext(request)
+def addContractLifeView(request):
     added = False
-
-    # If it's a HTTP POST, we're processing form data.
     if request.method == 'POST':
-        contract_form = LifeContractForm(data=request.POST)
-
-        # If the two forms are valid...
+        contract_form = LifeContractForm(request.POST)
         if contract_form.is_valid():
             profile = contract_form.save(commit=False)
             p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
-            print p
             if p.isclient == 0:
-                print 'in if'
                 p.isclient = 1
                 p.save()
             profile.save()
             contract_form.save_m2m()
-            print profile.plan
             added = True
         else:
             print contract_form.errors
-
-    # Not a HTTP POST
-    # These forms will be blank, ready for user input.
     else:
         contract_form = LifeContractForm()
-
-    # Render the template depending on the context.
     return render(request,
                   'leadsMasterApp/addContractLife.html',
-                  {'add_contract_form': contract_form, 'added': added},
-                  context)
+                  {'add_contract_form': contract_form, 'added': added})
 
 
 def editContractLifeView(request, pk):
-    contract = get_object_or_404(LifeContract, pk=pk)
+    instance=get_object_or_404(LifeContract, pk=pk)
     if request.method =='POST':
-        form = LifeContractForm(request.POST, instance=contract)
+        form = LifeContractForm(request.POST, instance=instance)
         profile = form.save(commit=False)
         p = Person.objects.get(idperson=form.cleaned_data['client'].idperson)
         if p.isclient == 0:
@@ -377,21 +382,16 @@ def editContractLifeView(request, pk):
         profile.save()
         form.save_m2m()
     else:
-        form = LifeContractForm(instance=contract)
+        form = LifeContractForm(instance=instance)
 
     return render(request,
         'leadsMasterApp/addContractLife.html',
         {'add_contract_form':form})
 
-def addContractGeneralView(request, pk=None):
-    context = RequestContext(request)
-    added = False
-
-    # If it's a HTTP POST, we're processing form data.
+def addContractGeneralView(request):
+    added=False
     if request.method == 'POST':
-        contract_form = GeneralContractForm(data=request.POST)
-
-        # If the two forms are valid...
+        contract_form = GeneralContractForm(request.POST)
         if contract_form.is_valid():
             profile = contract_form.save(commit=False)
             p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
@@ -406,17 +406,34 @@ def addContractGeneralView(request, pk=None):
             added = True
         else:
             print contract_form.errors
-
-    # Not a HTTP POST
-    # These forms will be blank, ready for user input.
     else:
         contract_form = GeneralContractForm()
-
-    # Render the template depending on the context.
     return render(request,
             'leadsMasterApp/addContractGeneral.html',
-            {'add_contract_form':contract_form,'added': added},
-            context)
+            {'add_contract_form':contract_form,'added': added})
+
+
+def editContractGeneralView(request,pk):
+    instance,created=GeneralContract.objects.get_or_create(idcontract=pk)
+    added=False
+    if request.method == 'POST':
+        contract_form = GeneralContractForm(request.POST,instance=instance)
+        if contract_form.is_valid():
+            profile = contract_form.save(commit=False)
+            p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
+            if p.isclient == 0:
+                p.isclient = 1
+                p.save()
+            profile.save()
+            contract_form.save_m2m()
+            added = True
+        else:
+            print contract_form.errors
+    else:
+        contract_form = GeneralContractForm(instance=instance)
+    return render(request,
+            'leadsMasterApp/addContractGeneral.html',
+            {'add_contract_form':contract_form,'added': added})
 
 def ReportsView(request):
     table = Person.objects.all()
@@ -575,7 +592,7 @@ def IconicIntroducerView(request):
                         if percentage <plan.minpercentage:
                             percentage = plan.minpercentage
                         elif percentage > plan.maxpercentage:
-                            percentage = plan.maxprcentage
+                            percentage = plan.maxpercentage
                         firstyear += contract2.annualpremium * percentage
 
                         #if current contract is issued for more than one year

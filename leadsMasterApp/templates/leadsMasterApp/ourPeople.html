@@ -1,5 +1,7 @@
 {% extends 'leadsMasterApp/base.html' %}
 {% load static %}
+{% load bootstrap %}
+
 <head>
 </head>
 {% block nav-ourPeople %}class="active-menu"{% endblock %}
@@ -20,6 +22,14 @@
 
 <!-- Filtering/Searching Implementation -->
 <!-- TODO: Search Bar -->
+
+<div class="col-md-6">
+    <form method="POST" >{% csrf_token %}
+        {{ form|bootstrap }}
+        <button type="submit" name="submitBtn" class="save btn btn-default">Search</button>
+        <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Clear</a>
+    </form>
+</div>
 <!-- /Filtering Implementation -->
 
 <!-- People Table Implementation -->
