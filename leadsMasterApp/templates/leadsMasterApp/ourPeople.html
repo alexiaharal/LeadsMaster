@@ -50,7 +50,7 @@
                     {% for p in people %}
                         {% if p.isclient == 1 %}
                             <tr class ="info " align="center" >
-                                <td><a class="btn btn-default btn-sm" href="{% url 'ProfileView' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                                <td><a class="btn btn-default btn-sm" href="{% url 'ProfileView' pk=p.id %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
                                 <td>{{p.name}}</td>
                                 <td>{{p.surname}}</td>
                                 <td>{{p.telephone}}</td>

@@ -13,7 +13,8 @@ class Person(models.Model):
         (1, 'Yes'),
         (0, 'No'),
     )
-    idperson = models.IntegerField(primary_key=True)
+    id=models.AutoField(primary_key=True,unique=True)
+    idperson = models.IntegerField(unique=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
     telephone = models.CharField( max_length = 15)
@@ -83,7 +84,8 @@ class Lifebusinessplans(models.Model):
 
 
 class LifeContract(models.Model):
-    idcontract = models.IntegerField(primary_key=True)
+    id=models.AutoField(primary_key=True,unique=True)
+    idcontract = models.IntegerField()
     client= models.ForeignKey(Person)
     issuedate = models.DateTimeField('date issued')
     expirationdate = models.DateTimeField('expiration date')
@@ -93,13 +95,14 @@ class LifeContract(models.Model):
     nextpayment = models.DateTimeField(blank=True, null=True)
     price = models.FloatField()
     notes = models.CharField(max_length =80)
-    active = models.IntegerField(default=1)
+    cancelled = models.BooleanField(default=False)
 
     def __unicode__(self):
         return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())
 
 class GeneralContract(models.Model):
-    idcontract = models.IntegerField(primary_key=True)
+    id=models.AutoField(primary_key=True,unique=True)
+    idcontract = models.IntegerField()
     client=models.ForeignKey(Person)
     issuedate = models.DateTimeField()  # Field name made lowercase.
     expirationdate = models.DateTimeField()  # Field name made lowercase.
@@ -109,7 +112,7 @@ class GeneralContract(models.Model):
     nextpayment = models.DateTimeField( blank=True, null=True)  # Field name made lowercase.
     price = models.FloatField()
     notes = models.CharField(max_length =80)
-    active = models.IntegerField(default=1)
+    cancelled = models.BooleanField(default=False)
 
     def __unicode__(self):
         return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())

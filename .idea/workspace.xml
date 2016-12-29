@@ -5,31 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f77a866e-e118-4521-9ea8-c6de0c5eec81" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0001_initial.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0002_auto_20161115_1207.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0003_auto_20161115_1214.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0004_auto_20161117_1818.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0005_auto_20161125_2049.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0006_auto_20161125_2059.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0007_auto_20161125_2127.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0008_auto_20161204_1224.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0009_auto_20161204_1804.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0010_userprofile.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0011_auto_20161207_1134.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0012_auto_20161207_1145.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0013_auto_20161216_0831.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0014_auto_20161216_0850.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0015_auto_20161216_0853.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/leadsMasterApp/migrations/0016_auto_20161216_0855.py" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMaster/celery.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/urls.py" afterPath="$PROJECT_DIR$/leadsMaster/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/settings.py" afterPath="$PROJECT_DIR$/leadsMaster/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/forms.py" afterPath="$PROJECT_DIR$/leadsMasterApp/forms.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/models.py" afterPath="$PROJECT_DIR$/leadsMasterApp/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" afterPath="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/views.py" afterPath="$PROJECT_DIR$/leadsMasterApp/views.py" />
     </list>
     <ignored path="leadsMaster.iws" />
@@ -53,8 +40,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+            <state relative-caret-position="1700">
+              <caret line="110" column="54" selection-start-line="110" selection-start-column="54" selection-end-line="110" selection-end-column="54" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -62,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="335" column="0" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+            <state relative-caret-position="132">
+              <caret line="338" column="80" selection-start-line="338" selection-start-column="80" selection-end-line="338" selection-end-column="80" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -74,41 +61,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calendar.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html">
+      <file leaf-file-name="celery.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/leadsMaster/celery.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/css/custom.css">
+      <file leaf-file-name="addContractGeneral.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7123">
-              <caret line="419" column="1" selection-start-line="419" selection-start-column="1" selection-end-line="419" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMaster/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+            <state relative-caret-position="323">
+              <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -117,21 +84,49 @@
       <file leaf-file-name="profile.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2771">
-              <caret line="163" column="72" selection-start-line="163" selection-start-column="72" selection-end-line="163" selection-end-column="72" />
+            <state relative-caret-position="591">
+              <caret line="162" column="93" selection-start-line="162" selection-start-column="93" selection-end-line="162" selection-end-column="93" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="companies.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
-              <folding>
-                <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addContractLife.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addProfile.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addProfile.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/leadsMasterApp/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-255">
+              <caret line="55" column="49" selection-start-line="55" selection-start-column="49" selection-end-line="55" selection-end-column="49" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -139,8 +134,8 @@
       <file leaf-file-name="ourPeople.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+            <state relative-caret-position="306">
+              <caret line="52" column="77" selection-start-line="52" selection-start-column="77" selection-end-line="52" selection-end-column="106" />
               <folding />
             </state>
           </provider>
@@ -151,8 +146,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -182,25 +177,26 @@
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/login.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/register.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContract.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addCompany.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addGenPlan.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addLifePlan.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/forms.py" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
-        <option value="$PROJECT_DIR$/leadsMaster/settings.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/calendar.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" />
         <option value="$PROJECT_DIR$/leadsMaster/urls.py" />
+        <option value="$PROJECT_DIR$/leadsMaster/settings.py" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/models.py" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/forms.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/views.py" />
+        <option value="$PROJECT_DIR$/leadsMaster/celery.py" />
       </list>
     </option>
   </component>
@@ -235,31 +231,32 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -269,29 +266,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMasterApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templatetags" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -309,11 +288,33 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="leadsMasterApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LeadsMaster" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -327,11 +328,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -349,29 +350,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMasterApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrations" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="leadsMaster" />
+              <option name="myItemId" value="LeadsMaster" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -381,7 +364,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -549,7 +531,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11786237" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19985358" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -586,23 +568,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="28" column="134" selection-start-line="28" selection-start-column="134" selection-end-line="28" selection-end-column="134" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -635,13 +600,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/app_tags.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -774,52 +732,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1809">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="89" column="0" selection-start-line="49" selection-start-column="8" selection-end-line="89" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addProfile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -830,24 +746,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="67" column="115" selection-start-line="67" selection-start-column="115" selection-end-line="67" selection-end-column="115" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addGenPlan.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" column="58" selection-start-line="22" selection-start-column="58" selection-end-line="22" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2210">
-          <caret line="136" column="30" selection-start-line="136" selection-start-column="30" selection-end-line="136" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -858,72 +760,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
-          <folding>
-            <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2771">
-          <caret line="163" column="72" selection-start-line="163" selection-start-column="72" selection-end-line="163" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/css/custom.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7123">
-          <caret line="419" column="1" selection-start-line="419" selection-start-column="1" selection-end-line="419" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMaster/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/calendar.py" />
-    <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -935,13 +777,161 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/migrations/0001_initial.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1717">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMaster/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="67" column="115" selection-start-line="67" selection-start-column="115" selection-end-line="67" selection-end-column="115" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/app_tags.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3638">
+          <caret line="227" column="4" selection-start-line="227" selection-start-column="1" selection-end-line="227" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/companies.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addProfile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractLife.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="52" column="77" selection-start-line="52" selection-start-column="77" selection-end-line="52" selection-end-column="106" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="591">
+          <caret line="162" column="93" selection-start-line="162" selection-start-column="93" selection-end-line="162" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addContractGeneral.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1700">
+          <caret line="110" column="54" selection-start-line="110" selection-start-column="54" selection-end-line="110" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-255">
+          <caret line="55" column="49" selection-start-line="55" selection-start-column="49" selection-end-line="55" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="335" column="0" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+        <state relative-caret-position="132">
+          <caret line="338" column="80" selection-start-line="338" selection-start-column="80" selection-end-line="338" selection-end-column="80" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMaster/celery.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

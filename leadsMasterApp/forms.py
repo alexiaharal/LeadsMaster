@@ -53,7 +53,7 @@ class PersonForm(forms.ModelForm):
             'isclient': 'Is Client?',
             'isintroducer': 'Is Introducer?',
             'leadfrom': 'Lead From Person: ',
-            'wasclient': 'Was Client ?'
+            'wasclient': 'Has Cancelled Contracts ?'
         }
 
 class LifeContractForm(forms.ModelForm):
@@ -64,7 +64,7 @@ class LifeContractForm(forms.ModelForm):
     class Meta:
         model = LifeContract
         fields = ['idcontract','client','issuedate','expirationdate','plan',
-                'annualpremium', 'doses','nextpayment', 'price','notes']
+                'annualpremium', 'doses','nextpayment', 'price','notes','cancelled']
         labels = {
             'idcontract':'Contract ID',
             'client': 'Client',
@@ -75,7 +75,8 @@ class LifeContractForm(forms.ModelForm):
             'doses': 'Payment Doses',
             'nextpayment': 'Next Payment Due',
             'price': 'Total Cost',
-            'notes': 'Comments'
+            'notes': 'Comments',
+            'cancelled': 'Do you want to cancel this contract?'
         }
 
 class GeneralContractForm(forms.ModelForm):
@@ -86,7 +87,7 @@ class GeneralContractForm(forms.ModelForm):
     class Meta:
         model = GeneralContract
         fields = ['idcontract','client','issuedate','expirationdate','plan',
-                'annualpremium', 'doses','nextpayment', 'price','notes']
+                'annualpremium', 'doses','nextpayment', 'price','notes','cancelled']
         labels = {
             'idcontract':'Contract ID',
             'client': 'Client',
@@ -97,7 +98,9 @@ class GeneralContractForm(forms.ModelForm):
             'doses': 'Payment Doses',
             'nextpayment': 'Next Payment Due',
             'price': 'Total Cost',
-            'notes': 'Comments'
+            'notes': 'Comments',
+            'cancelled': 'Do you want to cancel this contract?'
+
         }
 
 class CompanyForm(forms.ModelForm):

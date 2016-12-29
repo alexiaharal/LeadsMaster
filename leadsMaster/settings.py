@@ -39,11 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'schedule',
-    'djangobower',
     'django_extensions',
     'bootstrapform',
-    'ajax_search',
 ]
 
 MIDDLEWARE = [

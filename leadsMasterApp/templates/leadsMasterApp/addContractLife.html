@@ -16,21 +16,14 @@
 
 </div>
 <hr />
-{% if added %}
-    <h5 style="color:#000">Contract Added!</h5>
-    <a class="btn btn-default " href="{% url 'ourPeople' %}">Clients</a>
 
-{% else %}
-
-    <form id="contract_form" method="post"action="{% url 'addContractLife' %}"
-            enctype="multipart/form-data"> >
+    <form id="contract_form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
         {{add_contract_form|bootstrap}}
         <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
         <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Cancel</a>
 
     </form>
-{% endif %}
 {% endblock %}
 
 

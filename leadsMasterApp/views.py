@@ -323,23 +323,20 @@ def AddProfileView(request):
             return redirect('ourPeople')
     else:
         form=PersonForm()
-
     return render(request, 'leadsMasterApp/addProfile.html', {'form':form})
 
 def EditProfileView(request, pk):
     person = get_object_or_404(Person, pk=pk)
     form = PersonForm(data = request.POST or None, instance=person)
-
     if form.is_valid():
         person.save()
         return redirect('ourPeople')
-
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
 
 def ProfileView (request, pk):
     person = get_object_or_404(Person, pk=pk)
-    generalContracts = GeneralContract.objects.filter(client = person)
-    lifeContracts = LifeContract.objects.filter(client = person)
+    generalContracts = GeneralContract.objects.filter(client = person, cancelled=False)
+    lifeContracts = LifeContract.objects.filter(client = person, cancelled=False)
     leads = Person.objects.filter(leadfrom=person)
     percentage=successfulLeadsPercentage(person)
     return render(request, 'leadsMasterApp/profile.html',
@@ -349,7 +346,6 @@ def ProfileView (request, pk):
 
 
 def addContractLifeView(request):
-    added = False
     if request.method == 'POST':
         contract_form = LifeContractForm(request.POST)
         if contract_form.is_valid():
@@ -360,80 +356,84 @@ def addContractLifeView(request):
                 p.save()
             profile.save()
             contract_form.save_m2m()
-            added = True
+            return redirect('ProfileView', pk=p.id)
         else:
             print contract_form.errors
     else:
         contract_form = LifeContractForm()
     return render(request,
                   'leadsMasterApp/addContractLife.html',
-                  {'add_contract_form': contract_form, 'added': added})
+                  {'add_contract_form': contract_form})
 
 
 def editContractLifeView(request, pk):
     instance=get_object_or_404(LifeContract, pk=pk)
-    if request.method =='POST':
-        form = LifeContractForm(request.POST, instance=instance)
-        profile = form.save(commit=False)
+    print instance
+    form = LifeContractForm(data = request.POST or None, instance=instance)
+    if form.is_valid():
+        instance=form.save(commit=False)
         p = Person.objects.get(idperson=form.cleaned_data['client'].idperson)
         if p.isclient == 0:
             p.isclient = 1
             p.save()
-        profile.save()
+        if form.cleaned_data['cancelled']==True:
+            p.wasclient=1
+            contractsOfPersonLife=LifeContract.objects.filter(client=p, cancelled=False)
+            contractsOfPersonGeneral=GeneralContract.objects.filter(client=p,cancelled=False)
+            if len(contractsOfPersonGeneral)==0 and len(contractsOfPersonLife)==1:
+                p.isclient=0
+            p.save()
+        instance.save()
         form.save_m2m()
-    else:
-        form = LifeContractForm(instance=instance)
+        return redirect ('ProfileView', pk=p.id )
 
     return render(request,
         'leadsMasterApp/addContractLife.html',
         {'add_contract_form':form})
 
 def addContractGeneralView(request):
-    added=False
     if request.method == 'POST':
         contract_form = GeneralContractForm(request.POST)
         if contract_form.is_valid():
             profile = contract_form.save(commit=False)
             p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
-            print p
             if p.isclient == 0:
-                print 'in if'
                 p.isclient = 1
                 p.save()
             profile.save()
             contract_form.save_m2m()
-            print profile.plan
-            added = True
+            return redirect('ProfileView', pk=p.id)
         else:
             print contract_form.errors
     else:
         contract_form = GeneralContractForm()
     return render(request,
             'leadsMasterApp/addContractGeneral.html',
-            {'add_contract_form':contract_form,'added': added})
-
+            {'add_contract_form':contract_form})
 
 def editContractGeneralView(request,pk):
-    instance,created=GeneralContract.objects.get_or_create(idcontract=pk)
-    added=False
-    if request.method == 'POST':
-        contract_form = GeneralContractForm(request.POST,instance=instance)
-        if contract_form.is_valid():
-            profile = contract_form.save(commit=False)
-            p = Person.objects.get(idperson=contract_form.cleaned_data['client'].idperson)
-            if p.isclient == 0:
-                p.isclient = 1
-                p.save()
-            profile.save()
-            contract_form.save_m2m()
-            added = True
-        else:
-            print contract_form.errors
-    else:
-        contract_form = GeneralContractForm(instance=instance)
+    instance = get_object_or_404(GeneralContract, pk=pk)
+    form = GeneralContractForm(data=request.POST or None, instance=instance)
+    if form.is_valid():
+        instance=form.save(commit=False)
+        p = Person.objects.get(idperson=form.cleaned_data['client'].idperson)
+        if p.isclient == 0:
+            p.isclient = 1
+            p.save()
+        if form.cleaned_data['cancelled']==True:
+            p.wasclient=1
+            contractsOfPersonLife=LifeContract.objects.filter(client=p, cancelled=False)
+            contractsOfPersonGeneral=GeneralContract.objects.filter(client=p,cancelled=False)
+            if len(contractsOfPersonGeneral)==1 and len(contractsOfPersonLife)==0:
+                p.isclient=0
+            p.save()
+        instance.save()
+        form.save_m2m()
+        return redirect('ProfileView', pk=p.id)
+
     return render(request,
             'leadsMasterApp/addContractGeneral.html',
-            {'add_contract_form':contract_form,'added': added})
+            {'add_contract_form':form})
 
 def ReportsView(request):
     table = Person.objects.all()

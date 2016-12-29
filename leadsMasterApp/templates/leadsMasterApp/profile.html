@@ -21,7 +21,7 @@
     <div class="col-md-8">
         <div class="row">
             <div class="col-md-2">
-                <h3 style="color:#000">Details <a class="btn btn-default "  href="{% url 'editProfile' pk=person.idperson %}"> <span class="glyphicon glyphicon-pencil"></span></a></h3>
+                <h3 style="color:#000">Details <a class="btn btn-default "  href="{% url 'editProfile' pk=person.id %}"> <span class="glyphicon glyphicon-pencil"></span></a></h3>
             </div>
         </div>
         <div class="table-responsive">
@@ -129,7 +129,7 @@
                 <tbody>
                 {% for c in generalContracts %}
                     <tr>
-                        <td>{{c.idcontract}}<a class="btn btn-default btn-sm" href="{% url 'editContractGeneral' pk=c.idcontract %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td>{{c.idcontract}}<a class="btn btn-default btn-sm" href="{% url 'editContractGeneral' pk=c.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
                         <td>{{c.expirationdate.day}}/{{c.expirationdate.month}}/{{c.expirationdate.year}}</td>
                         <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
@@ -160,7 +160,7 @@
             {% for c in lifeContracts %}
                 <tr>
                     <td>{{c.idcontract}}</td>
-                    <td><a class="btn btn-default btn-sm" href="{% url 'editContractLife' pk=c.idcontract %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a class="btn btn-default btn-sm" href="{% url 'editContractLife' pk=c.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                     <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
                     <td>{{c.expirationdate.day}}/{{c.expirationdate.month}}/{{c.expirationdate.year}}</td>
                     <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>

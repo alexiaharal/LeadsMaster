@@ -1,7 +1,7 @@
 {% extends 'leadsMasterApp/base.html' %}
 {% load static %}
-{% block title %} {{calendar_page }} {% endblock %}}
-{% block nav-calendar %}class="active-menu"{% endblock %}
+{% block title %} {{companies_page }} {% endblock %}}
+{% block nav-companies %}class="active-menu"{% endblock %}
 
 
 {%block body_block %}
@@ -29,14 +29,12 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
                 <thead>
-                    <th>ID</th>
                     <th>Name</th>
                 </thead>
                 <tbody>
                     {% for c in companies %}
-                        <tr class ="warning" align="center">
-                                <td><a class="btn btn-default btn-sm" href="{% url 'editCompany' pk=c.idcompany %}"><span class="glyphicon glyphicon-pencil"></span></a>{{c.idcompany}}</td>
-                                <td>{{c.name}}</td>
+                        <tr class ="warning" >
+                                <td><a class="btn btn-default btn-sm" href="{% url 'editCompany' pk=c.idcompany %}"><span class="glyphicon glyphicon-pencil"></span></a>{{c.name}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -53,16 +51,14 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover table-condensed" >
                 <thead>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Company</th>
                     <th>Commission</th>
                 </thead>
                 <tbody>
                     {% for gp in genPlans %}
-                        <tr class ="warning" align="center">
-                                <td><a class="btn btn-default btn-sm" href="{% url 'editGenPlan' pk=gp.planid %}"><span class="glyphicon glyphicon-pencil"></span></a>{{gp.planid}}</td>
-                                <td>{{gp.name}}</td>
+                        <tr class ="warning" >
+                                <td><a class="btn btn-default btn-sm" href="{% url 'editGenPlan' pk=gp.planid %}"><span class="glyphicon glyphicon-pencil"></span></a>{{gp.name}}</td>
                                 <td>{{gp.company}}</td>
                                 <td>{{gp.commission}}</td>
                         </tr>
@@ -82,7 +78,6 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover table-condensed" >
                 <thead>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Company</th>
                     <th>First Commission</th>
@@ -99,8 +94,7 @@
                 <tbody>
                     {% for lp in lifePlans %}
                         <tr class ="warning" >
-                                <td><a class="btn btn-default btn-sm" href="{% url 'editLifePlan' pk=lp.planlifeid %}"><span class="glyphicon glyphicon-pencil"></span></a>{{lp.planlifeid}}</td>
-                                <td>{{lp.name}}</td>
+                                <td><a class="btn btn-default btn-sm" href="{% url 'editLifePlan' pk=lp.planlifeid %}"><span class="glyphicon glyphicon-pencil"></span></a>{{lp.name}}</td>
                                 <td>{{lp.company}}</td>
                                 <td>{{lp.firstyearcommission}}</td>
                                 <td>{{lp.maxpercentage}}%</td>
