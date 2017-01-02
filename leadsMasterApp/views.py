@@ -196,11 +196,12 @@ def IndexBirthdayView(request):
 def IndexRenewalsView(request):
     #Gather renewals for current day
     generalrenewals = []
-    for contract in GeneralContract.objects.filter(expirationdate__date=today.date()):
+    for contract in GeneralContract.objects.filter(expirationdate__date=today.date(), cancelled=False):
         generalrenewals.append(contract)
     liferenewals = []
-    for contract in LifeContract.objects.filter(expirationdate__date=today.date()):
+    for contract in LifeContract.objects.filter(expirationdate__date=today.date(),cancelled=False):
         liferenewals.append(contract)
+
     #Gather sales this day last year
     Generalsales=[]
     Lifesales=[]
@@ -268,8 +269,8 @@ def IndexLeadsToContactView(request):
 
 
 def calendar(request):
-
-    return
+    calendarEntries=Calendar.objects.all()
+    return render(request,'leadsMasterApp/calendar.html',{'calendarEntries':calendarEntries})
 
 
 def successfulLeadsPercentage(introducer):
