@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f77a866e-e118-4521-9ea8-c6de0c5eec81" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/tasks.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/__init__.py" afterPath="$PROJECT_DIR$/leadsMaster/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/celery.py" afterPath="$PROJECT_DIR$/leadsMaster/celery.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" afterPath="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/views.py" afterPath="$PROJECT_DIR$/leadsMasterApp/views.py" />
     </list>
     <ignored path="leadsMaster.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +25,7 @@
     <favorites_list name="leadsMaster" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.43092406">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
@@ -60,33 +52,24 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="calendar.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="calendar.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="612">
-                  <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
+                <state relative-caret-position="95">
+                  <caret line="12" column="44" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
                   <folding>
-                    <element signature="n#style#0;n#span#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="e#270#278#1" expanded="true" />
+                    <element signature="e#330#338#1" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="custom.css" pinned="false" current-in-tab="true">
+          <file leaf-file-name="custom.css" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/css/custom.css">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="17">
                   <caret line="390" column="23" selection-start-line="390" selection-start-column="23" selection-end-line="390" selection-end-column="23" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="custom.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1530">
-                  <caret line="90" column="27" selection-start-line="90" selection-start-column="27" selection-end-line="90" selection-end-column="27" />
                   <folding />
                 </state>
               </provider>
@@ -105,12 +88,12 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ourPeople.html" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html">
+        <leaf>
+          <file leaf-file-name="custom.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="289">
-                  <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
+                <state relative-caret-position="260">
+                  <caret line="127" column="52" selection-start-line="127" selection-start-column="52" selection-end-line="127" selection-end-column="52" />
                   <folding />
                 </state>
               </provider>
@@ -173,9 +156,9 @@
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/tasks.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/views.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
       </list>
     </option>
   </component>
@@ -526,9 +509,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19985358" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19985358" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -876,14 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="90" column="27" selection-start-line="90" selection-start-column="27" selection-end-line="90" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2108">
@@ -900,20 +875,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#li#2;n#ul#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/css/custom.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="390" column="23" selection-start-line="390" selection-start-column="23" selection-end-line="390" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/calendar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="12" column="44" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
+          <folding>
+            <element signature="e#270#278#1" expanded="true" />
+            <element signature="e#330#338#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="127" column="52" selection-start-line="127" selection-start-column="52" selection-end-line="127" selection-end-column="52" />
           <folding />
         </state>
       </provider>

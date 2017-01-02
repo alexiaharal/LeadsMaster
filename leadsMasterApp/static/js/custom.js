@@ -30,10 +30,24 @@
 
 });
 //calendar functions
-$(document).ready(function(){
-    var html=""
+
+    var monthsArray = new Array();
+    monthsArray["January"] = "0";
+    monthsArray["February"] = "1";
+    monthsArray["March"] = "2";
+    monthsArray["April"] = "3";
+    monthsArray["May"] = "4";
+    monthsArray["June"] = "5";
+    monthsArray["July"] = "6";
+    monthsArray["August"] = "7";
+    monthsArray["September"] = "8";
+    monthsArray["October"] = "9";
+    monthsArray["November"] = "10";
+    monthsArray["December"] = "11";
+
     var months = ["January", "February", "March", "April", "May", "June", "July",
              "August", "September", "October", "November", "December"];
+
     var weekday = new Array();
     weekday[0] = "Sunday";
     weekday[1] = "Monday";
@@ -43,26 +57,50 @@ $(document).ready(function(){
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
 
-    //get current date
+$(document).ready(function(){
+    calendarHome()
+})
+
+function calendarHome(){
     var d = new Date();
+    mainFunction(d);
+}
+
+function nextFunction() {
+    var month =((document).getElementById('currMonth')).innerHTML;
+    var year = ((document).getElementById('currYear')).innerHTML;
+    var current = new Date(year,monthsArray[month],1);
+    var next= new Date(current.setMonth( current.getMonth( ) + 1 ));
+    mainFunction(next)
+}
+
+function prevFunction() {
+    var month =((document).getElementById('currMonth')).innerHTML;
+    var year = ((document).getElementById('currYear')).innerHTML;
+    var current = new Date(year,monthsArray[month],1);
+    var previous= new Date(current.setMonth( current.getMonth( ) - 1 ));
+    mainFunction(previous)
+}
+function mainFunction(d){
+    $('.days').empty()
+    html=""
+
     //save month as a number and as a word to be displayed
     var month=d.getMonth()
     namedmonth=months[d.getMonth()];
     var year=d.getFullYear();
 
     //display month name
-    document.getElementById("month").innerHTML=namedmonth;
+    document.getElementById("currMonth").innerHTML=namedmonth;
+    document.getElementById("currYear").innerHTML=year;
 
     //find out what day is the first and last day of the month
         // in order to get days of the previous/upcoming month
-    console.log('month: '+ namedmonth+ " " +month)
 
     var FirstDay = new Date(year, month, 1);
     var LastDay = new Date(year, month + 1, 0);
 
     if (typeof weekday[FirstDay.getDay()] != 'undefined') {     // CHECK FOR 'undefined'.
-//        FirstDay=FirstDay.toDateString('dd/mon/yyyy')
-//        LastDay= LastDay.toDateString('dd/mon/yyyy')
         FirstDay=FirstDay
         LastDay= LastDay
     }
@@ -70,35 +108,32 @@ $(document).ready(function(){
         FirstDay=""
         LastDay=""
     }
-    console.log('firstdaymonth: '+ FirstDay.toDateString('dd/mon/yyyy')+ " " +FirstDay.getDay())
-    console.log('lastdaymonth: '+ LastDay.toDateString('dd/mon/yyyy')+ " " +LastDay.getDay())
+
     //get number of days this month
     days= LastDay.getDate();
 
-    //get previous month's number of days
-        var futureMonth = new Date(d.setUTCMonth(month + 1));
-
-    var pastMonth = (new Date(d.setUTCMonth(month - 1)));
+    //get previous/upcoming month's number of days
+    var futureMonth= new Date(d.setMonth( d.getMonth( ) + 1 ));
+    var pastMonth = new Date(d.setUTCMonth(month - 1));
     var LastPastDay = new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDay();
     var LastMonthDays= new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDate();
     var FirstFutureDay = new Date(futureMonth.getFullYear(),futureMonth.getMonth(),1).getDay();
-    console.log(LastPastDay)
-    console.log(LastMonthDays)
-    console.log(FirstFutureDay)
 
-//    var prevMonthLastDay=new Date(d.getFullYear(), prevMonth, 0).getDay();
-//    console.log(prevMonthLastDay)
     if (FirstDay.getDay()==0){
         for (var i=LastMonthDays-5; i <= LastMonthDays; i++) {
           html +="<li>"+(i)+"</li>";
         }
     }else{
-        for (var i=LastMonthDays-FirstDay.getDay()-1; i <= LastMonthDays; i++) {
+        console.log(FirstDay.getDay())
+        for (var i=LastMonthDays-FirstDay.getDay()+2; i <= LastMonthDays; i++) {
           html +="<li>"+(i)+"</li>";
         }
     }
     for (var i=0; i < days; i++) {
-      html +="<li>"+(i+1)+"</li>";
+      html +="<li><b>"+(i+1)+"</b></li>";
+    }
+    for (var i=1; i <= 7-LastDay.getDay(); i++) {
+      html +="<li>"+(i)+"</li>";
     }
     $("#daysBuilder").append(html);
-    });
+    };
