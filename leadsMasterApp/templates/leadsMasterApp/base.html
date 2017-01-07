@@ -69,21 +69,7 @@ font-size: 16px;"> Register a user: &nbsp; <a href="{% url 'register' %}" class=
                         <a {%block nav-companies %}{% endblock %} href="{% url 'companies' %}"><i class="fa fa-sitemap fa-3x"></i> Companies</a>
                     </li>
                     <li>
-                        <a href="{% url 'reports' %}"><i class="fa fa-bar-chart-o fa-3x"></i> Reports<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">General Reports</a>
-                            </li>
-                            <li>
-                                <a href="#">Iconic Profiles</a>
-                            </li>
-                            <li>
-                                <a href="#">Leads Reports</a>
-                            </li>
-                            <li>
-                                <a href="#">Employees Reports</a>
-                            </li>
-                        </ul>
+                        <a {%block nav-reports %}{% endblock %} href="{% url 'reports' %}"><i class="fa fa-bar-chart-o fa-3x"></i> Reports<span class="fa arrow"></span></a>
                       </li>
 
                 </ul>

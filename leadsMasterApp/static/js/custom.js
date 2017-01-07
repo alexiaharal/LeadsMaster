@@ -121,19 +121,49 @@ function mainFunction(d){
 
     if (FirstDay.getDay()==0){
         for (var i=LastMonthDays-5; i <= LastMonthDays; i++) {
-          html +="<li>"+(i)+"</li>";
+          href="<a href=\"{% url 'calendarDay' day="+i+" month="+(pastMonth.getMonth()+1)+" year="+pastMonth.getFullYear()+" %}\">"
+          html +=href+ "<li>"+(i)+"</li></a>";
         }
     }else{
-        console.log(FirstDay.getDay())
         for (var i=LastMonthDays-FirstDay.getDay()+2; i <= LastMonthDays; i++) {
-          html +="<li>"+(i)+"</li>";
+          href="<a href=\"{% url 'calendarDay' day="+i+" month="+pastMonth.getMonth()+1+" year="+pastMonth.getFullYear()+" %}\">"
+          html +=href+"<li>"+(i)+"</li></a>";
         }
     }
     for (var i=0; i < days; i++) {
-      html +="<li><b>"+(i+1)+"</b></li>";
+      href="<a href=\"{% url 'calendarDay' day="+(i+1)+" month="+month+" year=" +year" %}\">"
+      html +="<li><b>"+(i+1)+"</b></li></a>";
     }
     for (var i=1; i <= 7-LastDay.getDay(); i++) {
-      html +="<li>"+(i)+"</li>";
+      href="<a href=\"{% url \'calendarDay' day="+i+" month="+futureMonth.getMonth()+" year="+futureMonth.getFullYear()+" %}\">"
+      html +="<li>"+(i)+"</li></a>";
     }
+
+
     $("#daysBuilder").append(html);
     };
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

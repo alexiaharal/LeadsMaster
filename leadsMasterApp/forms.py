@@ -1,7 +1,8 @@
 from django.db import models
 from django.forms import ModelForm,extras
 from django import forms
-from leadsMasterApp.models import Person, UserProfile,Lifebusinessplans,Generalbusinessplans, LifeContract,GeneralContract,Company
+from leadsMasterApp.models import Person, UserProfile,Lifebusinessplans,Generalbusinessplans, LifeContract,GeneralContract,Company, \
+    Activity, Calendar
 from django.contrib.auth.models import User
 from django import forms
 from datetime import datetime
@@ -145,3 +146,21 @@ class LifePlansForm(forms.ModelForm):
 class SearchForm(forms.Form):
     searchbox= forms.CharField(label='Search: ')
 
+class ActivityForm(forms.ModelForm):
+
+    class Meta:
+        model = Activity
+        fields = {'activityname','customerid','date','time','duration'}
+        labels = {'date': 'Date',
+                  'time': 'Time',
+                  'duration': 'Duration',
+                  'activityname': 'Name',
+                  'customerid': 'Related Person',
+                }
+
+class CalendarForm(forms.ModelForm):
+
+    class Meta:
+        model = Calendar
+        fields = {'employee'}
+        labels = {'employee': 'Employee'}

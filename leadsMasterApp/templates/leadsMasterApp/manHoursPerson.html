@@ -1,0 +1,38 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block nav-reports %}class="active-menu"{% endblock %}
+
+
+<head>
+</head>
+{% block title %} {{addProfile_page}} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-12">
+        <h3 style="color:#000"> Man Hours Spent With: <u>{{person.name}} {{person.surname}} </u></h3>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">Activities </div>
+            <div class="panel-body">
+                {% for activity in activities %}
+                    <b>{{activity.activity.date}} -- {{activity.activity.duration}}min</b>
+                    <br>   {{activity.activity.activityname}}
+                    <br><br>
+                {% endfor %}
+                <hr />
+                Total Man Hours: <b>{{totalHours}}</b> Hours
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 class Person(models.Model):
@@ -130,10 +131,16 @@ class Activity(models.Model):
     activityid = models.AutoField(primary_key=True)  # Field name made lowercase.
     customerid = models.ForeignKey(Person, blank=True, null=True)  # Field name made lowercase.
     duration = models.IntegerField()  # Field name made lowercase.
-    datetime = models.DateTimeField()  # Field name made lowercase.
     activityname = models.CharField(max_length=45)  # Field name made lowercase.
+    date = models.DateField(default=datetime.now())  # Field name made lowercase.
+    time = models.TimeField(default=datetime.now())
+    def __unicode__(self):
+        return str(self.activityname +' -- '+ str(self.date))
 
 class Calendar(models.Model):
     entryid = models.AutoField(primary_key=True)  # Field name made lowercase.
     activity = models.ForeignKey(Activity)
-    employee = models.ForeignKey(Employee)
+    employee = models.ForeignKey(UserProfile)
+
+    def __unicode__(self):
+        return str(self.entryid)

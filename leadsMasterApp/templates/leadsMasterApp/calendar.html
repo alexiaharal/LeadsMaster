@@ -1,12 +1,12 @@
 {% extends 'leadsMasterApp/base.html' %}
 {% load static %}
+{% load bootstrap %}
+
 
 {% block title %} {{calendar_page }} {% endblock %}}
 {% block nav-calendar %}class="active-menu"{% endblock %}
 
 {%block body_block %}
-
-
 
 <div class="month">
   <ul>
@@ -15,6 +15,8 @@
     <li>
       <div id="currMonth"></div>
       <div id="currYear"></div>
+        <button id="myBtn"  class="btn btn-default">Add Activity</button>
+
     </li>
   </ul>
 </div>
@@ -34,6 +36,57 @@
 
   <!--<li><span class="active">10</span></li>-->
 </ul>
+
+<br/>
+
+
+
+<!-- The Form -->
+<div id="myModal" class="modal">
+
+  <!-- Form content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+        <form method="POST" class="personForm">{% csrf_token %}
+
+          {{form1|bootstrap}}
+          {{form2|bootstrap}}
+            <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
+
+            <a class="btn btn-default" href="{% url 'calendar' %}" role="button"> Cancel</a>
+        </form>
+  </div>
+
+</div>
+
+
+    <div class = "row" id="activityCenter">
+        <!-- import results from notifications according to selection -->
+        <div class="col-md-10">
+            <div class="panel panel-info">
+                <div class="panel-heading">Activities</div>
+                <div class="panel-body">
+                  {% if dailyEntries %}
+                    {% for entry in dailyEntries %}
+                      {% if entry.employee.user == request.user %}
+                        <div class="timeTag">
+                          <b>{{entry.activity.time}}
+                              <br/>
+                          {{entry.activity.duration}} min</b>
+                        </div>
+                        <div class="activityTag">
+                          {{entry.activity.activityname}}
+                          <br/>
+                          {{entry.activity.customerid.name}} {{entry.activity.customerid.surname}}
+                        </div>
+                      {% endif %}
+                        <hr/>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
 
 {% endblock %}
 

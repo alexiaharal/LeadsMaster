@@ -11,7 +11,8 @@ urlpatterns = [
     url(r'^renewals$', views.IndexRenewalsView, name='indexRenewals'),
     url(r'^payments$', views.IndexPaymentsView, name='indexPayments'),
     url(r'^leadsToContact$', views.IndexLeadsToContactView, name='indexLeadsToContact'),
-    url(r'^calendar/$',views.calendar, name = 'calendar'),
+    url(r'^calendar/$', views.calendar, name='calendar'),
+    url(r'^calendar/(?P<day>\w+)/(?P<month>\w+)/(?P<year>\w+)/$',views.calendar, name = 'calendarDay'),
 
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
     url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
@@ -28,6 +29,9 @@ urlpatterns = [
 
     url(r'^reports/$', views.ReportsView, name='reports'),
     url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
+    url(r'^reports/manHours$', views.ManHoursView, name='manHours'),
+    url(r'^reports/manHours/(?P<pk>\d+)/$', views.ManHoursPersonView, name='manHoursPerson'),
+
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login , name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),

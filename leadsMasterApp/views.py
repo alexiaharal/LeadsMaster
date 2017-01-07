@@ -10,7 +10,8 @@ from datetime import datetime, timedelta, date
 from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Company, Generalbusinessplans, \
     Lifebusinessplans
 from django.db.models import Q
-from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm
+from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm, \
+    ActivityForm, CalendarForm
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -120,7 +121,7 @@ def user_logout(request):
 def IndexView(request):
     #Gather all activities for current day
     activities=[]
-    for a in Activity.objects.filter(datetime__date=today.date()):
+    for a in Activity.objects.filter(date=today.date()):
         activities.append(a)
     #Gather birthdays for current day
     birthdays = []
@@ -151,7 +152,7 @@ def IndexView(request):
 def IndexToDoView(request):
     #Gather activities/to do's for current day
     activities=[]
-    for a in Activity.objects.filter(datetime__date=today.date()):
+    for a in Activity.objects.filter(date=today.date()):
         activities.append(a)
     # Gather sales this day last year
     Generalsales = []
@@ -268,9 +269,30 @@ def IndexLeadsToContactView(request):
                    'result_entities':result_entities})
 
 
-def calendar(request):
+def calendar(request,day=None,month=None,year=None):
     calendarEntries=Calendar.objects.all()
-    return render(request,'leadsMasterApp/calendar.html',{'calendarEntries':calendarEntries})
+    if day is None:
+        day=today.date().day
+        month=today.date().month
+        year = today.date().year
+    dailyEntries= Calendar.objects.filter(activity__date__day=day,activity__date__month=month,activity__date__year=year)
+    if request.method == "POST":
+        form1 = ActivityForm(request.POST)
+        form2 = CalendarForm(request.POST)
+        if form1.is_valid() and form2.is_valid():
+            activity = form1.save(commit=False)
+            activity.save()
+
+            calendar = form2.save(commit=False)
+            employee= form2.cleaned_data['employee']
+            calendarEntry= Calendar(activity=activity,employee=employee)
+            calendarEntry.save()
+            return redirect('calendar')
+    else:
+        form1 = ActivityForm()
+        form2 = CalendarForm()
+
+    return render(request,'leadsMasterApp/calendar.html',{'calendarEntries':calendarEntries,'dailyEntries':dailyEntries,'form1':form1,'form2': form2})
 
 
 def successfulLeadsPercentage(introducer):
@@ -304,16 +326,55 @@ def OurPeopleView(request):
     if query!="":
         people=[]
         for p in Person.objects.filter( Q(name__startswith=query)):
-           people.append(p)
+           if p not in people:
+               people.append(p)
         for p in Person.objects.filter(Q(surname__startswith=query)):
-           people.append(p)
+           if p not in people:
+               people.append(p)
         for p in Person.objects.filter(Q(idperson__startswith=query)):
-           people.append(p)
+           if p not in people:
+               people.append(p)
     else:
         people=[]
-        for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person ORDER BY RANDOM() LIMIT 10'):
+        for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person '):
             people.append(p)
     return render(request, 'leadsMasterApp/ourPeople.html', {'form':form,'people':people})
+
+def ManHoursView(request):
+    query=""
+    if request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['searchbox']
+    else:
+        form=SearchForm()
+
+    if query!="":
+        people=[]
+        for p in Person.objects.filter( Q(name__startswith=query)):
+           if p not in people:
+               people.append(p)
+        for p in Person.objects.filter(Q(surname__startswith=query)):
+           if p not in people:
+               people.append(p)
+        for p in Person.objects.filter(Q(idperson__startswith=query)):
+           if p not in people:
+               people.append(p)
+    else:
+        people=[]
+        for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person'):
+            people.append(p)
+    return render(request, 'leadsMasterApp/manHoursBase.html', {'form':form,'people':people})
+
+def ManHoursPersonView(request,pk):
+    person= get_object_or_404(Person,pk=pk)
+    activities= Calendar.objects.filter(activity__customerid=person)
+    totalHours=0
+    for a in activities:
+        totalHours+= a.activity.duration
+    totalHours=totalHours/60
+    totalHours=float("{0:.2f}".format(totalHours))
+    return render(request, 'leadsMasterApp/manHoursPerson.html', {'person':person,'activities':activities,'totalHours':totalHours})
 
 def AddProfileView(request):
     if request.method == "POST":
