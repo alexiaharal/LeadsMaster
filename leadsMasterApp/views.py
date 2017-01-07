@@ -11,10 +11,11 @@ from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Co
     Lifebusinessplans
 from django.db.models import Q
 from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm, \
-    ActivityForm, CalendarForm
+    ActivityForm, CalendarForm, DatesForm
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
 
 #####----- Views -----######
 
@@ -298,20 +299,24 @@ def calendar(request,day=None,month=None,year=None):
 def successfulLeadsPercentage(introducer):
     numOfLeads = 0
     numOfSuccLeads = 0
-    leadsFromIntroducer = Person.objects.filter(leadfrom=introducer.idperson)
+    leadsFromIntroducer = Person.objects.filter(leadfrom=introducer.id)
+    print leadsFromIntroducer
     # Calculate
     for person in leadsFromIntroducer:
         numOfLeads += 1
         if person.isclient == 1:
             numOfSuccLeads += 1
+    print numOfSuccLeads
     #Calculate successful PERCENTAGE
         # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
     successfulPercentage=0
     successfulIntroducers ={}
-    if numOfLeads>0:
+    if numOfSuccLeads>0:
         percentage=numOfSuccLeads/numOfLeads*100.0
     else:
         percentage=0
+    percentage=float("{0:.2f}".format(percentage))
+
     return percentage
 
 def OurPeopleView(request):
@@ -368,7 +373,7 @@ def ManHoursView(request):
 
 def ManHoursPersonView(request,pk):
     person= get_object_or_404(Person,pk=pk)
-    activities= Calendar.objects.filter(activity__customerid=person)
+    activities= Calendar.objects.filter(activity__customerid=person).order_by('activity__date')
     totalHours=0
     for a in activities:
         totalHours+= a.activity.duration
@@ -376,11 +381,94 @@ def ManHoursPersonView(request,pk):
     totalHours=float("{0:.2f}".format(totalHours))
     return render(request, 'leadsMasterApp/manHoursPerson.html', {'person':person,'activities':activities,'totalHours':totalHours})
 
+def SuccLeadsView(request):
+
+    query = ""
+    if request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['searchbox']
+    else:
+        form = SearchForm()
+
+    if query != "":
+        introducers=Person.objects.all()
+        resultIntroducers = []
+        myintroducers={}
+        flag=1
+        for p in introducers.filter(Q(name__startswith=query)):
+            if p not in resultIntroducers:
+                resultIntroducers.append(p)
+        for p in introducers.filter(Q(surname__startswith=query)):
+            if p not in resultIntroducers:
+                resultIntroducers.append(p)
+        for p in introducers.filter(Q(idperson__startswith=query)):
+            if p not in resultIntroducers:
+                resultIntroducers.append(p)
+        for p in resultIntroducers:
+            percentage=successfulLeadsPercentage(p)
+            myintroducers[p]=percentage
+        print myintroducers
+    else:
+        introducers = Person.objects.filter(isintroducer=1)
+        topIntroducers = {}
+        myintroducers={}
+        flag=0
+        for p in introducers:
+            percentage=successfulLeadsPercentage(p)
+            topIntroducers[p]=percentage
+            myintroducers = OrderedDict(sorted(topIntroducers.items(), key=lambda x: x[1], reverse=True))
+
+    return render(request, 'leadsMasterApp/succLeads.html', {'form':form,'flag':flag,'myintroducers':myintroducers})
+
+def succLeadsPersonView(request,pk):
+    person= get_object_or_404(Person,pk=pk)
+    leads = Person.objects.filter(leadfrom=person)
+    successfulLeads=leads.filter(isclient=1)
+    numOfLeads=len(leads)
+    numOfSuccLeads=len(successfulLeads)
+    percentage=successfulLeadsPercentage(person)
+    return render(request, 'leadsMasterApp/succLeadsPerson.html', {'numOfLeads':numOfLeads,'numOfSuccLeads':numOfSuccLeads,'percentage':percentage,'successfulLeads':successfulLeads,'person':person,'leads':leads})
+
+def salesReportsView(request):
+    date1=""
+    date2=""
+    if request.method == "POST":
+        form = DatesForm(request.POST)
+        if form.is_valid():
+            date1 = form.cleaned_data['date1']
+            date2 = form.cleaned_data['date2']
+
+    else:
+        form = DatesForm()
+    if (date1=="") and (date2==""):
+        currentGenSales= GeneralContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year)
+        currentLifeSales=LifeContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year)
+    else:
+        currentGenSales = GeneralContract.objects.filter(issuedate__range=[date1, date2])
+        currentLifeSales = LifeContract.objects.filter(issuedate__range=[date1, date2])
+
+    totalCurrentAnnualGen=0
+    for sale in currentGenSales:
+        totalCurrentAnnualGen+= sale.annualpremium
+    totalCurrentAnnualLife=0
+    for sale in currentLifeSales:
+        totalCurrentAnnualLife+= sale.annualpremium
+    return render(request, 'leadsMasterApp/salesReports.html',{
+        'currentGenSales':currentGenSales,'currentLifeSales':currentLifeSales,
+        'form':form,'totalCurrentAnnualGen':totalCurrentAnnualGen,'totalCurrentAnnualLife':totalCurrentAnnualLife
+    })
+
+
 def AddProfileView(request):
     if request.method == "POST":
         form = PersonForm(request.POST)
         if form.is_valid():
             person = form.save(commit=False)
+            introducer=Person.objects.get(idperson=form.cleaned_data['leadfrom'].idperson)
+            if introducer.isintroducer == 0:
+                introducer.isintroducer = 1
+                introducer.save()
             person.save()
             return redirect('ourPeople')
     else:
@@ -612,7 +700,7 @@ def IconicIntroducerView(request):
             successfulPercentage[introducer]= percentage
         else:
             successfulPercentage[introducer]=0
-        if successfulPercentage[introducer]>50:
+        if successfulPercentage[introducer]>75:
             successfulIntroducers[introducer]=successfulPercentage[introducer]
 
     succPercenSorted = OrderedDict(sorted(successfulIntroducers.items(), key=lambda v: v[1], reverse=True))

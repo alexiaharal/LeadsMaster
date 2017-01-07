@@ -59,6 +59,7 @@
 
 $(document).ready(function(){
     calendarHome()
+
 })
 
 function calendarHome(){
@@ -131,7 +132,7 @@ function mainFunction(d){
         }
     }
     for (var i=0; i < days; i++) {
-      href="<a href=\"{% url 'calendarDay' day="+(i+1)+" month="+month+" year=" +year" %}\">"
+      href="<a href=\"{% url \'calendarDay\' day="+(i+1)+" month="+month+" year=" +year+" %}\">"
       html +="<li><b>"+(i+1)+"</b></li></a>";
     }
     for (var i=1; i <= 7-LastDay.getDay(); i++) {
@@ -167,3 +168,18 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+//Leads Reports Radio Buttons
+
+
+function leadsSelection(){
+    document.getElementById('succLeads').style.display = "none"
+        document.getElementById('allLeads').style.display = "block"
+
+}
+function leadsSelection2(){
+    document.getElementById('allLeads').style.display = "none"
+        document.getElementById('succLeads').style.display = "block"
+
+}
+

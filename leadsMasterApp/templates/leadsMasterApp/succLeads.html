@@ -1,0 +1,82 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+<head>
+</head>
+{% block nav-reports %}class="active-menu"{% endblock %}
+
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="color:#000">Successful Leads Reports </h2>
+    </div>
+
+</div>
+<hr />
+
+<!-- Search Bar -->
+
+<div class="col-md-6">
+    <form method="POST" >{% csrf_token %}
+        {{ form|bootstrap }}
+        <button type="submit" name="submitBtn" class="save btn btn-default">Search</button>
+        <a class="btn btn-default" href="{% url 'succLeads' %}" role="button"> Clear</a>
+    </form>
+</div>
+<!-- /Filtering Implementation -->
+
+<!-- People Table Implementation -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Client</th>
+                    <th>Percentage</th>
+                    <th>Details</th>
+                </thead>
+                <tbody>
+                    {% if flag == 1 %}
+                        Results:
+                    {% else %}
+                        Top 10 Introducers: (Note: Man Hours not calculated here)
+                    {% endif %}
+                        {% for p,percentage in myintroducers.items %}
+                            {% if p.isclient == 1 %}
+                                <tr class ="info " align="center" >
+                                    <td><a class="btn btn-default btn-sm" href="{% url 'ProfileView' pk=p.id %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.surname}}</td>
+                                    <td> Yes </td>
+                                    <td>{{percentage}}</td>
+                                    <td><a class="btn btn-default" href="{% url 'succLeadsPerson' pk=p.id %}">Details</a>
+
+                                </tr>
+                            {% else %}
+                                <tr class ="danger" align="center">
+                                        <td><a class="btn btn-default btn-sm" href="{% url 'ProfileView' pk=p.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>{{p.idperson}}</td>
+                                        <td>{{p.name}}</td>
+                                        <td>{{p.surname}}</td>
+                                        <td> No </td>
+                                        <td>{{percentage}}</td>
+                                        <td><a class="btn btn-default" href="{% url 'succLeadsPerson' pk=p.id %}">Details</a>
+
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,7 +1,10 @@
 from __future__ import unicode_literals
+
+
 from django import forms
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from datetime import datetime
 
 # Create your models here.
@@ -132,8 +135,10 @@ class Activity(models.Model):
     customerid = models.ForeignKey(Person, blank=True, null=True)  # Field name made lowercase.
     duration = models.IntegerField()  # Field name made lowercase.
     activityname = models.CharField(max_length=45)  # Field name made lowercase.
-    date = models.DateField(default=datetime.now())  # Field name made lowercase.
-    time = models.TimeField(default=datetime.now())
+    date = models.DateField(default=timezone.now)  # Field name made lowercase.
+    time = models.TimeField(default=timezone.now)
+
+
     def __unicode__(self):
         return str(self.activityname +' -- '+ str(self.date))
 

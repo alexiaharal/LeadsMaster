@@ -1,0 +1,122 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block nav-reports %}class="active-menu"{% endblock %}
+
+
+<head>
+</head>
+{% block title %} {{addProfile_page}} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-12">
+        <h3 style="color:#000"> Leads From: <u>{{person.name}} {{person.surname}} </u></h3>
+    </div>
+</div>
+<hr />
+This results are based on leads that are now clients or not.
+<br>
+Man Hours spent are not calculated here.
+
+<div class="container">
+  <form>
+    <label class="radio-inline">
+      <input type="radio"  onclick="leadsSelection()" name="selectL">All Leads
+    </label>
+    <label class="radio-inline">
+      <input type="radio"  onclick="leadsSelection2()" name="selectL">Successful Leads
+    </label>
+  </form>
+</div>
+
+<hr/>
+<div class="row">
+    <div class="col-md-9">
+
+<div id="allLeads" >
+        <div class="panel panel-info">
+            <div class="panel-heading">All Leads </div>
+            <div class="panel-body">
+                    <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Client</th>
+                        </thead>
+                        <tbody>
+                        {% for lead in leads %}
+                            <tr>
+                                <td>{{lead.idperson}}</td>
+                                <td>{{lead.name}}</td>
+                                <td>{{lead.surname}}</td>
+                                {% if lead.isclient == 1 %}
+                                    <td><span class="glyphicon glyphicon-ok"></span></td>
+                                {% else %}
+                                    <td><span class="glyphicon glyphicon-remove"></span></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                    </div>
+            </div>
+        </div>
+</div>
+<div id="succLeads" >
+        <div class="panel panel-info">
+            <div class="panel-heading">Successful Leads </div>
+            <div class="panel-body">
+                    <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                        </thead>
+                        <tbody>
+                        {% for lead in successfulLeads %}
+                            <tr>
+                                <td>{{lead.idperson}}</td>
+                                <td>{{lead.name}}</td>
+                                <td>{{lead.surname}}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="col-md-3">
+        <div class="panel panel-warning">
+            <div class="panel-heading">Statistics: </div>
+            <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr align="left">
+                                <td><h5><b>No Of Leads Given: </b></h5></td>
+                                <td><h5>{{numOfLeads}}</h5></td>
+                            </tr>
+                            <tr>
+                                <td><h5><b>No Of Successful: </b></h5></td>
+                                <td><h5>{{numOfSuccLeads}}</h5></td>
+                            </tr>
+                            <tr>
+                                <td><h5><b>Success Percentage: </b></h5></td>
+                                <td><h5>{{percentage}}%</h5></td>
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -31,6 +31,9 @@ urlpatterns = [
     url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
     url(r'^reports/manHours$', views.ManHoursView, name='manHours'),
     url(r'^reports/manHours/(?P<pk>\d+)/$', views.ManHoursPersonView, name='manHoursPerson'),
+    url(r'^reports/succLeads$', views.SuccLeadsView, name='succLeads'),
+    url(r'^reports/succLeads/(?P<pk>\d+)/$', views.succLeadsPersonView, name='succLeadsPerson'),
+    url(r'^reports/salesReport$', views.salesReportsView, name='salesReport'),
 
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login , name='login'),

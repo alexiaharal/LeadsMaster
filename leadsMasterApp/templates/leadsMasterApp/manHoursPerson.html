@@ -21,14 +21,17 @@
     <div class="col-md-12">
         <div class="panel panel-info">
             <div class="panel-heading">Activities </div>
-            <div class="panel-body">
+            <ul class="panel-body">
+                <ul style="list-style-type:square">
                 {% for activity in activities %}
-                    <b>{{activity.activity.date}} -- {{activity.activity.duration}}min</b>
+                    <li><b>{{activity.activity.date}} -- {{activity.activity.duration}}min</b>
                     <br>   {{activity.activity.activityname}}
-                    <br><br>
-                {% endfor %}
+                    <br><br></li>
+                {% endfor %}</ul>
                 <hr />
-                Total Man Hours: <b>{{totalHours}}</b> Hours
+                <div class="totalHours" align="right">
+                    Total Man Hours: <b>{{totalHours}}</b> Hours
+                </div>
             </div>
         </div>
     </div>
