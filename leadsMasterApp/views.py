@@ -11,7 +11,7 @@ from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Co
     Lifebusinessplans
 from django.db.models import Q
 from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm, \
-    ActivityForm, CalendarForm, DatesForm
+    ActivityForm, CalendarForm, DatesForm, PlansOptionsForm
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -837,58 +837,58 @@ def IconicIntroducerView(request):
                     # sum up profit from this contract
                     profits[introducer] += profit
 
-        profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
-        minAge=100
-        maxAge=0
-        ageSum=0
-        females=0
-        males=0
-        occupations={}
-        for person in succIntroPercenSorted:
-            personAge= relativedelta(today.date(), person.dateofbirth).years
-            if personAge>maxAge:
-                maxAge=personAge
-            if personAge<minAge:
-                minAge=personAge
-            ageSum+=personAge
-            if person.gender=="Female":
-                females+=1
-            else:
-                males+=1
-            if person.occupation not in occupations:
-                occupations[person.occupation]=1
-            else:
-                occupations[person.occupation]+=1
-        for person in profitBasedSorted:
-            personAge= relativedelta(today.date(), person.dateofbirth).years
-            if personAge>maxAge:
-                maxAge=personAge
-            if personAge<minAge:
-                minAge=personAge
-            ageSum+=personAge
-            if person.gender=="Female":
-                females+=1
-            else:
-                males+=1
-            if person.occupation not in occupations:
-                occupations[person.occupation]=1
-            else:
-                occupations[person.occupation]+=1
-
-        averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
-        occupBasedSorted = OrderedDict(sorted(occupations.items(),key=lambda x:x[1], reverse=True))
-        if len(occupBasedSorted)>4:
-            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
+    profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
+    minAge=100
+    maxAge=0
+    ageSum=0
+    females=0
+    males=0
+    occupations={}
+    for person in succIntroPercenSorted:
+        personAge= relativedelta(today.date(), person.dateofbirth).years
+        if personAge>maxAge:
+            maxAge=personAge
+        if personAge<minAge:
+            minAge=personAge
+        ageSum+=personAge
+        if person.gender=="Female":
+            females+=1
         else:
-            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
-
-        genderAverage=""
-        if males>females:
-            genderAverage="Male"
-        elif females>males:
-            genderAverage="Female"
+            males+=1
+        if person.occupation not in occupations:
+            occupations[person.occupation]=1
         else:
-            genderAverage="Male/Female"
+            occupations[person.occupation]+=1
+    for person in profitBasedSorted:
+        personAge= relativedelta(today.date(), person.dateofbirth).years
+        if personAge>maxAge:
+            maxAge=personAge
+        if personAge<minAge:
+            minAge=personAge
+        ageSum+=personAge
+        if person.gender=="Female":
+            females+=1
+        else:
+            males+=1
+        if person.occupation not in occupations:
+            occupations[person.occupation]=1
+        else:
+            occupations[person.occupation]+=1
+
+    averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
+    occupBasedSorted = OrderedDict(sorted(occupations.items(),key=lambda x:x[1], reverse=True))
+    if len(occupBasedSorted)>4:
+        occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
+    else:
+        occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
+
+    genderAverage=""
+    if males>females:
+        genderAverage="Male"
+    elif females>males:
+        genderAverage="Female"
+    else:
+        genderAverage="Male/Female"
 
     return render(request, 'leadsMasterApp/iconicIntroducer.html', {'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
                                                                     'averageAge':averageAge, 'succIntroPercenSorted':succIntroPercenSorted,
@@ -896,33 +896,119 @@ def IconicIntroducerView(request):
                                                                     'occupBasedFinal':occupBasedFinal})
 
 
-def IconicClientProfile(request):
+def IconicClientView(request):
 
-    clients= Person.objects.filter(isclient=1)
-    # Calculate profit gained from each lead given from each introducer
-    profits = {}
-    for client in clients:
-        profits[client] = 0
-    for client in clients:
-        # General Business profits from this client
-        genContracts = GeneralContract.objects.filter(client=client, cancelled=False)
-        test=genContracts.objects.values('plan')
-        if genContracts:
-            for contract in genContracts:
-                profit = generalContractProfit(contract)
-                profits[client] += (profit * contract.years)
 
-        # Life Business profits from this introducer
-        lifeContr = LifeContract.objects.filter(client=client, cancelled=False)
+    lifePlan = ""
+    generalPlan=""
+    if request.method == "POST":
+        plansForm = PlansOptionsForm(data=request.POST)
+        if plansForm.is_valid():
+            generalPlan = plansForm.cleaned_data['generalPlan']
+            lifePlan = plansForm.cleaned_data['lifePlan']
+    else:
+        plansForm=PlansOptionsForm()
 
-        if lifeContr:
-            LifeProfits = {}
-            for contract2 in lifeContr:
-                LifeProfits[contract2] = lifeContractProfit(contract2, contract2.client)
-                profit = LifeProfits[contract2]['total']
-                # sum up profit from this contract
-                profits[client] += profit
+    if (lifePlan!="") or (generalPlan!=""):
+        clients= Person.objects.filter(isclient=1)
+        # Calculate profit gained from each lead given from each introducer
+        profits = {}
+        for client in clients:
+            if (not lifePlan) and generalPlan:
+                # General Business profits from this client
+                genContracts = GeneralContract.objects.filter(client=client, cancelled=False, plan=generalPlan.planid)
+                print genContracts
+                if genContracts:
+                    if client not in profits:
+                        profits[client]=0
+                    for contract in genContracts:
+                        profit = generalContractProfit(contract)
+                        profits[client] += (profit * contract.years)
+            elif (not generalPlan) and lifePlan:
+                # Life Business profits from this introducer
+                lifeContr = LifeContract.objects.filter(client=client, cancelled=False, plan=lifePlan.planlifeid)
+                print lifeContr
+                if lifeContr:
+                    if client not in profits:
+                        profits[client]=0
+                    print "true"
+                    LifeProfits = {}
+                    for contract2 in lifeContr:
+                        LifeProfits[contract2] = lifeContractProfit(contract2, contract2.client)
+                        profit = LifeProfits[contract2]['total']
+                        # sum up profit from this contract
+                        profits[client] += profit
 
-    profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
+        profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
+    else:
+        clients = Person.objects.filter(isclient=1)
+        # Calculate profit gained from each lead given from each introducer
+        profits = {}
+        for client in clients:
+            profits[client] = 0
+        for client in clients:
+            # General Business profits from this client
+            genContracts = GeneralContract.objects.filter(client=client, cancelled=False)
+            if genContracts:
+                for contract in genContracts:
+                    profit = generalContractProfit(contract)
+                    profits[client] += (profit * contract.years)
 
-    return render(request, 'leadsMasterApp/iconicClient.html',{'profitBasedSorted':profitBasedSorted})
+            # Life Business profits from this introducer
+            lifeContr = LifeContract.objects.filter(client=client, cancelled=False)
+
+            if lifeContr:
+                LifeProfits = {}
+                for contract2 in lifeContr:
+                    LifeProfits[contract2] = lifeContractProfit(contract2, contract2.client)
+                    profit = LifeProfits[contract2]['total']
+                    # sum up profit from this contract
+                    profits[client] += profit
+
+        profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
+
+    minAge = 100
+    maxAge = 0
+    ageSum = 0
+    females = 0
+    males = 0
+    occupations = {}
+    averageAge=0
+    genderAverage = ""
+    occupBasedFinal="-"
+    if profitBasedSorted:
+        for person in profitBasedSorted:
+            personAge = relativedelta(today.date(), person.dateofbirth).years
+            if personAge > maxAge:
+                maxAge = personAge
+            if personAge < minAge:
+                minAge = personAge
+            ageSum += personAge
+            if person.gender == "Female":
+                females += 1
+            else:
+                males += 1
+            if person.occupation not in occupations:
+                occupations[person.occupation] = 1
+            else:
+                occupations[person.occupation] += 1
+
+        averageAge = ageSum / (len(profitBasedSorted))
+        occupBasedSorted = OrderedDict(sorted(occupations.items(), key=lambda x: x[1], reverse=True))
+        if len(occupBasedSorted) > 4:
+            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
+        else:
+            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
+
+
+        if males > females:
+            genderAverage = "Male"
+        elif females > males:
+            genderAverage = "Female"
+        else:
+            genderAverage = "Male/Female"
+    return render(request, 'leadsMasterApp/iconicClient.html',{'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
+                                                                    'averageAge':averageAge, 'clients':clients,
+                                                                     'profitBasedSorted': profitBasedSorted,
+                                                                    'occupBasedFinal':occupBasedFinal,
+                                                               'plansForm':plansForm})

@@ -59,6 +59,8 @@
 
 $(document).ready(function(){
     calendarHome()
+    document.getElementById('profitsDiv').style.display = "none"
+    document.getElementById('salesDiv').style.display = "none"
 
 })
 
@@ -191,5 +193,16 @@ function sales(){
 function profit(){
     document.getElementById('salesDiv').style.display = "none"
         document.getElementById('profitsDiv').style.display = "block"
+
+}
+
+function life(){
+    document.getElementById('generalForm').style.display = "none"
+        document.getElementById('lifeForm').style.display = "block"
+
+}
+function general(){
+    document.getElementById('lifeForm').style.display = "none"
+        document.getElementById('generalForm').style.display = "block"
 
 }

@@ -29,6 +29,8 @@ urlpatterns = [
 
     url(r'^reports/$', views.ReportsView, name='reports'),
     url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
+    url(r'^reports/iconicClient$', views.IconicClientView, name='iconicClient'),
+
     url(r'^reports/manHours$', views.ManHoursView, name='manHours'),
     url(r'^reports/manHours/(?P<pk>\d+)/$', views.ManHoursPersonView, name='manHoursPerson'),
     url(r'^reports/succLeads$', views.SuccLeadsView, name='succLeads'),

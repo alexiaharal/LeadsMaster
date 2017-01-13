@@ -153,6 +153,11 @@ class SearchForm(forms.Form):
     searchbox= forms.CharField(label='Search: ')
 
 
+class PlansOptionsForm(forms.Form):
+
+    lifePlan= forms.ModelChoiceField(queryset = Lifebusinessplans.objects.all() ,label=" Select Life Plan: ",required=False)
+    generalPlan = forms.ModelChoiceField(queryset = Generalbusinessplans.objects.all(), label=" Select General Plan: ",required=False)
+
 class DatesForm(forms.Form):
     date1 = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
     date2 = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
