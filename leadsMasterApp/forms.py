@@ -46,14 +46,16 @@ class PersonForm(forms.ModelForm):
     dateofbirth = forms.DateField(label='Date Of Birth  ',widget=extras.SelectDateWidget(years = DOY))
     class Meta:
         model = Person
-        fields = ['idperson','name', 'surname','telephone', 'email','dateofbirth','isclient','isintroducer', 'leadfrom','wasclient']
+        fields = ['idperson','name', 'surname','gender','telephone', 'email','dateofbirth','occupation','isclient','isintroducer', 'leadfrom','wasclient']
         labels = {
             "idperson": "Person ID",
             "name": "Name",
             'surname': 'Surname',
+            'gender': 'Gender',
             'telephone': 'Telephone',
             'email': 'Email',
             'dateofbirth': 'Date Of Birth',
+            'occupation': 'Occupation',
             'isclient': 'Is Client?',
             'isintroducer': 'Is Introducer?',
             'leadfrom': 'Lead From Person: ',
@@ -68,7 +70,7 @@ class LifeContractForm(forms.ModelForm):
     class Meta:
         model = LifeContract
         fields = ['idcontract','client','issuedate','expirationdate','plan',
-                'annualpremium', 'doses','nextpayment', 'price','notes','cancelled']
+                'annualpremium', 'doses','nextpayment', 'price','duration','notes','cancelled']
         labels = {
             'idcontract':'Contract ID',
             'client': 'Client',
@@ -79,6 +81,7 @@ class LifeContractForm(forms.ModelForm):
             'doses': 'Payment Doses',
             'nextpayment': 'Next Payment Due',
             'price': 'Total Cost',
+            'duration':'Duration',
             'notes': 'Comments',
             'cancelled': 'Do you want to cancel this contract?'
         }
@@ -132,7 +135,7 @@ class LifePlansForm(forms.ModelForm):
         model = Lifebusinessplans
         fields = {'planlifeid','name','company','firstyearcommission',
                   'maxpercentage','minpercentage','futureprofit','futureprofit2',
-                  'futureprofit3','futureprofit4','agelimit','duration'}
+                  'futureprofit3','futureprofit4','agelimit'}
         labels = {'planlifeid': 'Plan ID',
                   'name': 'Name',
                   'company':'Company Related',
@@ -144,7 +147,7 @@ class LifePlansForm(forms.ModelForm):
                   'futureprofit3': 'Profit For Fourth Year (If applicable)',
                   'futureprofit4': 'Profit For Fourth Year (If applicable)',
                   'agelimit': 'Age Limit of Plan',
-                  'duration': 'Duration of plan'}
+                  }
 
 class SearchForm(forms.Form):
     searchbox= forms.CharField(label='Search: ')

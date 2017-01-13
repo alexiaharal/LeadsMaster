@@ -15,7 +15,7 @@ from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,General
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from dateutil.relativedelta import relativedelta
 
 #####----- Views -----######
 
@@ -130,7 +130,7 @@ def IndexView(request):
         birthdays.append(p)
     #Gather renewals for current day
     renewals = []
-    for contract in GeneralContract.objects.filter(expirationdate__date=today.date()):
+    for contract in GeneralContract.objects.filter(expirationdate=today.date()):
         renewals.append(contract)
     #Gather sales this day last year
     Generalsales=[]
@@ -441,24 +441,134 @@ def salesReportsView(request):
 
     else:
         form = DatesForm()
-    if (date1=="") and (date2==""):
-        currentGenSales= GeneralContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year)
-        currentLifeSales=LifeContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year)
-    else:
-        currentGenSales = GeneralContract.objects.filter(issuedate__range=[date1, date2])
-        currentLifeSales = LifeContract.objects.filter(issuedate__range=[date1, date2])
 
+    ###### The difference here of sales and profits reports is that  ########
+    ###### dates for sales are the issue dates of the contract (including issue year) ######
+    ###### dates for profits are the issue days and months to calculate what profits #######
+    ###### the agent is going to gain within that month #####
+
+    if (date1=="") and (date2==""):
+        currentGenSales= GeneralContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year,cancelled=False)
+        currentLifeSales=LifeContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year,cancelled=False)
+        currentGenProfits=GeneralContract.objects.filter(issuedate__month=today.month,cancelled=False)
+        currentLifeProfits=LifeContract.objects.filter(issuedate__month=today.month,cancelled=False)
+    else:
+        currentGenSales = GeneralContract.objects.filter(issuedate__range=[date1, date2],cancelled=False)
+        currentLifeSales = LifeContract.objects.filter(issuedate__range=[date1, date2],cancelled=False)
+        currentGenProfits = GeneralContract.objects.filter(Q(issuedate__month = date1.month) , Q(issuedate__month = date2.month), Q(issuedate__day__gte= date1.day), Q(issuedate__day__lte = date2.day), cancelled=False)
+        currentLifeProfits = LifeContract.objects.filter(Q(issuedate__month = date1.month) , Q(issuedate__month = date2.month), Q(issuedate__day__gte= date1.day), Q(issuedate__day__lte = date2.day),cancelled=False)
+
+    print currentGenProfits
+    print currentLifeProfits
+    #### Sales Calculations ######
+    # Calculate total Annual Premium for General Sales
     totalCurrentAnnualGen=0
     for sale in currentGenSales:
         totalCurrentAnnualGen+= sale.annualpremium
+
+    # Calculate total Annual Premium for General Sales
     totalCurrentAnnualLife=0
     for sale in currentLifeSales:
         totalCurrentAnnualLife+= sale.annualpremium
-    return render(request, 'leadsMasterApp/salesReports.html',{
-        'currentGenSales':currentGenSales,'currentLifeSales':currentLifeSales,
-        'form':form,'totalCurrentAnnualGen':totalCurrentAnnualGen,'totalCurrentAnnualLife':totalCurrentAnnualLife
+
+    #Calculate profits and total profit for General Sales Report
+    generalSalesProfits={}
+    totalGeneralSalesProfit=0
+    for contract in currentGenSales:
+        generalSalesProfits[contract]=generalContractProfit(contract)
+        totalGeneralSalesProfit+=generalSalesProfits[contract]
+
+    #Calculate profits and total profit for General Profits Report
+    generalProfits={}
+    totalGeneralProfit=0
+    for contract in currentGenProfits:
+        generalProfits[contract]=generalContractProfit(contract)
+        totalGeneralProfit+=generalProfits[contract]
+
+    # Calculate profits and total profit for Life Sales Report
+    totalLifeSalesProfits={}
+    totalLifeSalesProfit=0
+    for contract in currentLifeSales:
+        totalLifeSalesProfits[contract]=lifeContractProfit(contract,contract.client)
+        totalLifeSalesProfit+=totalLifeSalesProfits[contract]["thisYearProfit"]
+
+    # Calculate profits and total profit for Life Profits Report
+    totalLifeProfits={}
+    totalLifeProfit=0
+    for contract in currentLifeProfits:
+        totalLifeProfits[contract]=lifeContractProfit(contract,contract.client)
+        totalLifeProfit+=totalLifeProfits[contract]["thisYearProfit"]
+
+
+    ###### Profits Calculations #####
+    return render(request, 'leadsMasterApp/salesReports.html',{'totalLifeSalesProfits':totalLifeSalesProfits,
+        'totalLifeSalesProfit':totalLifeSalesProfit,'totalCurrentAnnualLife':totalCurrentAnnualLife,'form':form,
+        'generalSalesProfits':generalSalesProfits,'totalGeneralSalesProfit':totalGeneralSalesProfit,'totalCurrentAnnualGen':totalCurrentAnnualGen,
+        'totalLifeProfits':totalLifeProfits,'totalLifeProfit':totalLifeProfit,'generalProfits':generalProfits,
+        'totalGeneralProfit':totalGeneralProfit
     })
 
+def generalContractProfit(contract):
+    profit=0
+    for plan in contract.plan.all():
+        profit+= (contract.annualpremium * plan.commission / 100)
+    return (profit)
+
+def lifeContractProfit(contract,person):
+        yearsOfContract =relativedelta(today.date(), contract.issuedate).years
+        profit = 0
+        firstyear = 0
+        nextyears = 0
+        #get profit from all plans if more than one plan
+        for plan in contract.plan.all():
+            ## FIRST year profit ##
+
+            # Get percentage
+            if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4) :
+                percentage = plan.firstyearcommission
+            elif contract.duration:
+                percentage = contract.duration * plan.firstyearcommission
+            else:
+                percentage = (plan.agelimit - (relativedelta(today.date(), person.dateofbirth).years )) * plan.firstyearcommission
+
+            #Check if in range of percentages
+            if percentage < plan.minpercentage:
+                percentage = plan.minpercentage
+            elif percentage > plan.maxpercentage:
+                percentage = plan.maxpercentage
+
+            # Save First Year's Commission
+            firstyear = contract.annualpremium * percentage / 100
+
+            # If current contract is issued for more than one year
+            # REST OF THE YEARS profit -  up to now
+            if yearsOfContract > 0:
+                if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4):
+                    if yearsOfContract == 1:
+                        nextyears += contract.annualpremium * plan.futureprofit2 / 100
+                        thisYearProfit=contract.annualpremium *plan.futureprofit2 / 100
+                    elif yearsOfContract == 2:
+                        nextyears += (plan.futureprofit3 /100 * contract.annualpremium) + (
+                        plan.futureprofit2 /100 * contract.annualpremium)
+                        thisYearProfit=contract.annualpremium*plan.futureprofit3 / 100
+                    else:
+                        nextyears += (plan.futureprofit3 /100 * contract.annualpremium) + (
+                            plan.futureprofit2 /100 * contract.annualpremium) + (
+                            plan.futureprofit4 /100 * contract.annualpremium * (yearsOfContract - 2))
+                        thisYearProfit=plan.futureprofit4 /100
+                else:
+                    nextyears += plan.futureprofit / 100 * yearsOfContract * contract.annualpremium
+                    thisYearProfit=plan.futureprofit / 100 *contract.annualpremium
+            else:
+                thisYearProfit=firstyear
+        # sum up profit from this contract
+        totalProfit = firstyear + nextyears
+        profit={}
+        totalProfit = float("{0:.2f}".format(totalProfit))
+        thisYearProfit=float("{0:.2f}".format(thisYearProfit))
+        profit['total']=totalProfit
+        profit['thisYearProfit']=thisYearProfit
+        return (profit)
 
 def AddProfileView(request):
     if request.method == "POST":
@@ -679,91 +789,140 @@ def IconicIntroducerView(request):
     numOfLeadsPerIntroducer ={}
     numOfSuccLeadsPerIntroducer={}
     for introducer in introducers:
-        # Initialise dictionaries for both leads and successful leads
-        numOfLeadsPerIntroducer[introducer] = 0
-        numOfSuccLeadsPerIntroducer[introducer]=0
-        clientsFromThisIntroducer = Person.objects.filter(leadfrom=introducer.idperson)
-        # Calculate
-        for person in clientsFromThisIntroducer:
-            numOfLeadsPerIntroducer[introducer]+=1
-            if person.isclient == 1:
-                numOfSuccLeadsPerIntroducer[introducer]+=1
+        # Number of leads and number of successfull leads
+        leadsFromThisIntroducer = Person.objects.filter(leadfrom=introducer)
+        clientsFromThisIntroducer = Person.objects.filter(leadfrom=introducer, isclient=1)
+        numOfLeadsPerIntroducer[introducer] = len(leadsFromThisIntroducer)
+        numOfSuccLeadsPerIntroducer[introducer]= len(clientsFromThisIntroducer)
 
     #Calculate successful PERCENTAGE for each introducer
-        # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
+        # Where successful PERCENTAGE is ((successfulLeads/leads)*100
     #Create a list with introducers who have successful percentage over 70%
-    successfulPercentage={}
+    successPercentage={}
     successfulIntroducers ={}
     for introducer in introducers:
         if numOfLeadsPerIntroducer[introducer]>0:
             percentage=numOfSuccLeadsPerIntroducer[introducer]/numOfLeadsPerIntroducer[introducer]*100.0
-            successfulPercentage[introducer]= percentage
+            successPercentage[introducer]= percentage
         else:
-            successfulPercentage[introducer]=0
-        if successfulPercentage[introducer]>75:
-            successfulIntroducers[introducer]=successfulPercentage[introducer]
+            successPercentage[introducer]=0
+        if successPercentage[introducer]>30:
+            successfulIntroducers[introducer]=(successPercentage[introducer],numOfSuccLeadsPerIntroducer[introducer])
 
-    succPercenSorted = OrderedDict(sorted(successfulIntroducers.items(), key=lambda v: v[1], reverse=True))
+    # sucIntroPercenSorted has the successfull introducers sorted with the best first
+    succIntroPercenSorted = OrderedDict(sorted(successfulIntroducers.items(), key=lambda v: v[1], reverse=True))
 
-    #Calculate profit gained from each lead given from introducer
+    #Calculate profit gained from each lead given from each introducer
     profits={}
-    generalContracts=GeneralContract.objects.all()
-    lifeContracts=LifeContract.objects.all()
     for introducer in introducers:
         profits[introducer]=0
     for introducer in introducers:
-        clientsFromThisIntroducer = Person.objects.filter(isclient='1', leadfrom=introducer.idperson)
+        clientsFromThisIntroducer = Person.objects.filter(isclient='1', leadfrom=introducer)
         for person in clientsFromThisIntroducer:
             # General Business profits from this introducer
-            genContracts= generalContracts.filter(client = person.idperson)
+            genContracts= GeneralContract.objects.filter(client = person,cancelled=False)
             if genContracts:
                 for contract in genContracts:
-                    profit = 0
-                    for plan in contract.plan.all():
-                        profit += (contract.annualpremium * plan.commission)
-                    profits[introducer] += profit
+                    profit = generalContractProfit(contract)
+                    profits[introducer] += (profit * contract.years)
 
             # Life Business profits from this introducer
-            lifeContr = lifeContracts.filter(client = person.idperson)
+            lifeContr = LifeContract.objects.filter(client = person,cancelled=False)
+
             if lifeContr:
+                LifeProfits={}
                 for contract2 in lifeContr:
-                    yearOfContract=contract2.issuedate.year - today.year
-                    profit =0
-                    firstyear = 0
-                    nextyears = 0
-                    for plan in contract2.plan.all():
-                        #get profit for first year of the contract
-                        if plan.duration :
-                            percentage= plan.duration *plan.firstyearcommission
-                        elif (contract2.futureprofit2 or contract2.futureprofit3 or contract2.futureprofit4):
-                            percentage = plan.futureprofit
-                        else:
-                            percentage = (contract2.agelimit - (today - person.dateofbirth).years) * plan.firstyearcommission
-                        if percentage <plan.minpercentage:
-                            percentage = plan.minpercentage
-                        elif percentage > plan.maxpercentage:
-                            percentage = plan.maxpercentage
-                        firstyear += contract2.annualpremium * percentage
-
-                        #if current contract is issued for more than one year
-                        # get profit for the rest of the years up to now
-                        if yearOfContract>0:
-                            if (contract2.futureprofit2 or contract2.futureprofit3 or contract2.futureprofit4):
-                                if yearOfContract==1:
-                                    nextyears += contract2.annualpremium*plan.futureprofit2
-                                elif yearOfContract==2:
-                                    nextyears += (plan.futureprofit3 *contract2.annualpremium) + (plan.futureprofit2 *contract2.annualpremium)
-                                else:
-                                    nextyears += (plan.futureprofit3 * contract2.annualpremium) + (plan.futureprofit2 * contract2.annualpremium)+(plan.futureprofit2 * contract2.annualpremium *(yearOfContract-2))
-                            else:
-                                nextyears += plan.futureprofit*yearOfContract *contract2.annualpremium
-
+                    LifeProfits[contract2] = lifeContractProfit(contract2, contract2.client)
+                    profit=LifeProfits[contract2]['total']
                     # sum up profit from this contract
-                    profit = firstyear + nextyears
                     profits[introducer] += profit
 
         profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
+        minAge=100
+        maxAge=0
+        ageSum=0
+        females=0
+        males=0
+        occupations={}
+        for person in succIntroPercenSorted:
+            personAge= relativedelta(today.date(), person.dateofbirth).years
+            if personAge>maxAge:
+                maxAge=personAge
+            if personAge<minAge:
+                minAge=personAge
+            ageSum+=personAge
+            if person.gender=="Female":
+                females+=1
+            else:
+                males+=1
+            if person.occupation not in occupations:
+                occupations[person.occupation]=1
+            else:
+                occupations[person.occupation]+=1
+        for person in profitBasedSorted:
+            personAge= relativedelta(today.date(), person.dateofbirth).years
+            if personAge>maxAge:
+                maxAge=personAge
+            if personAge<minAge:
+                minAge=personAge
+            ageSum+=personAge
+            if person.gender=="Female":
+                females+=1
+            else:
+                males+=1
+            if person.occupation not in occupations:
+                occupations[person.occupation]=1
+            else:
+                occupations[person.occupation]+=1
 
-    return render(request, 'leadsMasterApp/iconicIntroducer.html', {'successfulPercentage':successfulPercentage,'introducers':introducers,'succPercenSorted': succPercenSorted,'profitBasedSorted':profitBasedSorted})
+        averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
+        occupBasedSorted = OrderedDict(sorted(occupations.items(),key=lambda x:x[1], reverse=True))
+        if len(occupBasedSorted)>4:
+            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
+        else:
+            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
+
+        genderAverage=""
+        if males>females:
+            genderAverage="Male"
+        elif females>males:
+            genderAverage="Female"
+        else:
+            genderAverage="Male/Female"
+
+    return render(request, 'leadsMasterApp/iconicIntroducer.html', {'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
+                                                                    'averageAge':averageAge, 'succIntroPercenSorted':succIntroPercenSorted,
+                                                                    'introducers':introducers, 'profitBasedSorted': profitBasedSorted,
+                                                                    'occupBasedFinal':occupBasedFinal})
 
 
+def IconicClientProfile(request):
+
+    clients= Person.objects.filter(isclient=1)
+    # Calculate profit gained from each lead given from each introducer
+    profits = {}
+    for client in clients:
+        profits[client] = 0
+    for client in clients:
+        # General Business profits from this client
+        genContracts = GeneralContract.objects.filter(client=client, cancelled=False)
+        test=genContracts.objects.values('plan')
+        if genContracts:
+            for contract in genContracts:
+                profit = generalContractProfit(contract)
+                profits[client] += (profit * contract.years)
+
+        # Life Business profits from this introducer
+        lifeContr = LifeContract.objects.filter(client=client, cancelled=False)
+
+        if lifeContr:
+            LifeProfits = {}
+            for contract2 in lifeContr:
+                LifeProfits[contract2] = lifeContractProfit(contract2, contract2.client)
+                profit = LifeProfits[contract2]['total']
+                # sum up profit from this contract
+                profits[client] += profit
+
+    profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
+
+    return render(request, 'leadsMasterApp/iconicClient.html',{'profitBasedSorted':profitBasedSorted})

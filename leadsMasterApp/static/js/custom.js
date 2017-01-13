@@ -183,3 +183,13 @@ function leadsSelection2(){
 
 }
 
+function sales(){
+    document.getElementById('profitsDiv').style.display = "none"
+        document.getElementById('salesDiv').style.display = "block"
+
+}
+function profit(){
+    document.getElementById('salesDiv').style.display = "none"
+        document.getElementById('profitsDiv').style.display = "block"
+
+}

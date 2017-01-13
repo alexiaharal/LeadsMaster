@@ -11,6 +11,38 @@
         <h3 style="color:#000" >Iconic Introducer Profile</h3>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Age Range: </td>
+                        <td>{{minAge}} - {{maxAge}}</td>
+                    </tr>
+                    <tr>
+                        <td>Average Age: </td>
+                        <td>{{averageAge}}</td>
+                    </tr>
+                    <tr>
+                        <td>Gender: </td>
+                        <td>{{genderAverage}}</td>
+                    </tr>
+                    <tr>
+                        <td>Occupations: </td>
+                        <td>
+                            {% for occup in occupBasedFinal %}
+                                {{occup}}<br/>
+                            {% endfor %}
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 
  <div class="table-responsive">
         <table class="table table-bordered">
@@ -18,14 +50,19 @@
             <thead>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>Percentage Success</th>
+                <th>Percentage Of Success</th>
+                <th>Num Of Clients</th>
+
             </thead>
             <tbody>
-                {% for person,percentage in succPercenSorted.items %}
+                {% for person,percentage in succIntroPercenSorted.items %}
                 <tr>
                     <td>{{person.name}}</td>
                     <td>{{person.surname}}</td>
-                    <td>{{percentage}}</td>
+                    {% for perc in percentage %}
+                        <td>{{perc}}</td>
+
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
@@ -34,7 +71,7 @@
 
  <div class="table-responsive">
         <table class="table table-bordered">
-            <h4 style="color:#000">Introducers based on profits gained: </h4>
+            <h4 style="color:#000">Introducers sorted based on profit gained from them: </h4>
             <thead>
                 <th>Name</th>
                 <th>Surname</th>

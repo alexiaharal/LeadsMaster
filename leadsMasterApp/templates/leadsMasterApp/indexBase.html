@@ -67,7 +67,7 @@
                                 <tr>
                                     <td>{{c.client.name}}</td>
                                     <td>{{c.client.surname}}</td>
-                                    <td>{% for p in c.plan.all %} {{p.name}} , {% endfor %}</td>
+                                    <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
                                     <td>£ {{c.annualpremium}}</td>
                                     <td>{{c.issuedate.year }}</td>
                                 </tr>

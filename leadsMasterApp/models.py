@@ -17,13 +17,30 @@ class Person(models.Model):
         (1, 'Yes'),
         (0, 'No'),
     )
+    gender_CHOICES = (
+        ("Male", "Male"),
+        ("Female","Female"),
+    )
+    occupation_CHOICES = (
+        ("Student", "Student"),
+        ("Banker", "Banker"),
+        ("Education Staff ", "Education Staff"),
+        ("Lawyer", "Lawyer"),
+        ("Enterpreneur", "Enterpreneur"),
+        ("Customer Service Employee", "Customer Service Employee"),
+        ("Public Sector ","Public Sector"),
+        ("Private Sector ", "Private Sector"),
+        ("Other", "Other")
+    )
     id=models.AutoField(primary_key=True,unique=True)
     idperson = models.IntegerField(unique=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
+    gender = models.CharField(choices=gender_CHOICES, default="Male", max_length=6)
     telephone = models.CharField( max_length = 15)
     email = models.CharField( max_length=45, blank=True, null=True)
     dateofbirth = models.DateField()  # Field name made lowercase.
+    occupation = models.CharField(choices=occupation_CHOICES,default="None", max_length=60)
     isintroducer = models.IntegerField(choices=introducer_CHOICES, default=0)  # Field name made lowercase.
     isclient = models.IntegerField(choices=client_CHOICES,default=0)  # Field name made lowercase.
     leadfrom = models.ForeignKey('self', blank=True, null=True)  # Field name made lowercase.
@@ -80,8 +97,6 @@ class Lifebusinessplans(models.Model):
     futureprofit3 = models.FloatField(blank=True, null=True)  # Field name made lowercase.
     futureprofit4 = models.FloatField( blank=True, null=True)  # Field name made lowercase.
     agelimit = models.IntegerField()  # Field name made lowercase.
-    duration = models.IntegerField()  # Field name made lowercase.
-
 
     def __unicode__(self):
         return str(self.company) + ' -- ' + str(self.name)
@@ -91,13 +106,14 @@ class LifeContract(models.Model):
     id=models.AutoField(primary_key=True,unique=True)
     idcontract = models.IntegerField()
     client= models.ForeignKey(Person)
-    issuedate = models.DateTimeField('date issued')
-    expirationdate = models.DateTimeField('expiration date')
+    issuedate = models.DateField('date issued')
+    expirationdate = models.DateField('expiration date')
     plan = models.ManyToManyField(Lifebusinessplans)
     annualpremium = models.FloatField()
     doses = models.IntegerField(blank=True, null=True)
     nextpayment = models.DateTimeField(blank=True, null=True)
     price = models.FloatField()
+    duration = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
     notes = models.CharField(max_length =80)
     cancelled = models.BooleanField(default=False)
 
@@ -108,12 +124,13 @@ class GeneralContract(models.Model):
     id=models.AutoField(primary_key=True,unique=True)
     idcontract = models.IntegerField()
     client=models.ForeignKey(Person)
-    issuedate = models.DateTimeField()  # Field name made lowercase.
-    expirationdate = models.DateTimeField()  # Field name made lowercase.
+    issuedate = models.DateField()  # Field name made lowercase.
+    expirationdate = models.DateField()  # Field name made lowercase.
     plan = models.ManyToManyField(Generalbusinessplans)
     annualpremium = models.FloatField()  # Field name made lowercase.
     doses = models.IntegerField(blank=True, null=True)
     nextpayment = models.DateTimeField( blank=True, null=True)  # Field name made lowercase.
+    years= models.IntegerField(default=1)
     price = models.FloatField()
     notes = models.CharField(max_length =80)
     cancelled = models.BooleanField(default=False)

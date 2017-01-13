@@ -16,7 +16,7 @@
 </div>
 <hr />
 
-
+<div class="row">
 <div class="col-md-4">
     <form method="POST" >{% csrf_token %}
         {{ form }}
@@ -27,82 +27,208 @@
     </form>
 </div>
 
-{% if currentGenSales %}
-<div class="row">
-    <br><br>
-    <div class="col-md-12">
-        <h4><u>General Sales</u></h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
-                <thead>
-                    <th>Num</th>
-                    <th>Client</th>
-                    <th>Issue Date</th>
-                    <th>Expiration Date</th>
-                    <th>Plan</th>
-                    <th>Annual Premium</th>
-                </thead>
-                <tbody>
-                    {% for c in currentGenSales %}
-                            <tr class ="info " align="center" >
-                                <td>{{c.idcontract}}</td>
-                                <td>{{c.client}}</td>
-                                <td>{{c.issuedate.date}}</td>
-                                <td>{{c.expirationdate.date}}</td>
-                                {% for p in c.plan.all %}
-                                    <td>{{ p.name}} </td>
-                                {% endfor %}
-                                <td>{{c.annualpremium}}</td>
-                            </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <h4 style="float:right">Total General Sales For This Period: <b>{{totalCurrentAnnualGen}}</b></h4>
-        </div>
-        <br><br>
+<div class="col-md-6">
+    <div class="container">
+        <form>
+            <label class="radio-inline">
+              <input type="radio"  onclick="sales()" name="reportSelection">Sales
+            </label>
+            <label class="radio-inline">
+              <input type="radio"  onclick="profit()" name="reportSelection">Profits
+            </label>
+        </form>
     </div>
 </div>
-<br>
-{% endif %}
+</div>
 
-{% if currentLifeSales %}
-<div class="row">
-    <div class="col-md-12">
-        <h4><u>Life Sales</u></h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover table-condensed" >
-                <thead>
-                    <th>Num</th>
-                    <th>Client</th>
-                    <th>Issue Date</th>
-                    <th>Expiration Date</th>
-                    <th>Plan</th>
-                    <th>Annual Premium</th>
-                </thead>
-                <tbody>
-                    {% for c in currentLifeSales %}
-                            <tr class ="info " align="center" >
-                                <td>{{c.idcontract}}</td>
-                                <td>{{c.client}}</td>
-                                <td>{{c.issuedate.date}}</td>
-                                <td>{{c.expirationdate.date}}</td>
-                                {% for p in c.plan.all %}
-                                    <td>{{ p.name }} </td>
-                                {% endfor %}
-                                <td>{{c.annualpremium}}</td>
-                            </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <h4 style="float:right">Total Life Sales For This Period: <b>{{totalCurrentAnnualLife}}</b></h4>
+<div id="salesDiv">
+    {% if generalSalesProfits %}
+    <div class="row">
+        <br><br>
+        <div class="col-md-12">
+            <h4><u>General Sales </u></h4>
+            <div class="table-responsive" id="salesTable">
+                <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Expiration Date</th>
+                        <th>Plan</th>
+                        <th>Company</th>
+                        <th>Annual Premium</th>
+                        <th>Profit</th>
+                    </thead>
+                    <tbody>
+                        {% for c,profit in generalSalesProfits.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{c.idcontract}}</td>
+                                    <td>{{c.client}}</td>
+                                    <td>{{c.issuedate}}</td>
+                                    <td>{{c.expirationdate}}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.name}}
+                                    {% endfor %}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.company}}
+                                    {% endfor %}</td>
+                                    <td>£{{c.annualpremium}}</td>
+                                    <td>£{{profit}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h4 style="float:right">Sales For This Period: <b>£{{totalCurrentAnnualGen}}</b></h4>
+                            <br><hr/>
+                <h4 style="float:right">Profits For This Period: <b>£{{totalGeneralSalesProfit}}</b></h4>
+
+            </div>
+            <br><br>
         </div>
     </div>
+    <br>
+    {% endif %}
+
+    {% if totalLifeSalesProfits %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4><u>Life Sales</u></h4>
+            <div class="table-responsive" id="salesTable">
+                <table class="table table-bordered table-striped table-hover table-condensed" >
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Plan</th>
+                        <th>Annual Premium</th>
+                        <th>Profit</th>
+                    </thead>
+                    <tbody>
+                        {% for contract,profits in totalLifeSalesProfits.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{contract.idcontract}}</td>
+                                    <td>{{contract.client}}</td>
+                                    <td>{{contract.issuedate}}</td>
+                                    {% for p in contract.plan.all %}
+                                        <td>{{ p.name }} </td>
+                                    {% endfor %}
+                                    <td>£{{contract.annualpremium}}</td>
+                                    {% for key,value in profits.items %}
+                                        {% if key == "thisYearProfit" %}
+                                            <td>£{{value}}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h4 style="float:right">Sales For This Period: <b>£{{totalCurrentAnnualLife}}</b></h4>
+                <br><hr/>
+                <h4 style="float:right">Profits For This Period: <b>£{{totalLifeSalesProfit}}</b></h4>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
+
+<div id="profitsDiv" >
+    {% if generalProfits %}
+    <div class="row">
+        <br><br>
+        <div class="col-md-12">
+            <h4><u>General Profits</u></h4>
+            <div class="table-responsive" id="salesTable">
+                <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Expiration Date</th>
+                        <th>Plan</th>
+                        <th>Company</th>
+                        <th>Annual Premium</th>
+                        <th>Profit</th>
+                    </thead>
+                    <tbody>
+                        {% for c,profit in generalProfits.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{c.idcontract}}</td>
+                                    <td>{{c.client}}</td>
+                                    <td>{{c.issuedate}}</td>
+                                    <td>{{c.expirationdate}}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.name}}
+                                    {% endfor %}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.company}}
+                                    {% endfor %}</td>
+                                    <td>£{{c.annualpremium}}</td>
+                                    <td>£{{profit}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h4 style="float:right">Profits For This Period: <b>£{{totalGeneralProfit}}</b></h4>
+
+            </div>
+            <br><br>
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+    {% if totalLifeProfits %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4><u>Life Profits</u></h4>
+            <div class="table-responsive" id="salesTable">
+                <table class="table table-bordered table-striped table-hover table-condensed" >
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Plan</th>
+                        <th>Annual Premium</th>
+                        <th>Profit</th>
+                    </thead>
+                    <tbody>
+                        {% for contract,profits in totalLifeProfits.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{contract.idcontract}}</td>
+                                    <td>{{contract.client}}</td>
+                                    <td>{{contract.issuedate}}</td>
+                                    {% for p in contract.plan.all %}
+                                        <td>{{ p.name }} </td>
+                                    {% endfor %}
+                                    <td>£{{contract.annualpremium}}</td>
+                                    {% for key,value in profits.items %}
+                                        {% if key == "thisYearProfit" %}
+                                            <td>£{{value}}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h4 style="float:right">Profits For This Period: <b>£{{totalLifeProfit}}</b></h4>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
 
 {% endblock %}
 
