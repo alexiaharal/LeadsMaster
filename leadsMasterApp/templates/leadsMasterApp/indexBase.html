@@ -17,18 +17,16 @@
     </div>
 </div>
 <hr />
-<div class="row">
-    <div class = "row">
         <!-- Select notifications category -->
         <div class="col-md-2">
             <div class="panel panel-info">
                 <div class="panel-heading">Notifications</div>
                 <div class="panel-body">
-                    <a class="btn btn-default " href="{% url 'indexToDo' %}">To Do</a>
-                    <a class="btn btn-default " href="{% url 'indexBirthday' %}">Birthdays</a>
-                    <a class="btn btn-default " href="{% url 'indexRenewals' %}">Renewals</a>
-                    <a class="btn btn-default " href="{% url 'indexPayments' %}">Payments</a>
-                    <a class="btn btn-default " href="{% url 'indexLeadsToContact' %}">Leads To Contact</a>
+                    <a class="btn btn-default " onclick="todo()">To Do</a>
+                    <a class="btn btn-default " onclick="birthdays()">Birthdays</a>
+                    <a class="btn btn-default " onclick="renewals()">Renewals</a>
+                    <a class="btn btn-default " onclick="payments()">Payments</a>
+                    <a class="btn btn-default " onclick="leadsToContact()">Leads</a>
                     <a class="btn btn-default " href="{% url 'index' %}">All</a>
                 </div>
             </div>
@@ -37,13 +35,182 @@
 
         <!-- import results from notifications according to selection -->
         <div class="col-md-5">
-            <div class="panel panel-info">
-                <div class="panel-heading">Results</div>
-                <div class="panel-body">
-                    {%block results_block %} This is results_block default content{% endblock %}
-                </div>
+
+                    {% if birthdays or activities or generalrenewals or liferenewals or generalpayments or lifepayments %}
+                    <div id="birthdays">
+                        <!-- Birthdays Results -->
+                        {% if birthdays %}
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Birthdays</div>
+                            <div class="panel-body">
+                                {% for b in birthdays%}
+                                    <li>{{ b.name }}  {{b.surname}} , {{b.dateofbirth.year}}</li>
+                                {% endfor %}
+                            </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div id="toDo">
+                        <!-- To Do's results -->
+                        {% if activities %}
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">To Do</div>
+                            <div class="panel-body">
+                                {% for a in activities%}
+                                    <li> {{a.datetime.time}} => {{ a.activityname }} with {{a.customerid.name}} {{a.customerid.surname}} </li>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div id="generalRenewals">
+                        <!-- General Renewals results -->
+                        {% if generalrenewals %}
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">General Renewals</div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Contract No</th>
+                                            <th>Name</th>
+                                            <th>Surname</th>
+                                            <th>Plan</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for r in generalrenewals %}
+                                            <tr>
+                                                <td>{{r.idcontract}}</td>
+                                                <td>{{r.client.name}}</td>
+                                                <td>{{r.client.surname}}</td>
+                                                <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div id="lifeRenewals">
+                        <!--Life Renewals -->
+                        {% if liferenewals %}
+                        <div class="panel panel-info">
+
+                        <div class="panel-heading">Life Renewals</div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <th>Contract No</th>
+                                        <th>Name</th>
+                                        <th>Surname</th>
+                                        <th>Plan</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for r in liferenewals %}
+                                        <tr>
+                                            <td>{{r.idcontract}}</td>
+                                            <td>{{r.client.name}}</td>
+                                            <td>{{r.client.surname}}</td>
+                                            <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div id="generalPayments">
+                        <!-- General Payments Results -->
+                        {% if generalpayments %}
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">General Payments</div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Contract No</th>
+                                            <th>Name</th>
+                                            <th>Surname</th>
+                                            <th>Plan</th>
+                                            <th>Price</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for r in generalpaymets %}
+                                            <tr>
+                                                <td>{{r.idcontract}}</td>
+                                                <td>{{r.client.name}}</td>
+                                                <td>{{r.client.surname}}</td>
+                                                <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                                <td>£{{r.price}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div id="lifePayments">
+                        <!-- Life Payments Results -->
+                        {% if lifepayments %}
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">Life Payments</div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>Contract No</th>
+                                            <th>Name</th>
+                                            <th>Surname</th>
+                                            <th>Plan</th>
+                                            <th>Price</th>
+                                        </thead>
+                                        <tbody>
+                                            {% for r in lifepayments %}
+                                            <tr>
+                                                <td>{{r.idcontract}}</td>
+                                                <td>{{r.client.name}}</td>
+                                                <td>{{r.client.surname}}</td>
+                                                <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                                <td>£ {{r.price}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div id="leadsToContact">
+                        {% if result_entities %}
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">Leads To Contact</div>
+                            <div class="panel-body">
+                            {% for lead in result_entities%}
+                                <li>{{lead.idperson}} , {{ lead.name }}  {{lead.surname}} </li>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% else %}
+                            <h4 style="color:#000">No Notifications For Today! </h4>
+                    {% endif %}
             </div>
-        </div>
+
         <!-- // -->
 
         <!-- Show Sales of this day Last Year -->
@@ -116,8 +283,7 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+
 
 
 {% endblock %}

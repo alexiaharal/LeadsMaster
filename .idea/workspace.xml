@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f77a866e-e118-4521-9ea8-c6de0c5eec81" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicClient.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/urls.py" afterPath="$PROJECT_DIR$/leadsMaster/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/forms.py" afterPath="$PROJECT_DIR$/leadsMasterApp/forms.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" afterPath="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html" afterPath="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMasterApp/views.py" afterPath="$PROJECT_DIR$/leadsMasterApp/views.py" />
     </list>
     <ignored path="leadsMaster.iws" />
@@ -31,14 +30,14 @@
     <favorites_list name="leadsMaster" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.66803277">
+    <splitter split-orientation="horizontal" split-proportion="0.40846995">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="9413">
-                  <caret line="977" column="22" selection-start-line="977" selection-start-column="22" selection-end-line="977" selection-end-column="22" />
+                <state relative-caret-position="17">
+                  <caret line="138" column="22" selection-start-line="138" selection-start-column="22" selection-end-line="138" selection-end-column="22" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -46,54 +45,42 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="reports.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html">
+          <file leaf-file-name="indexBase.html" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="204">
-                  <caret line="25" column="99" selection-start-line="25" selection-start-column="99" selection-end-line="25" selection-end-column="99" />
+                <state relative-caret-position="323">
+                  <caret line="28" column="80" selection-start-line="28" selection-start-column="80" selection-end-line="28" selection-end-column="80" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="iconicClient.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicClient.html">
+          <file leaf-file-name="indexToDo.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexToDo.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="289">
-                  <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+                <state relative-caret-position="102">
+                  <caret line="6" column="68" selection-start-line="6" selection-start-column="68" selection-end-line="6" selection-end-column="68" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="salesReports.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html">
+          <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="34">
-                  <caret line="2" column="16" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+                <state relative-caret-position="170">
+                  <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ourPeople.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/ourPeople.html">
+          <file leaf-file-name="indexBirthdays.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="238">
-                  <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="31" selection-end-column="6" />
+                <state relative-caret-position="85">
+                  <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/leadsMasterApp/forms.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="340">
-                  <caret line="155" column="31" selection-start-line="155" selection-start-column="31" selection-end-line="155" selection-end-column="31" />
-                  <folding>
-                    <element signature="e#0#28#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -112,11 +99,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="custom.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="custom.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="471">
-                  <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+                <state relative-caret-position="369">
+                  <caret line="130" column="67" selection-start-line="130" selection-start-column="67" selection-end-line="130" selection-end-column="67" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="indexLeadsToContact.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexLeadsToContact.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="85">
+                  <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -125,17 +122,17 @@
           <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="493">
-                  <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+                <state relative-caret-position="119">
+                  <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1105">
+                <state relative-caret-position="2125">
                   <caret line="132" column="40" selection-start-line="132" selection-start-column="40" selection-end-line="132" selection-end-column="40" />
                   <folding />
                 </state>
@@ -198,17 +195,17 @@
         <option value="$PROJECT_DIR$/leadsMasterApp/test.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/succLeads.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/succLeadsPerson.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/static/css/custom.css" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html" />
         <option value="$PROJECT_DIR$/leadsMasterApp/models.py" />
-        <option value="$PROJECT_DIR$/leadsMaster/urls.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
         <option value="$PROJECT_DIR$/leadsMasterApp/forms.py" />
-        <option value="$PROJECT_DIR$/leadsMasterApp/views.py" />
         <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicClient.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/views.py" />
+        <option value="$PROJECT_DIR$/leadsMaster/urls.py" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html" />
+        <option value="$PROJECT_DIR$/leadsMasterApp/static/js/custom.js" />
       </list>
     </option>
   </component>
@@ -375,8 +372,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -589,13 +586,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/people_search.html" />
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexLeadsToContact.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/navigation.html" />
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/detail.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -689,13 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/app_tags.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -752,13 +735,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexToDo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="68" selection-start-line="6" selection-start-column="68" selection-end-line="6" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/addProfile.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="316">
@@ -802,13 +778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/succLeads.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -830,56 +799,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="77" selection-start-line="69" selection-start-column="77" selection-end-line="69" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/succLeadsPerson.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="37" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
+        <state relative-caret-position="2125">
           <caret line="132" column="40" selection-start-line="132" selection-start-column="40" selection-end-line="132" selection-end-column="40" />
           <folding />
         </state>
@@ -889,7 +818,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="31" selection-end-column="6" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicClient.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -897,9 +832,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="155" column="31" selection-start-line="155" selection-start-column="31" selection-end-line="155" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexToDo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="68" selection-start-line="6" selection-start-column="68" selection-end-line="6" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexLeadsToContact.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -911,21 +859,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicClient.html">
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/salesReports.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        <state relative-caret-position="3638">
+          <caret line="214" column="53" selection-start-line="214" selection-start-column="53" selection-end-line="214" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/iconicIntroducer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="37" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBirthdays.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/leadsMasterApp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9413">
-          <caret line="977" column="22" selection-start-line="977" selection-start-column="22" selection-end-line="977" selection-end-column="22" />
+        <state relative-caret-position="17">
+          <caret line="138" column="22" selection-start-line="138" selection-start-column="22" selection-end-line="138" selection-end-column="22" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMaster/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/indexBase.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="28" column="80" selection-start-line="28" selection-start-column="80" selection-end-line="28" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/leadsMasterApp/static/js/custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="130" column="67" selection-start-line="130" selection-start-column="67" selection-end-line="130" selection-end-column="67" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -124,7 +124,12 @@ function mainFunction(d){
 
     if (FirstDay.getDay()==0){
         for (var i=LastMonthDays-5; i <= LastMonthDays; i++) {
-          href="<a href=\"{% url 'calendarDay' day="+i+" month="+(pastMonth.getMonth()+1)+" year="+pastMonth.getFullYear()+" %}\">"
+        day = i
+        month = pastMonth.getMonth()+1
+        year = pastMonth.getFullYear()
+        url=generateUrl(day,month,year)
+        url="<a onclick=\"generateUrl("+day+","+month+","+year+")\""
+          onclick="<a href=\"{% url 'calendarDay' day="+i+" month="+(pastMonth.getMonth()+1)+" year="+pastMonth.getFullYear()+" %}\">"
           html +=href+ "<li>"+(i)+"</li></a>";
         }
     }else{
@@ -145,6 +150,10 @@ function mainFunction(d){
 
     $("#daysBuilder").append(html);
     };
+
+function generateUrl(day, month, year){
+
+}
 // Get the modal
 var modal = document.getElementById('myModal');
 
@@ -196,13 +205,55 @@ function profit(){
 
 }
 
-function life(){
-    document.getElementById('generalForm').style.display = "none"
-        document.getElementById('lifeForm').style.display = "block"
+function birthdays(){
+    document.getElementById('birthdays').style.display = "block"
+    document.getElementById('toDo').style.display = "none"
+    document.getElementById('generalRenewals').style.display = "none"
+    document.getElementById('lifeRenewals').style.display = "none"
+    document.getElementById('generalPayments').style.display = "none"
+    document.getElementById('lifePayments').style.display = "none"
+    document.getElementById('leadsToContact').style.display = "none"
+
 
 }
-function general(){
-    document.getElementById('lifeForm').style.display = "none"
-        document.getElementById('generalForm').style.display = "block"
+function todo(){
+    document.getElementById('birthdays').style.display = "none"
+    document.getElementById('toDo').style.display = "block"
+    document.getElementById('generalRenewals').style.display = "none"
+    document.getElementById('lifeRenewals').style.display = "none"
+    document.getElementById('generalPayments').style.display = "none"
+    document.getElementById('lifePayments').style.display = "none"
+    document.getElementById('leadsToContact').style.display = "none"
+
+}
+function renewals(){
+    document.getElementById('birthdays').style.display = "none"
+    document.getElementById('toDo').style.display = "none"
+    document.getElementById('generalRenewals').style.display = "block"
+    document.getElementById('lifeRenewals').style.display = "block"
+    document.getElementById('generalPayments').style.display = "none"
+    document.getElementById('lifePayments').style.display = "none"
+    document.getElementById('leadsToContact').style.display = "none"
+
+}
+function payments(){
+    document.getElementById('birthdays').style.display = "none"
+    document.getElementById('toDo').style.display = "none"
+    document.getElementById('generalRenewals').style.display = "none"
+    document.getElementById('lifeRenewals').style.display = "none"
+    document.getElementById('generalPayments').style.display = "block"
+    document.getElementById('lifePayments').style.display = "block"
+    document.getElementById('leadsToContact').style.display = "none"
+
+}
+
+function leadsToContact(){
+    document.getElementById('birthdays').style.display = "none"
+    document.getElementById('toDo').style.display = "none"
+    document.getElementById('generalRenewals').style.display = "none"
+    document.getElementById('lifeRenewals').style.display = "none"
+    document.getElementById('generalPayments').style.display = "none"
+    document.getElementById('lifePayments').style.display = "none"
+    document.getElementById('leadsToContact').style.display = "block"
 
 }

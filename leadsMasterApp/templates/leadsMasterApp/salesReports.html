@@ -19,7 +19,9 @@
 <div class="row">
 <div class="col-md-4">
     <form method="POST" >{% csrf_token %}
-        {{ form }}
+        {{ form}}
+        {{ plansForm|bootstrap }}
+
         <br><br>
 
         <button type="submit" name="submitBtn" class="save btn btn-default">Search</button>
@@ -113,9 +115,9 @@
                                     <td>{{contract.idcontract}}</td>
                                     <td>{{contract.client}}</td>
                                     <td>{{contract.issuedate}}</td>
-                                    {% for p in contract.plan.all %}
-                                        <td>{{ p.name }} </td>
-                                    {% endfor %}
+                                    <td>{% for p in contract.plan.all %}
+                                        {{ p.name }}
+                                    {% endfor %} </td>
                                     <td>£{{contract.annualpremium}}</td>
                                     {% for key,value in profits.items %}
                                         {% if key == "thisYearProfit" %}
@@ -208,9 +210,9 @@
                                     <td>{{contract.idcontract}}</td>
                                     <td>{{contract.client}}</td>
                                     <td>{{contract.issuedate}}</td>
-                                    {% for p in contract.plan.all %}
-                                        <td>{{ p.name }} </td>
-                                    {% endfor %}
+                                    <td>{% for p in contract.plan.all %}
+                                        {{ p.name }}
+                                    {% endfor %}</td>
                                     <td>£{{contract.annualpremium}}</td>
                                     {% for key,value in profits.items %}
                                         {% if key == "thisYearProfit" %}

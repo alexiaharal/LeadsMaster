@@ -137,137 +137,23 @@ def IndexView(request):
     Lifesales=[]
     totalGeneralSales=0
     totalLifeSales = 0
-    for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Generalsales.append(contract)
-        totalGeneralSales += contract.annualpremium
-    for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Lifesales.append(contract)
-        totalLifeSales += contract.annualpremium
-    return render(request, 'leadsMasterApp/index.html',
-                  {'renewals':renewals,'activities':activities ,
-                   'birthdays':birthdays, 'lifesales':Lifesales ,
-                   'generalsales':Generalsales,
-                   'totalGeneralSales':totalGeneralSales ,
-                   'totalLifeSales':totalLifeSales})
-
-def IndexToDoView(request):
-    #Gather activities/to do's for current day
-    activities=[]
-    for a in Activity.objects.filter(date=today.date()):
-        activities.append(a)
-    # Gather sales this day last year
-    Generalsales = []
-    Lifesales = []
-    totalGeneralSales=0
-    totalLifeSales = 0
-    for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Generalsales.append(contract)
-        totalGeneralSales += contract.annualpremium
-    for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Lifesales.append(contract)
-        totalLifeSales += contract.annualpremium
-    return render(request, 'leadsMasterApp/indexToDo.html',
-                  {'activities':activities, 'lifesales':Lifesales ,
-                   'generalsales':Generalsales,
-                   'totalGeneralSales':totalGeneralSales ,
-                   'totalLifeSales':totalLifeSales})
-
-
-def IndexBirthdayView(request):
-    #Gather birthdays for current day
-    birthdays = []
-    for p in Person.objects.filter(dateofbirth__month=today.month, dateofbirth__day=today.day):
-        birthdays.append(p)
-    #Gather sales this day last year
-    Generalsales=[]
-    Lifesales=[]
-    totalGeneralSales=0
-    totalLifeSales = 0
-    for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Generalsales.append(contract)
-        totalGeneralSales += contract.annualpremium
-    for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Lifesales.append(contract)
-        totalLifeSales += contract.annualpremium
-    return render(request, 'leadsMasterApp/indexBirthdays.html',
-                  {'birthdays':birthdays , 'lifesales':Lifesales ,
-                   'generalsales':Generalsales,
-                   'totalGeneralSales':totalGeneralSales ,
-                   'totalLifeSales':totalLifeSales})
-
-def IndexRenewalsView(request):
-    #Gather renewals for current day
-    generalrenewals = []
-    for contract in GeneralContract.objects.filter(expirationdate__date=today.date(), cancelled=False):
-        generalrenewals.append(contract)
-    liferenewals = []
-    for contract in LifeContract.objects.filter(expirationdate__date=today.date(),cancelled=False):
-        liferenewals.append(contract)
-
-    #Gather sales this day last year
-    Generalsales=[]
-    Lifesales=[]
-    totalGeneralSales=0
-    totalLifeSales = 0
-    for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Generalsales.append(contract)
-        totalGeneralSales += contract.annualpremium
-    for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Lifesales.append(contract)
-        totalLifeSales += contract.annualpremium
-    return render(request, 'leadsMasterApp/indexRenewals.html',
-                  {'generalrenewals':generalrenewals ,
-                   'liferenewals':liferenewals,'lifesales':Lifesales ,
-                   'generalsales':Generalsales, 'totalGeneralSales':totalGeneralSales ,
-                   'totalLifeSales':totalLifeSales})
-
-def IndexPaymentsView(request):
-    #Gather renewals for current day
-    generalpayments = []
-    for contract in GeneralContract.objects.filter(nextpayment__date=today.date()):
-        generalpayments.append(contract)
-    lifepayments = []
-    for contract in GeneralContract.objects.filter(nextpayment__date=today.date()):
-        lifepayments.append(contract)
-    #Gather sales this day last year
-    Generalsales=[]
-    Lifesales=[]
-    totalGeneralSales=0
-    totalLifeSales = 0
-    for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Generalsales.append(contract)
-        totalGeneralSales += contract.annualpremium
-    for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
-        Lifesales.append(contract)
-        totalLifeSales += contract.annualpremium
-    return render(request, 'leadsMasterApp/indexPayments.html',
-                  {'generalpayments':generalpayments,'lifepayments':lifepayments ,
-                   'lifesales':Lifesales , 'generalsales':Generalsales,
-                   'totalGeneralSales':totalGeneralSales ,'totalLifeSales':totalLifeSales})
-
-def IndexLeadsToContactView(request):
     # Choose 10 random records to show
     result_entities = []
     for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person WHERE isclient=0 ORDER BY RANDOM() LIMIT 10'):
         result_entities.append(p)
-
-    #Gather sales this day last year
-    Generalsales=[]
-    Lifesales=[]
-    totalGeneralSales=0
-    totalLifeSales = 0
     for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
         Generalsales.append(contract)
         totalGeneralSales += contract.annualpremium
     for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
         Lifesales.append(contract)
         totalLifeSales += contract.annualpremium
-    return render(request, 'leadsMasterApp/indexLeadsToContact.html',
-                  {'lifesales':Lifesales ,
+    return render(request, 'leadsMasterApp/indexBase.html',
+                  {'renewals':renewals,'activities':activities ,
+                   'birthdays':birthdays, 'lifesales':Lifesales ,
                    'generalsales':Generalsales,
                    'totalGeneralSales':totalGeneralSales ,
                    'totalLifeSales':totalLifeSales,
-                   'result_entities':result_entities})
+                   'result_entities': result_entities})
 
 
 def calendar(request,day=None,month=None,year=None):
@@ -433,14 +319,20 @@ def succLeadsPersonView(request,pk):
 def salesReportsView(request):
     date1=""
     date2=""
+    lifePlan = ""
+    generalPlan=""
     if request.method == "POST":
         form = DatesForm(request.POST)
-        if form.is_valid():
+        plansForm = PlansOptionsForm(data=request.POST)
+        if form.is_valid() and plansForm.is_valid():
             date1 = form.cleaned_data['date1']
             date2 = form.cleaned_data['date2']
+            generalPlan = plansForm.cleaned_data['generalPlan']
+            lifePlan = plansForm.cleaned_data['lifePlan']
 
     else:
         form = DatesForm()
+        plansForm = PlansOptionsForm()
 
     ###### The difference here of sales and profits reports is that  ########
     ###### dates for sales are the issue dates of the contract (including issue year) ######
@@ -452,14 +344,27 @@ def salesReportsView(request):
         currentLifeSales=LifeContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year,cancelled=False)
         currentGenProfits=GeneralContract.objects.filter(issuedate__month=today.month,cancelled=False)
         currentLifeProfits=LifeContract.objects.filter(issuedate__month=today.month,cancelled=False)
+        print currentGenSales
     else:
         currentGenSales = GeneralContract.objects.filter(issuedate__range=[date1, date2],cancelled=False)
         currentLifeSales = LifeContract.objects.filter(issuedate__range=[date1, date2],cancelled=False)
         currentGenProfits = GeneralContract.objects.filter(Q(issuedate__month = date1.month) , Q(issuedate__month = date2.month), Q(issuedate__day__gte= date1.day), Q(issuedate__day__lte = date2.day), cancelled=False)
         currentLifeProfits = LifeContract.objects.filter(Q(issuedate__month = date1.month) , Q(issuedate__month = date2.month), Q(issuedate__day__gte= date1.day), Q(issuedate__day__lte = date2.day),cancelled=False)
 
-    print currentGenProfits
-    print currentLifeProfits
+
+    if (lifePlan!="") or (generalPlan!=""):
+        print "some2"
+        if (not lifePlan) and generalPlan:
+            currentGenSales = currentGenSales.filter(plan=generalPlan.planid)
+            currentLifeSales = {}
+            currentGenProfits = currentGenProfits.filter(plan=generalPlan.planid)
+            currentLifeProfits = {}
+        elif (not generalPlan) and lifePlan:
+            currentGenSales = {}
+            currentLifeSales =currentLifeSales.filter(plan=lifePlan.planlifeid)
+            currentGenProfits = {}
+            currentLifeProfits = currentLifeProfits.filter(plan=lifePlan.planlifeid)
+
     #### Sales Calculations ######
     # Calculate total Annual Premium for General Sales
     totalCurrentAnnualGen=0
@@ -499,13 +404,13 @@ def salesReportsView(request):
         totalLifeProfits[contract]=lifeContractProfit(contract,contract.client)
         totalLifeProfit+=totalLifeProfits[contract]["thisYearProfit"]
 
-
+    print totalLifeSalesProfits
     ###### Profits Calculations #####
     return render(request, 'leadsMasterApp/salesReports.html',{'totalLifeSalesProfits':totalLifeSalesProfits,
         'totalLifeSalesProfit':totalLifeSalesProfit,'totalCurrentAnnualLife':totalCurrentAnnualLife,'form':form,
         'generalSalesProfits':generalSalesProfits,'totalGeneralSalesProfit':totalGeneralSalesProfit,'totalCurrentAnnualGen':totalCurrentAnnualGen,
         'totalLifeProfits':totalLifeProfits,'totalLifeProfit':totalLifeProfit,'generalProfits':generalProfits,
-        'totalGeneralProfit':totalGeneralProfit
+        'totalGeneralProfit':totalGeneralProfit, 'plansForm':plansForm
     })
 
 def generalContractProfit(contract):

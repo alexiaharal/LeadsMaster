@@ -5,12 +5,9 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
     url(r'^$', views.IndexView, name='index'),
-    url(r'^birthdays$', views.IndexBirthdayView, name='indexBirthday'),
-    url(r'^todo$', views.IndexToDoView, name='indexToDo'),
-    url(r'^renewals$', views.IndexRenewalsView, name='indexRenewals'),
-    url(r'^payments$', views.IndexPaymentsView, name='indexPayments'),
-    url(r'^leadsToContact$', views.IndexLeadsToContactView, name='indexLeadsToContact'),
+
     url(r'^calendar/$', views.calendar, name='calendar'),
     url(r'^calendar/(?P<day>\w+)/(?P<month>\w+)/(?P<year>\w+)/$',views.calendar, name = 'calendarDay'),
 
