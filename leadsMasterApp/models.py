@@ -148,13 +148,13 @@ class Employee(models.Model):
 
 
 class Activity(models.Model):
+
     activityid = models.AutoField(primary_key=True)  # Field name made lowercase.
-    customerid = models.ForeignKey(Person, blank=True, null=True)  # Field name made lowercase.
-    duration = models.IntegerField()  # Field name made lowercase.
     activityname = models.CharField(max_length=45)  # Field name made lowercase.
+    customerid = models.ForeignKey(Person, blank=True, null=True)  # Field name made lowercase.
     date = models.DateField(default=timezone.now)  # Field name made lowercase.
     time = models.TimeField(default=timezone.now)
-
+    duration = models.IntegerField()  # Field name made lowercase.
 
     def __unicode__(self):
         return str(self.activityname +' -- '+ str(self.date))

@@ -138,9 +138,14 @@ def IndexView(request):
     totalGeneralSales=0
     totalLifeSales = 0
     # Choose 10 random records to show
-    result_entities = []
-    for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person WHERE isclient=0 ORDER BY RANDOM() LIMIT 10'):
-        result_entities.append(p)
+    print today.weekday()
+    if today.weekday()==0:
+        result_entities = []
+        for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person WHERE isclient=0 ORDER BY RANDOM() LIMIT 10'):
+            result_entities.append(p)
+    else:
+        result_entities=[]
+    #Calculate Sales Past Years This Day
     for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
         Generalsales.append(contract)
         totalGeneralSales += contract.annualpremium
@@ -162,6 +167,7 @@ def calendar(request,day=None,month=None,year=None):
         day=today.date().day
         month=today.date().month
         year = today.date().year
+
     dailyEntries= Calendar.objects.filter(activity__date__day=day,activity__date__month=month,activity__date__year=year)
     if request.method == "POST":
         form1 = ActivityForm(request.POST)
@@ -671,7 +677,7 @@ def AddLifePlanView(request):
     else:
         form = LifePlansForm()
 
-    return render(request, 'leadsMasterApp/addGenPlan.html', {'form':form})
+    return render(request, 'leadsMasterApp/addLifePlan.html', {'form':form})
 
 def EditLifePlanView(request,pk):
     instance = get_object_or_404(Lifebusinessplans, pk=pk)
@@ -708,7 +714,7 @@ def IconicIntroducerView(request):
     for introducer in introducers:
         if numOfLeadsPerIntroducer[introducer]>0:
             percentage=numOfSuccLeadsPerIntroducer[introducer]/numOfLeadsPerIntroducer[introducer]*100.0
-            successPercentage[introducer]= percentage
+            successPercentage[introducer]= float("{0:.2f}".format(percentage))
         else:
             successPercentage[introducer]=0
         if successPercentage[introducer]>30:
@@ -719,10 +725,12 @@ def IconicIntroducerView(request):
 
     #Calculate profit gained from each lead given from each introducer
     profits={}
+    profithours={}
     for introducer in introducers:
         profits[introducer]=0
     for introducer in introducers:
         clientsFromThisIntroducer = Person.objects.filter(isclient='1', leadfrom=introducer)
+        hours = 0
         for person in clientsFromThisIntroducer:
             # General Business profits from this introducer
             genContracts= GeneralContract.objects.filter(client = person,cancelled=False)
@@ -741,6 +749,12 @@ def IconicIntroducerView(request):
                     profit=LifeProfits[contract2]['total']
                     # sum up profit from this contract
                     profits[introducer] += profit
+            # Get hours spent on person
+            activities = Calendar.objects.filter(activity__customerid=person)
+            for a in activities:
+                hours += a.activity.duration
+            print hours
+        profithours[introducer]=hours
 
     profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
     minAge=100
@@ -749,6 +763,9 @@ def IconicIntroducerView(request):
     females=0
     males=0
     occupations={}
+    successProfitHours={}
+    profitHoursDic={}
+    successProfitHoursSorted={}
     for person in succIntroPercenSorted:
         personAge= relativedelta(today.date(), person.dateofbirth).years
         if personAge>maxAge:
@@ -764,6 +781,11 @@ def IconicIntroducerView(request):
             occupations[person.occupation]=1
         else:
             occupations[person.occupation]+=1
+
+        successProfitHours[person] = {'percentage': succIntroPercenSorted[person], 'hours': float("{0:.2f}".format(profithours[person]/60))}
+    successProfitHoursSorted = OrderedDict(sorted(successProfitHours.items(), key=lambda x: (-x[1]['percentage'][0],x[1]['hours'])))
+
+    print successProfitHoursSorted
     for person in profitBasedSorted:
         personAge= relativedelta(today.date(), person.dateofbirth).years
         if personAge>maxAge:
@@ -779,6 +801,12 @@ def IconicIntroducerView(request):
             occupations[person.occupation]=1
         else:
             occupations[person.occupation]+=1
+
+        profitHoursDic[person] = {'profit': profitBasedSorted[person], 'hours': float("{0:.2f}".format(profithours[person]/60))}
+
+    profitHoursSortedIntro = OrderedDict(sorted(profitHoursDic.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
+
+    print profitHoursSortedIntro
 
     averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
     occupBasedSorted = OrderedDict(sorted(occupations.items(),key=lambda x:x[1], reverse=True))
@@ -796,13 +824,12 @@ def IconicIntroducerView(request):
         genderAverage="Male/Female"
 
     return render(request, 'leadsMasterApp/iconicIntroducer.html', {'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
-                                                                    'averageAge':averageAge, 'succIntroPercenSorted':succIntroPercenSorted,
-                                                                    'introducers':introducers, 'profitBasedSorted': profitBasedSorted,
+                                                                    'averageAge':averageAge, 'successProfitHoursSorted':successProfitHoursSorted,
+                                                                    'introducers':introducers, 'profitHoursSortedIntro': profitHoursSortedIntro,
                                                                     'occupBasedFinal':occupBasedFinal})
 
 
 def IconicClientView(request):
-
 
     lifePlan = ""
     generalPlan=""
@@ -836,7 +863,6 @@ def IconicClientView(request):
                 if lifeContr:
                     if client not in profits:
                         profits[client]=0
-                    print "true"
                     LifeProfits = {}
                     for contract2 in lifeContr:
                         LifeProfits[contract2] = lifeContractProfit(contract2, contract2.client)
@@ -844,7 +870,7 @@ def IconicClientView(request):
                         # sum up profit from this contract
                         profits[client] += profit
 
-        profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
+        profitSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
     else:
         clients = Person.objects.filter(isclient=1)
         # Calculate profit gained from each lead given from each introducer
@@ -870,7 +896,7 @@ def IconicClientView(request):
                     # sum up profit from this contract
                     profits[client] += profit
 
-        profitBasedSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
+        profitSorted = OrderedDict(sorted(profits.items(), key=lambda x: x[1], reverse=True))
 
     minAge = 100
     maxAge = 0
@@ -881,8 +907,11 @@ def IconicClientView(request):
     averageAge=0
     genderAverage = ""
     occupBasedFinal="-"
-    if profitBasedSorted:
-        for person in profitBasedSorted:
+    profitHours = {}
+
+    if profitSorted:
+        for person in profitSorted:
+            # Get age and Gender
             personAge = relativedelta(today.date(), person.dateofbirth).years
             if personAge > maxAge:
                 maxAge = personAge
@@ -893,18 +922,29 @@ def IconicClientView(request):
                 females += 1
             else:
                 males += 1
+
+            #Get occupation of people
             if person.occupation not in occupations:
                 occupations[person.occupation] = 1
             else:
                 occupations[person.occupation] += 1
 
-        averageAge = ageSum / (len(profitBasedSorted))
+            #Get hours spent on person
+            hours = 0
+            activities=Calendar.objects.filter(activity__customerid=person)
+            for a in activities:
+                hours+= a.activity.duration
+            profitHours[person] = {'profit': profitSorted[person], 'hours': float("{0:.2f}".format(hours/60))}
+
+        profitHoursSorted = OrderedDict(sorted(profitHours.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
+
+
+        averageAge = ageSum / (len(profitSorted))
         occupBasedSorted = OrderedDict(sorted(occupations.items(), key=lambda x: x[1], reverse=True))
         if len(occupBasedSorted) > 4:
             occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
         else:
             occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
-
 
         if males > females:
             genderAverage = "Male"
@@ -914,6 +954,6 @@ def IconicClientView(request):
             genderAverage = "Male/Female"
     return render(request, 'leadsMasterApp/iconicClient.html',{'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
                                                                     'averageAge':averageAge, 'clients':clients,
-                                                                     'profitBasedSorted': profitBasedSorted,
+                                                                     'profitHoursSorted': profitHoursSorted,
                                                                     'occupBasedFinal':occupBasedFinal,
                                                                'plansForm':plansForm})

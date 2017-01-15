@@ -19,7 +19,9 @@
 
     <form id="contract_form" method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ add_contract_form|bootstrap }}
-        <input type="submit" name="submit" value="Submit" />
+        <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
+        <a class="btn btn-default" href="{% url 'ourPeople' %}" role="button"> Cancel</a>
+
     </form>
 
 {% endblock %}

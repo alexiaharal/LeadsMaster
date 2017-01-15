@@ -50,18 +50,23 @@
             <thead>
                 <th>Name</th>
                 <th>Surname</th>
+                <th>Hours spend</th>
                 <th>Percentage Of Success</th>
                 <th>Num Of Clients</th>
 
             </thead>
             <tbody>
-                {% for person,percentage in succIntroPercenSorted.items %}
+                {% for person,dic in successProfitHoursSorted.items %}
                 <tr>
                     <td>{{person.name}}</td>
                     <td>{{person.surname}}</td>
-                    {% for perc in percentage %}
-                        <td>{{perc}}</td>
-
+                    {% for key2,value2 in dic.items %}
+                        {% if value2.0 %}
+                            <td>{{value2.0}}%</td>
+                            <td>{{value2.1}}</td>
+                        {% else %}
+                            <td>{{value2}}</td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
                 {% endfor %}
@@ -76,13 +81,20 @@
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Profits</th>
+                <th>Hours spend</th>
+
             </thead>
             <tbody>
-                {% for person,profit in profitBasedSorted.items %}
+                {% for person,dic in profitHoursSortedIntro.items %}
                 <tr>
                     <td>{{person.name}}</td>
                     <td>{{person.surname}}</td>
-                    <td>{{profit}}</td>
+                    {% for key2,value2 in dic.items %}
+                        <td>{{value2}}</td>
+                        {% for key3, value3 in value2.items %}
+                            <td>{{value3}}</td>
+                        {% endfor %}
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>

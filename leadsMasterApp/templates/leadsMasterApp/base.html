@@ -18,7 +18,7 @@
 <!-- Body -->
 
 <body>
-{% if user.is_authenticated %}
+
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -30,7 +30,7 @@
                 </button>
                 <a class="navbar-brand" href="{% url 'index' %}">Leads Master</a>
             </div>
-
+    {% if user.is_authenticated %}
             <div style="color: white;
 padding: 15px 50px 5px 50px;
 float: right;
@@ -39,8 +39,6 @@ font-size: 16px;"> Goodbye {{ user.get_username }} , Thanks! &nbsp; <a href="{% 
 padding: 15px 50px 5px 50px;
 float: right;
 font-size: 16px;"> Register a user: &nbsp; <a href="{% url 'register' %}" class="btn btn-danger square-btn-adjust">Register</a> </div>
-
-
 
 
         </nav>
@@ -96,16 +94,21 @@ font-size: 16px;"> Register a user: &nbsp; <a href="{% url 'register' %}" class=
 
 {% else %}
 
-        <h5 style="color:#000">Login to Leads Master</h5>
-        <form id="login_form" method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50" />
-        <br />
-        Password: <input type="password" name="password" value="" size="50" />
-        <br />
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <h3 style="color:#000">Login to Leads Master</h3>
+                <hr/>
+                <form id="login_form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                Username: <input type="text" name="username" value="" size="50" />
+                <br />
+                Password: <input type="password" name="password" value="" size="50" />
+                <br />
 
-        <input type="submit" value="Login" />
-        </form>
+                <input type="submit" value="Login" />
+                </form>
+            </div>
+        </div>
 {% endif %}
 
 

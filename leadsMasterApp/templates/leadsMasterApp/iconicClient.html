@@ -60,18 +60,25 @@
 
  <div class="table-responsive">
         <table class="table table-bordered">
-            <h4 style="color:#000">Clients sorted based on total profit gained from them: </h4>
+            <h4 style="color:#000">Clients sorted based on total profit gained from them and total hours spend on them: </h4>
             <thead>
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Profits</th>
+                <th>Hours</th>
+
             </thead>
             <tbody>
-                {% for person,profit in profitBasedSorted.items %}
+                {% for person,dic in profitHoursSorted.items %}
                 <tr>
                     <td>{{person.name}}</td>
                     <td>{{person.surname}}</td>
-                    <td>{{profit}}</td>
+                    {% for key2,value2 in dic.items %}
+                        <td>{{value2}}</td>
+                        {% for key3, value3 in value2.items %}
+                            <td>{{value3}}</td>
+                        {% endfor %}
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>

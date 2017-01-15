@@ -124,36 +124,48 @@ function mainFunction(d){
 
     if (FirstDay.getDay()==0){
         for (var i=LastMonthDays-5; i <= LastMonthDays; i++) {
-        day = i
-        month = pastMonth.getMonth()+1
-        year = pastMonth.getFullYear()
-        url=generateUrl(day,month,year)
-        url="<a onclick=\"generateUrl("+day+","+month+","+year+")\""
-          onclick="<a href=\"{% url 'calendarDay' day="+i+" month="+(pastMonth.getMonth()+1)+" year="+pastMonth.getFullYear()+" %}\">"
-          html +=href+ "<li>"+(i)+"</li></a>";
+            day1 = i
+            month1 = pastMonth.getMonth()+1
+            year1 = pastMonth.getFullYear()
+            url="<a onclick=\"generateUrl("+day1+","+month1+","+year1+")\">"
+            html +=url+ "<li>"+(i)+"</li></a>";
         }
     }else{
         for (var i=LastMonthDays-FirstDay.getDay()+2; i <= LastMonthDays; i++) {
-          href="<a href=\"{% url 'calendarDay' day="+i+" month="+pastMonth.getMonth()+1+" year="+pastMonth.getFullYear()+" %}\">"
-          html +=href+"<li>"+(i)+"</li></a>";
+            console.log(LastMonthDays)
+            console.log(FirstDay.getDay())
+
+            console.log(i)
+            day1=i
+            month1=pastMonth.getMonth()+1
+            year1=pastMonth.getFullYear()
+            url="<a onclick=\"generateUrl("+day1+","+month1+","+year1+")\">"
+            html +=url+"<li>"+(i)+"</li></a>";
         }
     }
     for (var i=0; i < days; i++) {
-      href="<a href=\"{% url \'calendarDay\' day="+(i+1)+" month="+month+" year=" +year+" %}\">"
-      html +="<li><b>"+(i+1)+"</b></li></a>";
+        day1=i+1
+        month1=month+1
+        year1=year
+        url="<a onclick=\"generateUrl("+day1+","+month1+","+year1+")\">"
+        html +=url+"<li><b>"+(i+1)+"</b></li></a>";
     }
     for (var i=1; i <= 7-LastDay.getDay(); i++) {
-      href="<a href=\"{% url \'calendarDay' day="+i+" month="+futureMonth.getMonth()+" year="+futureMonth.getFullYear()+" %}\">"
-      html +="<li>"+(i)+"</li></a>";
+        day1=i
+        month1=futureMonth.getMonth()+1
+        year1=futureMonth.getFullYear()
+        url="<a onclick=\"generateUrl("+day1+","+month1+","+year1+")\">"
+        html +=url+"<li>"+(i)+"</li></a>";
     }
-
 
     $("#daysBuilder").append(html);
     };
-
+JS_REVERSE_JS_VAR_NAME = 'Urls'
 function generateUrl(day, month, year){
+//    url="{% url \'calendarDay\' day="+day+" month="+month+" year="+year+" %}"
 
-}
+    location.href = "/calendar/"+day+"/"+month+"/"+year+"/"
+    }
 // Get the modal
 var modal = document.getElementById('myModal');
 

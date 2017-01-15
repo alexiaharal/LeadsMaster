@@ -5,7 +5,6 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
     url(r'^$', views.IndexView, name='index'),
 
     url(r'^calendar/$', views.calendar, name='calendar'),

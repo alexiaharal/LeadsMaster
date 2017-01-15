@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.db import models
 from django.forms import ModelForm,extras
 from django import forms
@@ -120,6 +122,14 @@ class CompanyForm(forms.ModelForm):
         }
 
 class GeneralPlansForm(forms.ModelForm):
+    ORDER = ('name','company','commission')
+
+    def __init__(self, *args, **kwargs):
+        super(GeneralPlansForm, self).__init__(*args, **kwargs)
+        fields = OrderedDict()
+        for key in self.ORDER:
+            fields[key] = self.fields.pop(key)
+        self.fields = fields
     class Meta:
         model = Generalbusinessplans
         fields = {'planid','name','company','commission'}
@@ -131,6 +141,17 @@ class GeneralPlansForm(forms.ModelForm):
         }
 
 class LifePlansForm(forms.ModelForm):
+    ORDER = ('name','company','firstyearcommission',
+                  'futureprofit','futureprofit2', 'futureprofit3','futureprofit4',
+                    'maxpercentage','minpercentage','agelimit')
+
+    def __init__(self, *args, **kwargs):
+        super(LifePlansForm, self).__init__(*args, **kwargs)
+        fields = OrderedDict()
+        for key in self.ORDER:
+            fields[key] = self.fields.pop(key)
+        self.fields = fields
+
     class Meta:
         model = Lifebusinessplans
         fields = {'planlifeid','name','company','firstyearcommission',
@@ -164,10 +185,19 @@ class DatesForm(forms.Form):
 
 
 class ActivityForm(forms.ModelForm):
+    ORDER = 'activityname', 'customerid', 'date', 'time', 'duration'
+
+    def __init__(self, *args, **kwargs):
+        super(ActivityForm, self).__init__(*args, **kwargs)
+        fields = OrderedDict()
+        for key in self.ORDER:
+            fields[key] = self.fields.pop(key)
+        self.fields = fields
 
     class Meta:
         model = Activity
         fields = {'activityname','customerid','date','time','duration'}
+
         labels = {'date': 'Date',
                   'time': 'Time',
                   'duration': 'Duration',
