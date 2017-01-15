@@ -128,17 +128,32 @@ def IndexView(request):
     birthdays = []
     for p in Person.objects.filter(dateofbirth__month=today.month, dateofbirth__day=today.day):
         birthdays.append(p)
+
     #Gather renewals for current day
-    renewals = []
-    for contract in GeneralContract.objects.filter(expirationdate=today.date()):
-        renewals.append(contract)
+    generalrenewals = []
+    for contract in GeneralContract.objects.filter(expirationdate=today.date(),cancelled=False):
+        generalrenewals.append(contract)
+
+    liferenewals = []
+    for contract in LifeContract.objects.filter(expirationdate=today.date(),cancelled=False):
+        liferenewals.append(contract)
+
+    # Automatically renew Life contracts
+    yesterday= today- timedelta(1)
+    for contract in LifeContract.objects.filter(expirationdate__lt=today.date(),cancelled=False):
+        c=contract
+        print c.expirationdate
+        newDate= c.expirationdate + relativedelta(years=+1)
+        print newDate
+        c.expirationdate =newDate
+        c.save()
+
     #Gather sales this day last year
     Generalsales=[]
     Lifesales=[]
     totalGeneralSales=0
     totalLifeSales = 0
     # Choose 10 random records to show
-    print today.weekday()
     if today.weekday()==0:
         result_entities = []
         for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person WHERE isclient=0 ORDER BY RANDOM() LIMIT 10'):
@@ -153,9 +168,9 @@ def IndexView(request):
         Lifesales.append(contract)
         totalLifeSales += contract.annualpremium
     return render(request, 'leadsMasterApp/indexBase.html',
-                  {'renewals':renewals,'activities':activities ,
+                  {'generalrenewals':generalrenewals,'activities':activities ,
                    'birthdays':birthdays, 'lifesales':Lifesales ,
-                   'generalsales':Generalsales,
+                   'generalsales':Generalsales, 'liferenewals':liferenewals,
                    'totalGeneralSales':totalGeneralSales ,
                    'totalLifeSales':totalLifeSales,
                    'result_entities': result_entities})

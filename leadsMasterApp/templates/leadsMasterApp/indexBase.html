@@ -74,7 +74,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
-                                            <th>Contract No</th>
+                                            <th>Number</th>
                                             <th>Name</th>
                                             <th>Surname</th>
                                             <th>Plan</th>
@@ -85,7 +85,7 @@
                                                 <td>{{r.idcontract}}</td>
                                                 <td>{{r.client.name}}</td>
                                                 <td>{{r.client.surname}}</td>
-                                                <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                                <td>{% for p in r.plan.all %} {{p.name}}  {% endfor %}</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
@@ -102,10 +102,11 @@
 
                         <div class="panel-heading">Life Renewals</div>
                         <div class="panel-body">
+                            <h5>Note: Life Contracts will be renewed automatically! </h5>
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
-                                        <th>Contract No</th>
+                                        <th>Number</th>
                                         <th>Name</th>
                                         <th>Surname</th>
                                         <th>Plan</th>
@@ -116,7 +117,7 @@
                                             <td>{{r.idcontract}}</td>
                                             <td>{{r.client.name}}</td>
                                             <td>{{r.client.surname}}</td>
-                                            <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                            <td>{% for p in r.plan.all %} {{p.name}} {% endfor %}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
