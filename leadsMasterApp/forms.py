@@ -211,3 +211,12 @@ class CalendarForm(forms.ModelForm):
         model = Calendar
         fields = {'employee'}
         labels = {'employee': 'Employee'}
+
+class renewalPeriodForm(forms.Form):
+    CHOICES = [(3, '3 months'),
+               (6, '6 months'),
+               (9, '9 months'),
+               (12, '1 Year'),]
+
+    period = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(),required=False)
+    other = forms.CharField(required=False)

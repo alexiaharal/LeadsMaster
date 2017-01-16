@@ -166,6 +166,7 @@ function generateUrl(day, month, year){
 
     location.href = "/calendar/"+day+"/"+month+"/"+year+"/"
     }
+
 // Get the modal
 var modal = document.getElementById('myModal');
 
@@ -214,6 +215,17 @@ function sales(){
 function profit(){
     document.getElementById('salesDiv').style.display = "none"
         document.getElementById('profitsDiv').style.display = "block"
+
+}
+
+function upcoming(){
+    document.getElementById('upcomingDiv').style.display = "block"
+    document.getElementById('pastDiv').style.display = "none"
+
+}
+function past(){
+    document.getElementById('upcomingDiv').style.display = "none"
+    document.getElementById('pastDiv').style.display = "block"
 
 }
 

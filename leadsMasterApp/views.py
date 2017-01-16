@@ -11,7 +11,7 @@ from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Co
     Lifebusinessplans
 from django.db.models import Q
 from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm, \
-    ActivityForm, CalendarForm, DatesForm, PlansOptionsForm
+    ActivityForm, CalendarForm, DatesForm, PlansOptionsForm, renewalPeriodForm
 from collections import OrderedDict
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -138,13 +138,19 @@ def IndexView(request):
     for contract in LifeContract.objects.filter(expirationdate=today.date(),cancelled=False):
         liferenewals.append(contract)
 
+    #Gather payments for current day
+    generalpayments = []
+    for contract in GeneralContract.objects.filter(nextpayment=today.date()):
+        generalpayments.append(contract)
+    lifepayments = []
+    for contract in GeneralContract.objects.filter(nextpayment=today.date()):
+        lifepayments.append(contract)
+
     # Automatically renew Life contracts
     yesterday= today- timedelta(1)
     for contract in LifeContract.objects.filter(expirationdate__lt=today.date(),cancelled=False):
         c=contract
-        print c.expirationdate
         newDate= c.expirationdate + relativedelta(years=+1)
-        print newDate
         c.expirationdate =newDate
         c.save()
 
@@ -529,7 +535,49 @@ def ProfileView (request, pk):
                   {'person':person , 'generalContracts':generalContracts,
                    'lifeContracts':lifeContracts,'leads':leads,'percentage':percentage})
 
+def ContractPageView(request,pk,type):
+    if type=='life':
+        contract=get_object_or_404(LifeContract, pk=pk)
+        life=1
+        t='life'
+        yearsInyears=""
+    else:
+        contract=get_object_or_404(GeneralContract, pk=pk)
+        life=0
+        t='general'
+        yearsInyears = contract.years / 12
 
+    person=contract.client
+    totalPayment=contract.price
+    if contract.nextpayment!="":
+        nextPayment=float("{0:.2f}".format(contract.price/contract.doses))
+    else:
+        nextPayment=""
+    expired=0
+    if contract.expirationdate < today.date() :
+        expired=1
+
+    if request.method == "POST":
+        form = renewalPeriodForm(request.POST)
+        if form.is_valid() :
+            if form.cleaned_data['other'] == "":
+                period = form.cleaned_data['period']
+            else:
+                period = form.cleaned_data['other']
+            print period
+            c = contract
+            newExpDate = c.expirationdate + relativedelta(months=+int(period))
+            c.years+=int(period)
+            c.issuedate = c.expirationdate
+            c.expirationdate = newExpDate
+            c.save()
+            return redirect('contractPage', pk=pk , type=t)
+    else:
+        form = renewalPeriodForm()
+    return render(request, 'leadsMasterApp/contractPage.html',
+                  {'contract':contract,'life':life,
+                   'person':person,'totalPayment':totalPayment,'yearsInyears':yearsInyears,
+                   'nextPayment':nextPayment,'expired':expired, 'form':form})
 
 def addContractLifeView(request):
     if request.method == 'POST':
@@ -870,7 +918,7 @@ def IconicClientView(request):
                         profits[client]=0
                     for contract in genContracts:
                         profit = generalContractProfit(contract)
-                        profits[client] += (profit * contract.years)
+                        profits[client] += (profit * (contract.years/12))
             elif (not generalPlan) and lifePlan:
                 # Life Business profits from this introducer
                 lifeContr = LifeContract.objects.filter(client=client, cancelled=False, plan=lifePlan.planlifeid)
@@ -898,7 +946,7 @@ def IconicClientView(request):
             if genContracts:
                 for contract in genContracts:
                     profit = generalContractProfit(contract)
-                    profits[client] += (profit * contract.years)
+                    profits[client] += (profit * (contract.years/12))
 
             # Life Business profits from this introducer
             lifeContr = LifeContract.objects.filter(client=client, cancelled=False)
@@ -972,3 +1020,31 @@ def IconicClientView(request):
                                                                      'profitHoursSorted': profitHoursSorted,
                                                                     'occupBasedFinal':occupBasedFinal,
                                                                'plansForm':plansForm})
+
+def paymentsReportView(request):
+
+    toBePaidGeneral={}
+    toBePaidLife = {}
+    upcomingGeneral ={}
+    upcomingLife = {}
+    for item in GeneralContract.objects.filter(nextpayment__lte=today.date(), cancelled=False):
+        contract=item
+        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        toBePaidGeneral[contract]=nextPayment
+    for item in LifeContract.objects.filter(nextpayment__lte=today.date(), cancelled=False):
+        contract=item
+        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        toBePaidLife[contract]=nextPayment
+    for item in GeneralContract.objects.filter(nextpayment__range=[(today.date() + timedelta(days=1)),(today.date() + timedelta(days=6))] , cancelled=False):
+        contract=item
+        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        upcomingGeneral[contract]=nextPayment
+    print (today.date() + timedelta(days=5))
+    for item in LifeContract.objects.filter(nextpayment__range=[(today.date() + timedelta(days=1)),(today.date() + timedelta(days=5))], cancelled=False):
+        contract = item
+        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        upcomingLife[contract] = nextPayment
+    return render(request, 'leadsMasterApp/paymentsPage.html', {'toBePaidLife':toBePaidLife,
+                                                                'toBePaidGeneral':toBePaidGeneral,
+                                                                'upcomingGeneral':upcomingGeneral,
+                                                                'upcomingLife':upcomingLife})

@@ -129,7 +129,7 @@
                 <tbody>
                 {% for c in generalContracts %}
                     <tr>
-                        <td>{{c.idcontract}}<a class="btn btn-default btn-sm" href="{% url 'editContractGeneral' pk=c.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td>{{c.idcontract}}<a class="btn btn-default btn-sm" href="{% url 'contractPage' pk=c.id type='general' %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
                         <td>{{c.expirationdate.day}}/{{c.expirationdate.month}}/{{c.expirationdate.year}}</td>
                         <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
@@ -160,7 +160,7 @@
             {% for c in lifeContracts %}
                 <tr>
                     <td>{{c.idcontract}}</td>
-                    <td><a class="btn btn-default btn-sm" href="{% url 'editContractLife' pk=c.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a class="btn btn-default btn-sm" href="{% url 'contractPage' pk=c.id type='life' %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                     <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
                     <td>{{c.expirationdate.day}}/{{c.expirationdate.month}}/{{c.expirationdate.year}}</td>
                     <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>

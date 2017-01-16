@@ -1,0 +1,209 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+<head>
+</head>
+{% block nav-reports %}class="active-menu"{% endblock %}
+
+{% block title %} {{index_page }} {% endblock %}}
+
+{%block body_block %}
+
+<div class="col-md-6">
+    <div class="container">
+        <form>
+            <label class="radio-inline">
+              <input type="radio"  onclick="upcoming()" name="paymentsSelection">Upcoming Payments
+            </label>
+            <label class="radio-inline">
+              <input type="radio"  onclick="past()" name="paymentsSelection">To Be Paid
+            </label>
+        </form>
+    </div>
+</div>
+
+<div id="pastDiv">
+    {% if toBePaidGeneral %}
+    <div class="row">
+        <br><br>
+        <div class="col-md-12">
+            <h4><u>General Past Payments </u></h4>
+            <div class="table-responsive" id="generalPastTable">
+                <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Plan</th>
+                        <th>Company</th>
+                        <th>Doses</th>
+                        <th>Payment Due</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        {% for c,amount in toBePaidGeneral.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{c.idcontract}}</td>
+                                    <td>{{c.client}}</td>
+                                    <td>{{c.issuedate.day}}/{{c.issuedate.month}}/{{c.issuedate.year}}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.name}}
+                                    {% endfor %}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.company}}
+                                    {% endfor %}</td>
+                                    <td>{{c.doses}}</td>
+                                    <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
+                                    <td>£{{amount}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+    {% if toBePaidLife %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4><u>Life Past Payments </u></h4>
+            <div class="table-responsive" id="lifePastTable">
+                <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Plan</th>
+                        <th>Company</th>
+                        <th>Doses</th>
+                        <th>Payment Due</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        {% for c,amount in toBePaidLife.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{c.idcontract}}</td>
+                                    <td>{{c.client}}</td>
+                                    <td>{{c.issuedate.day}}/{{c.issuedate.month}}/{{c.issuedate.year}}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.name}}
+                                    {% endfor %}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.company}}
+                                    {% endfor %}</td>
+                                    <td>{{c.doses}}</td>
+                                    <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
+                                    <td>£{{amount}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br><br>
+        </div>
+    </div>
+    <br>
+    {% endif %}
+</div>
+<div id="upcomingDiv">
+    {% if upcomingGeneral %}
+    <div class="row">
+        <br><br>
+        <div class="col-md-12">
+            <h4><u>General Upcoming Payments </u></h4>
+            <div class="table-responsive" >
+                <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Plan</th>
+                        <th>Company</th>
+                        <th>Doses</th>
+                        <th>Payment Due</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        {% for c,amount in upcomingGeneral.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{c.idcontract}}</td>
+                                    <td>{{c.client}}</td>
+                                    <td>{{c.issuedate.day}}/{{c.issuedate.month}}/{{c.issuedate.year}}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.name}}
+                                    {% endfor %}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.company}}
+                                    {% endfor %}</td>
+                                    <td>{{c.doses}}</td>
+                                    <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
+                                    <td>£{{amount}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+    {% if upcomingLife %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4><u>Life Upcoming Payments </u></h4>
+            <div class="table-responsive" >
+                <table class="table table-bordered table-striped table-hover table-condensed" id="search_results">
+                    <thead>
+                        <th>Num</th>
+                        <th>Client</th>
+                        <th>Issue Date</th>
+                        <th>Plan</th>
+                        <th>Company</th>
+                        <th>Doses</th>
+                        <th>Payment Due</th>
+                        <th>Amount</th>
+                    </thead>
+                    <tbody>
+                        {% for c,amount in upcomingLife.items %}
+                                <tr class ="info " align="center" >
+                                    <td>{{c.idcontract}}</td>
+                                    <td>{{c.client}}</td>
+                                    <td>{{c.issuedate.day}}/{{c.issuedate.month}}/{{c.issuedate.year}}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.name}}
+                                    {% endfor %}</td>
+                                    <td>
+                                    {% for p in c.plan.all %}
+                                        {{ p.company}}
+                                    {% endfor %}</td>
+                                    <td>{{c.doses}}</td>
+                                    <td>{{c.nextpayment.day}}/{{c.nextpayment.month}}/{{c.nextpayment.year}}</td>
+                                    <td>£{{amount}}</td>
+                                </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br><br>
+        </div>
+    </div>
+    <br>
+    {% endif %}
+
+</div>
+
+{% endblock %}
+

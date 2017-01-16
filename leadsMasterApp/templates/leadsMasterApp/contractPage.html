@@ -1,0 +1,106 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block nav-ourPeople %}class="active-menu"{% endblock %}
+
+
+<head>
+</head>
+{% block title %} {{contractPage_page}} {% endblock %}}
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-12">
+        <h3 style="color:#000"> <u>{{person.name}}  {{person.surname}} </u></h3>
+        <h3 style="color:#000"> {{contract.idcontract}}  {% for p in contract.plan.all %} {{p.name}}  {% endfor %} </h3>
+
+    </div>
+</div>
+<hr />
+
+<div class="row">
+
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                {% if life == 1 %}
+                    <h3 style="color:#000">Details <a class="btn btn-default "  href="{% url 'editContractLife' pk=contract.id %}"> <span class="glyphicon glyphicon-pencil"></span></a></h3>
+                {% else %}
+                    <h3 style="color:#000">Details <a class="btn btn-default "  href="{% url 'editContractGeneral' pk=contract.id %}"> <span class="glyphicon glyphicon-pencil"></span></a></h3>
+                {% endif %}
+                {% if expired == 1 %}
+                    <button id="myBtn"  class="btn btn-danger">Renew</button>
+                {% endif %}
+            </div>
+
+        </div>
+<hr/>
+        <div class="table-responsive">
+        <table class="table ">
+            <tbody>
+                <tr>
+                    <td>Number</td>
+                    <td>{{contract.idcontract}}</td>
+                </tr>
+                <tr>
+                    <td>Plan(s)</td>
+                    <td> {% for p in contract.plan.all %} {{p.name}}  {% endfor %}</td>
+                </tr>
+                <tr>
+                    <td>Issue Date</td>
+                    <td>{{contract.issuedate.day}}/{{contract.issuedate.month}}/{{contract.issuedate.year}}</td>
+                </tr>
+                <tr>
+                    <td>Expiratioin Date</td>
+                    <td>{{contract.expirationdate.day}}/{{contract.expirationdate.month}}/{{contract.expirationdate.year}}</td>
+                </tr>
+                <tr>
+                    <td>Annual Premium</td>
+                    <td>{{contract.annualpremium}}</td>
+                </tr>
+                <tr>
+                    <td>Total Payment Amount</td>
+                    <td>{{totalPayment}}</td>
+                </tr>
+                <tr>
+                    <td>Payment Doses</td>
+                    <td>{{contract.doses}}</td>
+                </tr>
+                <tr>
+                    <td>Next Payment</td>
+                    <td>{{contract.nextpayment.day}}/{{contract.nextpayment.month}}/{{contract.nextpayment.year}}</td>
+                </tr>
+                <tr>
+                    <td>Next Payment Amount</td>
+                    <td>{{nextPayment}}</td>
+                </tr>
+                {% if life == 0 %}
+                    <tr>
+                        <td>Years of contract</td>
+                        <td>{{yearsInyears}}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td>Notes</td>
+                    <td>{{contract.notes}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+<div id="myModal" class="modal">
+
+  <!-- Form content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+        <form method="POST" class="personForm">{% csrf_token %}
+            {{form|bootstrap}}
+            <button type="submit" name="submitBtn" class="save btn btn-default">Renew</button>
+        </form>
+  </div>
+
+</div>
+{% endblock %}
+

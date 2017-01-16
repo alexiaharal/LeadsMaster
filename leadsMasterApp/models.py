@@ -111,7 +111,7 @@ class LifeContract(models.Model):
     plan = models.ManyToManyField(Lifebusinessplans)
     annualpremium = models.FloatField()
     doses = models.IntegerField(blank=True, null=True)
-    nextpayment = models.DateTimeField(blank=True, null=True)
+    nextpayment = models.DateField(blank=True, null=True)
     price = models.FloatField()
     duration = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
     notes = models.CharField(max_length =80)
@@ -129,7 +129,7 @@ class GeneralContract(models.Model):
     plan = models.ManyToManyField(Generalbusinessplans)
     annualpremium = models.FloatField()  # Field name made lowercase.
     doses = models.IntegerField(blank=True, null=True)
-    nextpayment = models.DateTimeField( blank=True, null=True)  # Field name made lowercase.
+    nextpayment = models.DateField( blank=True, null=True)  # Field name made lowercase.
     years= models.IntegerField(default=1)
     price = models.FloatField()
     notes = models.CharField(max_length =80)

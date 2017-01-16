@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^reports/succLeads$', views.SuccLeadsView, name='succLeads'),
     url(r'^reports/succLeads/(?P<pk>\d+)/$', views.succLeadsPersonView, name='succLeadsPerson'),
     url(r'^reports/salesReport$', views.salesReportsView, name='salesReport'),
+    url(r'^reports/paymentsReport$', views.paymentsReportView, name='paymentsReport'),
 
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login , name='login'),
@@ -43,5 +44,6 @@ urlpatterns = [
     url(r'^addContractGeneral/$', views.addContractGeneralView, name='addContractGeneral'),
     url(r'^editContractGeneral/(?P<pk>\d+)/$', views.editContractGeneralView, name='editContractGeneral'),
     url(r'^profile/(?P<pk>\d+)/$', views.ProfileView, name='ProfileView'),
+    url(r'^contract/(?P<pk>\w+)/(?P<type>\w+)$', views.ContractPageView, name='contractPage'),
 
 ]
