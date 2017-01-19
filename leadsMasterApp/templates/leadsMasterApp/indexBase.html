@@ -17,8 +17,101 @@
     </div>
 </div>
 <hr />
+<div class = "row">
+<div class="col-md-6">
+    <div class="container">
+        <form>
+            <label class="radio-inline">
+              <input type="radio"  onclick="showSales()" name="paymentsSelection">Show Previous Sales
+            </label>
+            <label class="radio-inline">
+              <input type="radio"  onclick="hideSales()" name="paymentsSelection">Hide Previous Sales
+            </label>
+        </form>
+    </div>
+</div>
+    </div>
+<div class="row" id="hideSales">
+<!-- Show Sales of this day Last Year -->
+        <div class="col-md-6" style="display:table;" >
+            <div class="panel panel-info">
+                <div class="panel-heading">Sales This Day Previous Years</div>
+                <div class="panel-body">
+                    {% if generalsales %}
+                        <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <h4 style="color:#000">General Sales</h4>
+                            <thead>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Plan</th>
+                                <th>Annual P.</th>
+                                <th>Year</th>
+                            </thead>
+                            <tbody>
+                                {% for c in generalsales %}
+                                <tr>
+                                    <td>{{c.client.name}}</td>
+                                    <td>{{c.client.surname}}</td>
+                                    <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
+                                    <td>£ {{c.annualpremium}}</td>
+                                    <td>{{c.issuedate.year }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                        <h5 style="float:right">Total General Sales Last Year: <b>{{totalGeneralSales}} </b></h5>
+                    {% else %}
+                        <h5 style="float:right">Make your FIRST General sale for this day of the year! </h5>
+                    {% endif %}
+
+                    <br><br><hr>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:table;">
+            <div class="panel panel-info">
+                <div class="panel-heading">Sales This Day Previous Years</div>
+                <div class="panel-body">
+
+                    {% if lifesales %}
+                        <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <h4 style="color:#000">Life Sales</h4>
+                            <thead>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Plan</th>
+                                <th>Annual P.</th>
+                                <th>Year</th>
+                            </thead>
+                            <tbody>
+                                {% for c in lifesales %}
+                                <tr>
+                                    <td>{{c.client.name}}</td>
+                                    <td>{{c.client.surname}}</td>
+                                    <td>{% for p in c.plan.all %} {{p.name}}   {% endfor %}</td>
+                                    <td>£ {{c.annualpremium}}</td>
+                                    <td>{{c.issuedate.year}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                        <h5 style="float:right">Total Life Sales Last Year: <b>{{totalLifeSales}}</b> </h5>
+                    {% else %}
+                        <h5 style="float:right">Make your FIRST Life sale for this day of the year! </h5>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+</div>
+<div class="row">
         <!-- Select notifications category -->
-        <div class="col-md-2">
+        <div class="col-md-8">
             <div class="panel panel-info">
                 <div class="panel-heading">Notifications</div>
                 <div class="panel-body">
@@ -32,9 +125,9 @@
             </div>
         </div>
         <!-- // -->
-
+</div>
         <!-- import results from notifications according to selection -->
-        <div class="col-md-5">
+        <div class="col-md-8" style="display:table;">
 
                     {% if birthdays or activities or generalrenewals or liferenewals or generalpayments or lifepayments %}
                     <div id="birthdays">
@@ -144,12 +237,12 @@
                                             <th>Price</th>
                                         </thead>
                                         <tbody>
-                                            {% for r in generalpaymets %}
+                                            {% for r in generalpayments %}
                                             <tr>
                                                 <td>{{r.idcontract}}</td>
                                                 <td>{{r.client.name}}</td>
                                                 <td>{{r.client.surname}}</td>
-                                                <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                                <td>{% for p in r.plan.all %} {{p.name}}  {% endfor %}</td>
                                                 <td>£{{r.price}}</td>
                                             </tr>
                                             {% endfor %}
@@ -182,7 +275,7 @@
                                                 <td>{{r.idcontract}}</td>
                                                 <td>{{r.client.name}}</td>
                                                 <td>{{r.client.surname}}</td>
-                                                <td>{% for p in r.plan.all %} {{p.name}} , {% endfor %}</td>
+                                                <td>{% for p in r.plan.all %} {{p.name}} {% endfor %}</td>
                                                 <td>£ {{r.price}}</td>
                                             </tr>
                                             {% endfor %}
@@ -221,76 +314,6 @@
 
         <!-- // -->
 
-        <!-- Show Sales of this day Last Year -->
-        <div class="col-md-5">
-            <div class="panel panel-info">
-                <div class="panel-heading">Sales This Day Last Year</div>
-                <div class="panel-body">
-                    {% if generalsales %}
-                        <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <h4 style="color:#000">General Sales</h4>
-                            <thead>
-                                <th>Name</th>
-                                <th>Surname</th>
-                                <th>Plan</th>
-                                <th>Annual P.</th>
-                                <th>Year</th>
-                            </thead>
-                            <tbody>
-                                {% for c in generalsales %}
-                                <tr>
-                                    <td>{{c.client.name}}</td>
-                                    <td>{{c.client.surname}}</td>
-                                    <td>{% for p in c.plan.all %} {{p.name}}  {% endfor %}</td>
-                                    <td>£ {{c.annualpremium}}</td>
-                                    <td>{{c.issuedate.year }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        </div>
-                        <h5 style="float:right">Total General Sales Last Year: <b>{{totalGeneralSales}} </b></h5>
-                    {% else %}
-                        <h5 style="float:right">Make your FIRST General sale for this day of the year! </h5>
-                    {% endif %}
-
-                    <br><br><hr>
-
-
-                    {% if lifesales %}
-                        <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <h4 style="color:#000">Life Sales</h4>
-                            <thead>
-                                <th>Name</th>
-                                <th>Surname</th>
-                                <th>Plan</th>
-                                <th>Annual P.</th>
-                                <th>Year</th>
-                            </thead>
-                            <tbody>
-                                {% for c in lifesales %}
-                                <tr>
-                                    <td>{{c.client.name}}</td>
-                                    <td>{{c.client.surname}}</td>
-                                    <td>{% for p in c.plan.all %} {{p.name}}   {% endfor %}</td>
-                                    <td>£ {{c.annualpremium}}</td>
-                                    <td>{{c.issuedate.year}}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        </div>
-                        <h5 style="float:right">Total Life Sales Last Year: <b>{{totalLifeSales}}</b> </h5>
-                    {% else %}
-                        <h5 style="float:right">Make your FIRST Life sale for this day of the year! </h5>
-                    {% endif %}
-
-
-                </div>
-            </div>
-        </div>
 
 
 

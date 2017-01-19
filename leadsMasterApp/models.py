@@ -155,6 +155,7 @@ class Activity(models.Model):
     date = models.DateField(default=timezone.now)  # Field name made lowercase.
     time = models.TimeField(default=timezone.now)
     duration = models.IntegerField()  # Field name made lowercase.
+    email=models.BooleanField(default=False)
 
     def __unicode__(self):
         return str(self.activityname +' -- '+ str(self.date))
@@ -166,3 +167,38 @@ class Calendar(models.Model):
 
     def __unicode__(self):
         return str(self.entryid)
+
+class birthdayNot(models.Model):
+
+    id=models.AutoField(primary_key=True)
+    birthday=models.ForeignKey(Person)
+    date = models.DateField(default=timezone.now)
+    email=models.BooleanField()
+
+class genRenewalsNot(models.Model):
+
+    id=models.AutoField(primary_key=True)
+    renewal=models.ForeignKey(GeneralContract)
+    date = models.DateField(default=timezone.now)
+    email=models.BooleanField()
+
+class lifeRenewalsNot(models.Model):
+
+    id=models.AutoField(primary_key=True)
+    renewal=models.ForeignKey(LifeContract)
+    date = models.DateField(default=timezone.now)
+    email=models.BooleanField()
+
+class genPaymentsNot(models.Model):
+
+    id=models.AutoField(primary_key=True)
+    payment=models.ForeignKey(GeneralContract)
+    date = models.DateField(default=timezone.now)
+    email=models.BooleanField()
+
+class lifePaymentsNot(models.Model):
+
+    id=models.AutoField(primary_key=True)
+    payment=models.ForeignKey(LifeContract)
+    date = models.DateField(default=timezone.now)
+    email=models.BooleanField()

@@ -19,11 +19,11 @@ body {
 }
 #page-inner {
     width:100%;
-    margin:10px 20px 10px 0px;
+    margin:5px 5px 5px 0px;
     /*margin: 10px 17px 0px 0px;*/
     background-color:#fff!important;
-    padding:10px;
-    min-height:1200px;
+    padding:3px;
+    min-height:2000px;
 }
 
 .text-center {
@@ -50,143 +50,7 @@ p {
     line-height:25px;
     padding-top:20px;
 }
-/*==============================================
-   DASHBOARD STYLES    
-    =============================================*/
-.panel-back {
-    background-color:#F8F8F8;
 
-}
-   .noti-box {
-min-height: 100px;
-padding: 20px;
-}
-
-    .noti-box .icon-box {
-display: block;
-float: left;
-margin: 0 15px 10px 0;
-width: 50px;
-height: 50px;
-line-height: 60px;
-vertical-align: middle;
-text-align: center;
-font-size: 40px;
-}
-.text-box p{
-    margin: 0 0 3px;
-}
-.main-text {
-    font-size: 25px;
-    font-weight:600;
-}
-.set-icon {
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-
-}
-    .bg-color-green {
-background-color: #00CE6F;
-color: #fff;
-}
- .bg-color-blue {
-background-color: #A95DF0;
-color: #fff;
-}
-  .bg-color-red {
-background-color: #DB0630;
-color: #fff;
-}
-  .bg-color-brown {
-background-color: #B94A00;
-color: #fff;
-}
-
-
- .icon-box-right {
-display: block;
-float: right;
-margin: 0 15px 10px 0;
-width: 70px;
-height: 70px;
-line-height: 75px;
-vertical-align: middle;
-text-align: center;
-font-size: 40px;
-}
-
- .main-temp-back {
-background: #8702A8;
-color: #FFFFFF;
-font-size: 16px;
-font-weight: 300;
-text-align: center;
-}
- .main-temp-back .text-temp {
-font-size: 40px;
-}
-.back-dash {
-    padding:20px;
-    font-size:20px;
-    font-weight:500;
-      -webkit-border-radius: 0px;
--moz-border-radius: 0px;
-border-radius: 0px;
-background-color:#2EA7EB;
-color:#fff;
-}
-    .back-dash p {
-        padding-top:16px;
-        font-size:13px;
-        color:#fff;
-        line-height:25px;
-        text-align:justify;
-    }
-    .back-footer-green {
-    background-color: #009B50;
-    border-top: 0px solid #fff;
-}
-     .back-footer-red {
-    background-color: #AF0000;
-    border-top: 0px solid #fff;
-}
-     .color-bottom-txt {
-   color: #000;
-font-size: 16px;
-line-height: 30px;
-}
-     /*CHAT PANEL*/
- .chat-panel .panel-body {
-height: 450px;
-overflow-y: scroll;
-}
- .chat-box {
-margin: 0;
-padding: 0;
-list-style: none;
-}
- .chat-box li {
-margin-bottom: 15px;
-padding-bottom: 5px;
-border-bottom: 1px dotted #808080;
-}
- .chat-box li.left .chat-body {
-margin-left: 90px;
-}
- .chat-box li .chat-body p {
-margin: 0;
-color: #8d8888;
-}
-.chat-img>img {
-    margin-left:20px;
-}
-
-.verticalLine{
-    height:150px;
-    width: 1px;
-    background:#000000;
-    }
 /*==============================================
     MENU STYLES    
     =============================================*/
@@ -204,11 +68,11 @@ max-width:170px;
 .navbar-cls-top .navbar-brand {
 color:#fff;    /*Text color*/
 background:#5F9EA0;
-width: 260px;
+width: 240px;
 text-align: center;
-height: 60px;
+height: 65px;
 font-size: 30px;
-font-weight: 700;
+font-weight: 690;
 }
 .active-menu {
     background-color:#5F9EA0!important;
@@ -221,9 +85,6 @@ font-weight: 700;
 .fa.arrow:before {
     content: "\f104";
 }
-
-
-
 
 .nav-second-level li,
 .nav-third-level li {
@@ -352,23 +213,21 @@ line-height: 1.428571429;
  
  @media(min-width:768px) {
      #page-wrapper{
-               margin: 0 0 0 260px;
+               margin: 0 0 0 240px;
         padding: 15px 30px;
-        min-height: 1200px;
-		
+        min-height: 2000px;
+
     }
 
     .navbar-side {
         z-index: 1;
         position: absolute;
-        width: 260px;
+        width: 240px;
     }
 
    .navbar {
         border-radius: 0px;
     }
-
-
 }
 .glyphicon glyphicon-pencil{
     font-size:10px;}

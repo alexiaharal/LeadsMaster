@@ -7,9 +7,13 @@ from django.http import HttpResponse,HttpResponseRedirect, Http404
 from reportlab.pdfgen import canvas
 from django.template.context import RequestContext
 from datetime import datetime, timedelta, date
+
+from django.conf import settings
 from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Company, Generalbusinessplans, \
-    Lifebusinessplans
+    Lifebusinessplans, birthdayNot, genRenewalsNot, lifeRenewalsNot, genPaymentsNot, lifePaymentsNot
 from django.db.models import Q
+from django.core.mail import send_mail
+
 from .forms import SearchForm, PersonForm, LifeContractForm, CompanyForm,GeneralPlansForm,LifePlansForm, GeneralContractForm, UserForm, UserProfileForm, \
     ActivityForm, CalendarForm, DatesForm, PlansOptionsForm, renewalPeriodForm
 from collections import OrderedDict
@@ -119,32 +123,138 @@ def user_logout(request):
     # Take the user back to the homepage.
     return redirect('login')
 
+
+actEmails = {}
+
 def IndexView(request):
+
     #Gather all activities for current day
     activities=[]
+
     for a in Activity.objects.filter(date=today.date()):
         activities.append(a)
+
+        if a.customerid.email:
+            if a.email == False:
+                # insert code here to send email if you want to
+                a.email = True
+                a.save()
+
+
     #Gather birthdays for current day
     birthdays = []
+    emails = []
+
     for p in Person.objects.filter(dateofbirth__month=today.month, dateofbirth__day=today.day):
         birthdays.append(p)
+        birthdayTable = birthdayNot.objects.all()
+
+        if birthdayTable.filter(birthday=p, date=today.date()).exists():
+            flag=True
+        else:
+            if p.email:
+                emails.append(p.email)
+                obj = birthdayNot(birthday=p, date=today.date(),email=True)
+                obj.save()
+    print emails
+    send_mail(
+        'Happy Birthday',
+        'Leads Master system, on behalf of your insurance agent, wishes you a Very Happy Birthday',
+        settings.EMAIL_HOST_USER,
+        emails
+    )
+
 
     #Gather renewals for current day
     generalrenewals = []
     for contract in GeneralContract.objects.filter(expirationdate=today.date(),cancelled=False):
         generalrenewals.append(contract)
+        genRenTable = genRenewalsNot.objects.all()
+        if genRenTable.filter(renewal=contract, date=today.date()).exists():
+            flag = True
+        else:
+            if contract.client.email:
+                plans=""
+                for p in contract.plan.all():
+                    plans+= str(p)
+                text='This is a reminder that your ' + plans + ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! Please get in touch to renew. Thank you, Leads Master'
+                send_mail(
+                    'Contract Renewal Reminder',
+                    text,
+                    settings.EMAIL_HOST_USER,
+                    [contract.client.email]
+                )
+                obj = genRenewalsNot(renewal=contract, date=today.date(),email=True)
+                obj.save()
+
+
+
 
     liferenewals = []
     for contract in LifeContract.objects.filter(expirationdate=today.date(),cancelled=False):
         liferenewals.append(contract)
+        lifeRenTable = lifeRenewalsNot.objects.all()
+        if lifeRenTable.filter(renewal=contract, date=today.date()).exists():
+            flag = True
+        else:
+            if contract.client.email:
+                plans=""
+                for p in contract.plan.all():
+                    plans+= str(p)
+                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! If you dont\' want it to be renewed please get in touch. Thank you, Leads Master'
+                send_mail(
+                    'Contract Renewal Reminder',
+                    text,
+                    settings.EMAIL_HOST_USER,
+                    [contract.client.email]
+                )
+                obj = lifeRenewalsNot(renewal=contract, date=today.date(),email=True)
+                obj.save()
+
 
     #Gather payments for current day
     generalpayments = []
-    for contract in GeneralContract.objects.filter(nextpayment=today.date()):
+    for contract in GeneralContract.objects.filter(nextpayment=today.date(),cancelled=False):
         generalpayments.append(contract)
+        genPaymTable = genPaymentsNot.objects.all()
+        if genPaymTable.filter(payment=contract, date=today.date()).exists():
+            flag = True
+        else:
+            if contract.client.email:
+                plans=""
+                for p in contract.plan.all():
+                    plans+= str(p)
+                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! Please get in touch to renew. Thank you, Leads Master'
+                send_mail(
+                    'Contract Renewal Reminder',
+                    text,
+                    settings.EMAIL_HOST_USER,
+                    [contract.client.email]
+                )
+                obj = genPaymentsNot(payment=contract, date=today.date(),email=True)
+                obj.save()
+
     lifepayments = []
-    for contract in GeneralContract.objects.filter(nextpayment=today.date()):
+    for contract in LifeContract.objects.filter(nextpayment=today.date(),cancelled=False):
         lifepayments.append(contract)
+        lifePaymTable = lifePaymentsNot.objects.all()
+        if lifePaymTable.filter(payment=contract, date=today.date()).exists():
+            flag = True
+        else:
+            if contract.client.email:
+                plans=""
+                for p in contract.plan.all():
+                    plans+= str(p)
+                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! Please get in touch to renew. Thank you, Leads Master'
+                send_mail(
+                    'Contract Renewal Reminder',
+                    text,
+                    settings.EMAIL_HOST_USER,
+                    [contract.client.email]
+                )
+                obj = lifePaymentsNot(payment=contract, date=today.date(), email=True)
+                obj.save()
+
 
     # Automatically renew Life contracts
     yesterday= today- timedelta(1)
@@ -170,14 +280,16 @@ def IndexView(request):
     for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
         Generalsales.append(contract)
         totalGeneralSales += contract.annualpremium
+
     for contract in LifeContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
         Lifesales.append(contract)
         totalLifeSales += contract.annualpremium
+
     return render(request, 'leadsMasterApp/indexBase.html',
-                  {'generalrenewals':generalrenewals,'activities':activities ,
-                   'birthdays':birthdays, 'lifesales':Lifesales ,
-                   'generalsales':Generalsales, 'liferenewals':liferenewals,
-                   'totalGeneralSales':totalGeneralSales ,
+                  {'generalrenewals':generalrenewals,'generalpayments':generalpayments,
+                   'activities':activities , 'birthdays':birthdays, 'lifesales':Lifesales ,
+                   'generalsales':Generalsales,'totalGeneralSales':totalGeneralSales ,
+                   'liferenewals':liferenewals, 'lifepayments':lifepayments,
                    'totalLifeSales':totalLifeSales,
                    'result_entities': result_entities})
 

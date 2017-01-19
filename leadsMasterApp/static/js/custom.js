@@ -228,7 +228,12 @@ function past(){
     document.getElementById('pastDiv').style.display = "block"
 
 }
-
+function showSales(){
+    document.getElementById('hideSales').style.display = "block"
+}
+function hideSales(){
+    document.getElementById('hideSales').style.display = "none"
+}
 function birthdays(){
     document.getElementById('birthdays').style.display = "block"
     document.getElementById('toDo').style.display = "none"
