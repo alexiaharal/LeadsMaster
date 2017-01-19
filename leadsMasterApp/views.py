@@ -893,7 +893,7 @@ def IconicIntroducerView(request):
             successPercentage[introducer]= float("{0:.2f}".format(percentage))
         else:
             successPercentage[introducer]=0
-        if successPercentage[introducer]>30:
+        if successPercentage[introducer]>65:
             successfulIntroducers[introducer]=(successPercentage[introducer],numOfSuccLeadsPerIntroducer[introducer])
 
     # sucIntroPercenSorted has the successfull introducers sorted with the best first
@@ -985,6 +985,7 @@ def IconicIntroducerView(request):
     print profitHoursSortedIntro
 
     averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
+    averageAge=float("{0:.2f}".format(averageAge))
     occupBasedSorted = OrderedDict(sorted(occupations.items(),key=lambda x:x[1], reverse=True))
     if len(occupBasedSorted)>4:
         occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
@@ -1116,6 +1117,7 @@ def IconicClientView(request):
 
 
         averageAge = ageSum / (len(profitSorted))
+        averageAge = float("{0:.2f}".format(averageAge))
         occupBasedSorted = OrderedDict(sorted(occupations.items(), key=lambda x: x[1], reverse=True))
         if len(occupBasedSorted) > 4:
             occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
