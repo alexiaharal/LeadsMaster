@@ -86,5 +86,16 @@
         </div>
       </div>
 
+
+
 {% endblock %}
 
+{% block script_block %}
+<script>
+    $(document).ready(function(){
+        dateConversion({{day}},{{month}},{{year}})
+
+})
+
+</script>
+{% endblock %}

@@ -119,5 +119,6 @@ font-size: 16px;"> Register a user: &nbsp; <a href="{% url 'register' %}" class=
       <!-- CUSTOM SCRIPTS -->
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/ajax.js' %}"></script>
+    {%block script_block %} script's block content{% endblock %}
 
 </body>

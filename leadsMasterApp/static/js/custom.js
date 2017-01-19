@@ -58,17 +58,21 @@
     weekday[6] = "Saturday";
 
 $(document).ready(function(){
-    calendarHome()
+//    calendarHome()
     document.getElementById('profitsDiv').style.display = "none"
     document.getElementById('salesDiv').style.display = "none"
 
 })
 
-function calendarHome(){
-    var d = new Date();
-    mainFunction(d);
+//function calendarHome(){
+//    var d = new Date();
+//    console.log(d)
+//    mainFunction(d);
+//}
+function dateConversion(day, month,year){
+    d=new Date(year,month-1,day)
+    mainFunction(d)
 }
-
 function nextFunction() {
     var month =((document).getElementById('currMonth')).innerHTML;
     var year = ((document).getElementById('currYear')).innerHTML;
@@ -118,8 +122,12 @@ function mainFunction(d){
     //get previous/upcoming month's number of days
     var futureMonth= new Date(d.setMonth( d.getMonth( ) + 1 ));
     var pastMonth = new Date(d.setUTCMonth(month - 1));
+    console.log("Past month: "+pastMonth)
     var LastPastDay = new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDay();
     var LastMonthDays= new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDate();
+        console.log("Past month days: "+LastMonthDays)
+        console.log("Last past days: "+LastPastDay)
+
     var FirstFutureDay = new Date(futureMonth.getFullYear(),futureMonth.getMonth(),1).getDay();
 
     if (FirstDay.getDay()==0){
@@ -132,10 +140,6 @@ function mainFunction(d){
         }
     }else{
         for (var i=LastMonthDays-FirstDay.getDay()+2; i <= LastMonthDays; i++) {
-            console.log(LastMonthDays)
-            console.log(FirstDay.getDay())
-
-            console.log(i)
             day1=i
             month1=pastMonth.getMonth()+1
             year1=pastMonth.getFullYear()

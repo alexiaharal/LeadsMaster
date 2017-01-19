@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404,render_to_response,redire
 from django.http import HttpResponse,HttpResponseRedirect, Http404
 from reportlab.pdfgen import canvas
 from django.template.context import RequestContext
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, time
 
 from django.conf import settings
 from .models import Calendar, Person, Activity, GeneralContract, LifeContract,Company, Generalbusinessplans, \
@@ -301,6 +301,7 @@ def calendar(request,day=None,month=None,year=None):
         month=today.date().month
         year = today.date().year
 
+
     dailyEntries= Calendar.objects.filter(activity__date__day=day,activity__date__month=month,activity__date__year=year)
     if request.method == "POST":
         form1 = ActivityForm(request.POST)
@@ -318,7 +319,7 @@ def calendar(request,day=None,month=None,year=None):
         form1 = ActivityForm()
         form2 = CalendarForm()
 
-    return render(request,'leadsMasterApp/calendar.html',{'calendarEntries':calendarEntries,'dailyEntries':dailyEntries,'form1':form1,'form2': form2})
+    return render(request,'leadsMasterApp/calendar.html',{'day':day,'month':month,'year':year,'calendarEntries':calendarEntries,'dailyEntries':dailyEntries,'form1':form1,'form2': form2})
 
 
 def successfulLeadsPercentage(introducer):
