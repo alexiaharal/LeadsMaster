@@ -110,7 +110,7 @@ class LifeContract(models.Model):
     expirationdate = models.DateField('expiration date')
     plan = models.ManyToManyField(Lifebusinessplans)
     annualpremium = models.FloatField()
-    doses = models.IntegerField(blank=True, null=True)
+    doses = models.IntegerField()
     nextpayment = models.DateField(blank=True, null=True)
     price = models.FloatField()
     duration = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
@@ -128,7 +128,7 @@ class GeneralContract(models.Model):
     expirationdate = models.DateField()  # Field name made lowercase.
     plan = models.ManyToManyField(Generalbusinessplans)
     annualpremium = models.FloatField()  # Field name made lowercase.
-    doses = models.IntegerField(blank=True, null=True)
+    doses = models.IntegerField()
     nextpayment = models.DateField( blank=True, null=True)  # Field name made lowercase.
     years= models.IntegerField(default=1)
     price = models.FloatField()
