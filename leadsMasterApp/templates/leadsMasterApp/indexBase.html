@@ -34,8 +34,8 @@
 <div class="row" id="hideSales">
 <!-- Show Sales of this day Last Year -->
         <div class="col-md-6" style="display:table;" >
-            <div class="panel panel-info">
-                <div class="panel-heading">Sales This Day Previous Years</div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">General Sales This Day Previous Years</div>
                 <div class="panel-body">
                     {% if generalsales %}
                         <div class="table-responsive">
@@ -65,14 +65,12 @@
                     {% else %}
                         <h5 style="float:right">Make your FIRST General sale for this day of the year! </h5>
                     {% endif %}
-
-                    <br><br><hr>
                 </div>
             </div>
         </div>
         <div class="col-md-6" style="display:table;">
-            <div class="panel panel-info">
-                <div class="panel-heading">Sales This Day Previous Years</div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">Life Sales This Day Previous Years</div>
                 <div class="panel-body">
 
                     {% if lifesales %}
@@ -103,8 +101,6 @@
                     {% else %}
                         <h5 style="float:right">Make your FIRST Life sale for this day of the year! </h5>
                     {% endif %}
-
-
                 </div>
             </div>
         </div>

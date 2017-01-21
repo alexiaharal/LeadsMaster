@@ -4,7 +4,6 @@ from calendar import monthrange
 
 from django.shortcuts import render, get_object_or_404,render_to_response,redirect
 from django.http import HttpResponse,HttpResponseRedirect, Http404
-from reportlab.pdfgen import canvas
 from django.template.context import RequestContext
 from datetime import datetime, timedelta, date, time
 
@@ -156,13 +155,13 @@ def IndexView(request):
                 emails.append(p.email)
                 obj = birthdayNot(birthday=p, date=today.date(),email=True)
                 obj.save()
-    print emails
-    send_mail(
-        'Happy Birthday',
-        'Leads Master system, on behalf of your insurance agent, wishes you a Very Happy Birthday',
-        settings.EMAIL_HOST_USER,
-        emails
-    )
+    if emails:
+        send_mail(
+            'Happy Birthday',
+            'Leads Master system, on behalf of your insurance agent, wishes you a very happy birthday.',
+            settings.EMAIL_HOST_USER,
+            emails
+        )
 
 
     #Gather renewals for current day
@@ -203,7 +202,7 @@ def IndexView(request):
                     plans+= str(p)
                 text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! If you dont\' want it to be renewed please get in touch. Thank you, Leads Master'
                 send_mail(
-                    'Contract Renewal Reminder',
+                    'Contract Renewal Notification',
                     text,
                     settings.EMAIL_HOST_USER,
                     [contract.client.email]
@@ -224,9 +223,10 @@ def IndexView(request):
                 plans=""
                 for p in contract.plan.all():
                     plans+= str(p)
-                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! Please get in touch to renew. Thank you, Leads Master'
+                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' needs to be paid! Please get in touch to arrange a meeting. Thank you, Leads Master'
+                print contract.client.email
                 send_mail(
-                    'Contract Renewal Reminder',
+                    'Contract Payment Reminder',
                     text,
                     settings.EMAIL_HOST_USER,
                     [contract.client.email]
@@ -245,9 +245,9 @@ def IndexView(request):
                 plans=""
                 for p in contract.plan.all():
                     plans+= str(p)
-                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' is expiring today! Please get in touch to renew. Thank you, Leads Master'
+                text='This is a reminder that your ' +plans+ ' contract, with contract number: '+ str(contract.idcontract)+ ' needs to be paid! Please get in touch to arrange a meeting. Thank you, Leads Master'
                 send_mail(
-                    'Contract Renewal Reminder',
+                    'Contract Payment Reminder',
                     text,
                     settings.EMAIL_HOST_USER,
                     [contract.client.email]
@@ -326,13 +326,11 @@ def successfulLeadsPercentage(introducer):
     numOfLeads = 0
     numOfSuccLeads = 0
     leadsFromIntroducer = Person.objects.filter(leadfrom=introducer.id)
-    print leadsFromIntroducer
     # Calculate
     for person in leadsFromIntroducer:
         numOfLeads += 1
         if person.isclient == 1:
             numOfSuccLeads += 1
-    print numOfSuccLeads
     #Calculate successful PERCENTAGE
         # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
     successfulPercentage=0
@@ -434,7 +432,6 @@ def SuccLeadsView(request):
         for p in resultIntroducers:
             percentage=successfulLeadsPercentage(p)
             myintroducers[p]=percentage
-        print myintroducers
     else:
         introducers = Person.objects.filter(isintroducer=1)
         topIntroducers = {}
@@ -484,7 +481,6 @@ def salesReportsView(request):
         currentLifeSales=LifeContract.objects.filter(issuedate__month=today.month,issuedate__year=today.year,cancelled=False)
         currentGenProfits=GeneralContract.objects.filter(issuedate__month=today.month,cancelled=False)
         currentLifeProfits=LifeContract.objects.filter(issuedate__month=today.month,cancelled=False)
-        print currentGenSales
     else:
         currentGenSales = GeneralContract.objects.filter(issuedate__range=[date1, date2],cancelled=False)
         currentLifeSales = LifeContract.objects.filter(issuedate__range=[date1, date2],cancelled=False)
@@ -493,7 +489,6 @@ def salesReportsView(request):
 
 
     if (lifePlan!="") or (generalPlan!=""):
-        print "some2"
         if (not lifePlan) and generalPlan:
             currentGenSales = currentGenSales.filter(plan=generalPlan.planid)
             currentLifeSales = {}
@@ -544,7 +539,6 @@ def salesReportsView(request):
         totalLifeProfits[contract]=lifeContractProfit(contract,contract.client)
         totalLifeProfit+=totalLifeProfits[contract]["thisYearProfit"]
 
-    print totalLifeSalesProfits
     ###### Profits Calculations #####
     return render(request, 'leadsMasterApp/salesReports.html',{'totalLifeSalesProfits':totalLifeSalesProfits,
         'totalLifeSalesProfit':totalLifeSalesProfit,'totalCurrentAnnualLife':totalCurrentAnnualLife,'form':form,
@@ -620,10 +614,11 @@ def AddProfileView(request):
         form = PersonForm(request.POST)
         if form.is_valid():
             person = form.save(commit=False)
-            introducer=Person.objects.get(idperson=form.cleaned_data['leadfrom'].idperson)
-            if introducer.isintroducer == 0:
-                introducer.isintroducer = 1
-                introducer.save()
+            if form.cleaned_data['leadfrom']:
+                introducer=Person.objects.get(idperson=form.cleaned_data['leadfrom'].idperson)
+                if introducer.isintroducer == 0:
+                    introducer.isintroducer = 1
+                    introducer.save()
             person.save()
             return redirect('ourPeople')
     else:
@@ -634,6 +629,12 @@ def EditProfileView(request, pk):
     person = get_object_or_404(Person, pk=pk)
     form = PersonForm(data = request.POST or None, instance=person)
     if form.is_valid():
+        person = form.save(commit=False)
+        if form.cleaned_data['leadfrom']:
+            introducer = Person.objects.get(idperson=form.cleaned_data['leadfrom'].idperson)
+            if introducer.isintroducer == 0:
+                introducer.isintroducer = 1
+                introducer.save()
         person.save()
         return redirect('ourPeople')
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
@@ -677,7 +678,6 @@ def ContractPageView(request,pk,type):
                 period = form.cleaned_data['period']
             else:
                 period = form.cleaned_data['other']
-            print period
             c = contract
             newExpDate = c.expirationdate + relativedelta(months=+int(period))
             c.years+=int(period)
@@ -715,7 +715,6 @@ def addContractLifeView(request):
 
 def editContractLifeView(request, pk):
     instance=get_object_or_404(LifeContract, pk=pk)
-    print instance
     form = LifeContractForm(data = request.POST or None, instance=instance)
     if form.is_valid():
         instance=form.save(commit=False)
@@ -929,7 +928,6 @@ def IconicIntroducerView(request):
             activities = Calendar.objects.filter(activity__customerid=person)
             for a in activities:
                 hours += a.activity.duration
-            print hours
         profithours[introducer]=hours
 
     profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
@@ -961,7 +959,6 @@ def IconicIntroducerView(request):
         successProfitHours[person] = {'percentage': succIntroPercenSorted[person], 'hours': float("{0:.2f}".format(profithours[person]/60))}
     successProfitHoursSorted = OrderedDict(sorted(successProfitHours.items(), key=lambda x: (-x[1]['percentage'][0],x[1]['hours'])))
 
-    print successProfitHoursSorted
     for person in profitBasedSorted:
         personAge= relativedelta(today.date(), person.dateofbirth).years
         if personAge>maxAge:
@@ -981,8 +978,6 @@ def IconicIntroducerView(request):
         profitHoursDic[person] = {'profit': profitBasedSorted[person], 'hours': float("{0:.2f}".format(profithours[person]/60))}
 
     profitHoursSortedIntro = OrderedDict(sorted(profitHoursDic.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
-
-    print profitHoursSortedIntro
 
     averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
     averageAge=float("{0:.2f}".format(averageAge))
@@ -1026,7 +1021,6 @@ def IconicClientView(request):
             if (not lifePlan) and generalPlan:
                 # General Business profits from this client
                 genContracts = GeneralContract.objects.filter(client=client, cancelled=False, plan=generalPlan.planid)
-                print genContracts
                 if genContracts:
                     if client not in profits:
                         profits[client]=0
@@ -1036,7 +1030,6 @@ def IconicClientView(request):
             elif (not generalPlan) and lifePlan:
                 # Life Business profits from this introducer
                 lifeContr = LifeContract.objects.filter(client=client, cancelled=False, plan=lifePlan.planlifeid)
-                print lifeContr
                 if lifeContr:
                     if client not in profits:
                         profits[client]=0
@@ -1154,8 +1147,7 @@ def paymentsReportView(request):
         contract=item
         nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
         upcomingGeneral[contract]=nextPayment
-    print (today.date() + timedelta(days=5))
-    for item in LifeContract.objects.filter(nextpayment__range=[(today.date() + timedelta(days=1)),(today.date() + timedelta(days=5))], cancelled=False):
+    for item in LifeContract.objects.filter(nextpayment__range=[(today.date() + timedelta(days=1)),(today.date() + timedelta(days=6))], cancelled=False):
         contract = item
         nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
         upcomingLife[contract] = nextPayment
