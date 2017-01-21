@@ -1078,7 +1078,7 @@ def IconicClientView(request):
     genderAverage = ""
     occupBasedFinal="-"
     profitHours = {}
-
+    profitHoursSorted={}
     if profitSorted:
         for person in profitSorted:
             # Get age and Gender
