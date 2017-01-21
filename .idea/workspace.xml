@@ -4,10 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/leadsMasterApp/templates/leadsMasterApp/reports.html" line="16" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f77a866e-e118-4521-9ea8-c6de0c5eec81" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/leadsMaster/settings.py" afterPath="$PROJECT_DIR$/leadsMaster/settings.py" />
-    </list>
+    <list default="true" id="f77a866e-e118-4521-9ea8-c6de0c5eec81" name="Default" comment="" />
     <ignored path="leadsMaster.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
