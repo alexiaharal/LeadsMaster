@@ -35,9 +35,8 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('website', 'employeeid','position','salary','hourspermonth')
+        fields = ('employeeid','position','salary','hourspermonth')
         labels = {
-            "website": "Website",
             "employeeid": "Employee ID",
             'position': 'Position',
             'salary': 'Salary',
@@ -65,9 +64,9 @@ class PersonForm(forms.ModelForm):
         }
 
 class LifeContractForm(forms.ModelForm):
-    issuedate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
-    expirationdate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
-    nextpayment = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
+    issuedate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(),label="Issue Date")
+    expirationdate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(), label="Expiration Date")
+    nextpayment = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(), label="Next Payment Date")
 
     class Meta:
         model = LifeContract
@@ -89,9 +88,9 @@ class LifeContractForm(forms.ModelForm):
         }
 
 class GeneralContractForm(forms.ModelForm):
-    issuedate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
-    expirationdate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
-    nextpayment = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
+    issuedate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(),label="Issue Date")
+    expirationdate = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(), label="Expiration Date")
+    nextpayment = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(), label="Next Payment Date")
 
     class Meta:
         model = GeneralContract
@@ -180,8 +179,8 @@ class PlansOptionsForm(forms.Form):
     generalPlan = forms.ModelChoiceField(queryset = Generalbusinessplans.objects.all(), label=" Select General Plan: ",required=False)
 
 class DatesForm(forms.Form):
-    date1 = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
-    date2 = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now())
+    date1 = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(), label="Date 1")
+    date2 = forms.DateField(widget=extras.SelectDateWidget(years = DOY),initial=datetime.now(), label="Date 2")
 
 
 class ActivityForm(forms.ModelForm):

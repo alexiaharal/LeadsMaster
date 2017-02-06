@@ -3,7 +3,7 @@
 {% block title %} {{index_page }} {% endblock %}}
 
 {%block body_block %}
-
+<div id="toPDF">
 <div class="row">
     <div class="col-md-12">
         <h2 style="color:#000">Reports </h2>
@@ -56,7 +56,7 @@
 
             </thead>
             <tbody>
-                {% for person,dic in successProfitHoursSorted.items %}
+                {% for person,dic in finalDicSorted.items %}
                 <tr>
                     <td>{{person.name}}</td>
                     <td>{{person.surname}}</td>
@@ -85,7 +85,7 @@
 
             </thead>
             <tbody>
-                {% for person,dic in profitHoursSortedIntro.items %}
+                {% for person,dic in finalProfitBasedDicSorted.items %}
                 <tr>
                     <td>{{person.name}}</td>
                     <td>{{person.surname}}</td>
@@ -101,9 +101,25 @@
         </table>
  </div>
 
-
+</div>
 
 {% endblock %}
 
+<script>
 
+var doc = new jsPDF();
+
+var source = window.document.getElementsByTagName("toPDF")[0];
+doc.fromHTML(
+    source,
+    15,
+    15,
+    {
+      'width': 180,'elementHandlers': elementHandler
+    });
+
+doc.output("dataurlnewwindow");
+
+
+</script>
 

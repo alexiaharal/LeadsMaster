@@ -126,10 +126,10 @@ def user_logout(request):
 actEmails = {}
 
 def IndexView(request):
+    today = datetime.now()
 
     #Gather all activities for current day
     activities=[]
-
     for a in Activity.objects.filter(date=today.date()):
         activities.append(a)
 
@@ -138,7 +138,6 @@ def IndexView(request):
                 # insert code here to send email if you want to
                 a.email = True
                 a.save()
-
 
     #Gather birthdays for current day
     birthdays = []
@@ -285,6 +284,7 @@ def IndexView(request):
         Lifesales.append(contract)
         totalLifeSales += contract.annualpremium
 
+
     return render(request, 'leadsMasterApp/indexBase.html',
                   {'generalrenewals':generalrenewals,'generalpayments':generalpayments,
                    'activities':activities , 'birthdays':birthdays, 'lifesales':Lifesales ,
@@ -295,6 +295,8 @@ def IndexView(request):
 
 
 def calendar(request,day=None,month=None,year=None):
+    today = datetime.now()
+
     calendarEntries=Calendar.objects.all()
     if day is None:
         day=today.date().day
@@ -454,6 +456,8 @@ def succLeadsPersonView(request,pk):
     return render(request, 'leadsMasterApp/succLeadsPerson.html', {'numOfLeads':numOfLeads,'numOfSuccLeads':numOfSuccLeads,'percentage':percentage,'successfulLeads':successfulLeads,'person':person,'leads':leads})
 
 def salesReportsView(request):
+    today = datetime.now()
+
     date1=""
     date2=""
     lifePlan = ""
@@ -554,60 +558,62 @@ def generalContractProfit(contract):
     return (profit)
 
 def lifeContractProfit(contract,person):
-        yearsOfContract =relativedelta(today.date(), contract.issuedate).years
-        profit = 0
-        firstyear = 0
-        nextyears = 0
-        #get profit from all plans if more than one plan
-        for plan in contract.plan.all():
-            ## FIRST year profit ##
+    today = datetime.now()
 
-            # Get percentage
-            if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4) :
-                percentage = plan.firstyearcommission
-            elif contract.duration:
-                percentage = contract.duration * plan.firstyearcommission
-            else:
-                percentage = (plan.agelimit - (relativedelta(today.date(), person.dateofbirth).years )) * plan.firstyearcommission
+    yearsOfContract =relativedelta(today.date(), contract.issuedate).years
+    profit = 0
+    firstyear = 0
+    nextyears = 0
+    #get profit from all plans if more than one plan
+    for plan in contract.plan.all():
+        ## FIRST year profit ##
 
-            #Check if in range of percentages
-            if percentage < plan.minpercentage:
-                percentage = plan.minpercentage
-            elif percentage > plan.maxpercentage:
-                percentage = plan.maxpercentage
+        # Get percentage
+        if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4) :
+            percentage = plan.firstyearcommission
+        elif contract.duration:
+            percentage = contract.duration * plan.firstyearcommission
+        else:
+            percentage = (plan.agelimit - (relativedelta(today.date(), person.dateofbirth).years )) * plan.firstyearcommission
 
-            # Save First Year's Commission
-            firstyear = contract.annualpremium * percentage / 100
+        #Check if in range of percentages
+        if percentage < plan.minpercentage:
+            percentage = plan.minpercentage
+        elif percentage > plan.maxpercentage:
+            percentage = plan.maxpercentage
 
-            # If current contract is issued for more than one year
-            # REST OF THE YEARS profit -  up to now
-            if yearsOfContract > 0:
-                if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4):
-                    if yearsOfContract == 1:
-                        nextyears += contract.annualpremium * plan.futureprofit2 / 100
-                        thisYearProfit=contract.annualpremium *plan.futureprofit2 / 100
-                    elif yearsOfContract == 2:
-                        nextyears += (plan.futureprofit3 /100 * contract.annualpremium) + (
-                        plan.futureprofit2 /100 * contract.annualpremium)
-                        thisYearProfit=contract.annualpremium*plan.futureprofit3 / 100
-                    else:
-                        nextyears += (plan.futureprofit3 /100 * contract.annualpremium) + (
-                            plan.futureprofit2 /100 * contract.annualpremium) + (
-                            plan.futureprofit4 /100 * contract.annualpremium * (yearsOfContract - 2))
-                        thisYearProfit=plan.futureprofit4 /100
+        # Save First Year's Commission
+        firstyear = contract.annualpremium * percentage / 100
+
+        # If current contract is issued for more than one year
+        # REST OF THE YEARS profit -  up to now
+        if yearsOfContract > 0:
+            if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4):
+                if yearsOfContract == 1:
+                    nextyears += contract.annualpremium * plan.futureprofit2 / 100
+                    thisYearProfit=contract.annualpremium *plan.futureprofit2 / 100
+                elif yearsOfContract == 2:
+                    nextyears += (plan.futureprofit3 /100 * contract.annualpremium) + (
+                    plan.futureprofit2 /100 * contract.annualpremium)
+                    thisYearProfit=contract.annualpremium*plan.futureprofit3 / 100
                 else:
-                    nextyears += plan.futureprofit / 100 * yearsOfContract * contract.annualpremium
-                    thisYearProfit=plan.futureprofit / 100 *contract.annualpremium
+                    nextyears += (plan.futureprofit3 /100 * contract.annualpremium) + (
+                        plan.futureprofit2 /100 * contract.annualpremium) + (
+                        plan.futureprofit4 /100 * contract.annualpremium * (yearsOfContract - 2))
+                    thisYearProfit=plan.futureprofit4 /100
             else:
-                thisYearProfit=firstyear
-        # sum up profit from this contract
-        totalProfit = firstyear + nextyears
-        profit={}
-        totalProfit = float("{0:.2f}".format(totalProfit))
-        thisYearProfit=float("{0:.2f}".format(thisYearProfit))
-        profit['total']=totalProfit
-        profit['thisYearProfit']=thisYearProfit
-        return (profit)
+                nextyears += plan.futureprofit / 100 * yearsOfContract * contract.annualpremium
+                thisYearProfit=plan.futureprofit / 100 *contract.annualpremium
+        else:
+            thisYearProfit=firstyear
+    # sum up profit from this contract
+    totalProfit = firstyear + nextyears
+    profit={}
+    totalProfit = float("{0:.2f}".format(totalProfit))
+    thisYearProfit=float("{0:.2f}".format(thisYearProfit))
+    profit['total']=totalProfit
+    profit['thisYearProfit']=thisYearProfit
+    return (profit)
 
 def AddProfileView(request):
     if request.method == "POST":
@@ -650,6 +656,8 @@ def ProfileView (request, pk):
                    'lifeContracts':lifeContracts,'leads':leads,'percentage':percentage})
 
 def ContractPageView(request,pk,type):
+    today = datetime.now()
+
     if type=='life':
         contract=get_object_or_404(LifeContract, pk=pk)
         life=1
@@ -659,7 +667,10 @@ def ContractPageView(request,pk,type):
         contract=get_object_or_404(GeneralContract, pk=pk)
         life=0
         t='general'
-        yearsInyears = contract.years / 12
+        yearsInyears = contract.years /12
+        if yearsInyears<1:
+            yearsInyears=0
+        yearsInyears = float("{0:.2f}".format(yearsInyears))
 
     person=contract.client
     totalPayment=contract.price
@@ -869,6 +880,15 @@ def EditLifePlanView(request,pk):
 
 
 def IconicIntroducerView(request):
+    today = datetime.now()
+    minAge=100
+    maxAge=0
+    ageSum=0
+    females=0
+    males=0
+    occupations={}
+
+
     introducers=Person.objects.filter(isintroducer=True)
 
     # Calculate number of leads and number of successful leads (leads that are current clients) given from each person
@@ -930,36 +950,30 @@ def IconicIntroducerView(request):
                 hours += a.activity.duration
         profithours[introducer]=hours
 
-    profitBasedSorted = OrderedDict(sorted(profits.items(),key=lambda x:x[1], reverse=True))
-    minAge=100
-    maxAge=0
-    ageSum=0
-    females=0
-    males=0
-    occupations={}
+    profitBased={}
+    for key in profits:
+        if profits[key]!=0:
+            profitBased[key]=profits[key]
+    profitBasedSorted = OrderedDict(sorted(profitBased.items(),key=lambda x:x[1], reverse=True))
+
     successProfitHours={}
     profitHoursDic={}
     successProfitHoursSorted={}
     for person in succIntroPercenSorted:
-        personAge= relativedelta(today.date(), person.dateofbirth).years
-        if personAge>maxAge:
-            maxAge=personAge
-        if personAge<minAge:
-            minAge=personAge
-        ageSum+=personAge
-        if person.gender=="Female":
-            females+=1
-        else:
-            males+=1
-        if person.occupation not in occupations:
-            occupations[person.occupation]=1
-        else:
-            occupations[person.occupation]+=1
-
         successProfitHours[person] = {'percentage': succIntroPercenSorted[person], 'hours': float("{0:.2f}".format(profithours[person]/60))}
     successProfitHoursSorted = OrderedDict(sorted(successProfitHours.items(), key=lambda x: (-x[1]['percentage'][0],x[1]['hours'])))
 
-    for person in profitBasedSorted:
+    #Take first 20 people from successful Introducers
+    finalProfitHours = {}
+    if len(successProfitHoursSorted) > 20:
+        for key in sorted(successProfitHoursSorted)[:20]:
+            finalProfitHours[key] = successProfitHoursSorted[key]
+    else:
+        for key in sorted(successProfitHoursSorted):
+            finalProfitHours[key] = successProfitHoursSorted[key]
+    finalDicSorted = OrderedDict(sorted(finalProfitHours.items(), key=lambda x: (-x[1]['percentage'][0],x[1]['hours'])))
+
+    for person in  finalDicSorted:
         personAge= relativedelta(today.date(), person.dateofbirth).years
         if personAge>maxAge:
             maxAge=personAge
@@ -975,11 +989,38 @@ def IconicIntroducerView(request):
         else:
             occupations[person.occupation]+=1
 
+    #Take introducers based on profit gained from leads
+    for person in profitBasedSorted:
         profitHoursDic[person] = {'profit': profitBasedSorted[person], 'hours': float("{0:.2f}".format(profithours[person]/60))}
-
     profitHoursSortedIntro = OrderedDict(sorted(profitHoursDic.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
 
-    averageAge=ageSum/(len(successfulIntroducers)+len(profitBasedSorted))
+    #Take first 20 people from Introducers based on profit
+    finalProfitBased = {}
+    if len(profitHoursSortedIntro) > 20:
+        for key in sorted(profitHoursSortedIntro)[:20]:
+            finalProfitBased[key] = profitHoursSortedIntro[key]
+    else:
+        for key in sorted(profitHoursSortedIntro):
+            finalProfitBased[key] = profitHoursSortedIntro[key]
+    finalProfitBasedDicSorted = OrderedDict(sorted(finalProfitBased.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
+
+    for person in finalProfitBasedDicSorted:
+        personAge= relativedelta(today.date(), person.dateofbirth).years
+        if personAge>maxAge:
+            maxAge=personAge
+        if personAge<minAge:
+            minAge=personAge
+        ageSum+=personAge
+        if person.gender=="Female":
+            females+=1
+        else:
+            males+=1
+        if person.occupation not in occupations:
+            occupations[person.occupation]=1
+        else:
+            occupations[person.occupation]+=1
+
+    averageAge=ageSum/(len(finalDicSorted)+len(finalProfitBasedDicSorted))
     averageAge=float("{0:.2f}".format(averageAge))
     occupBasedSorted = OrderedDict(sorted(occupations.items(),key=lambda x:x[1], reverse=True))
     if len(occupBasedSorted)>4:
@@ -996,12 +1037,13 @@ def IconicIntroducerView(request):
         genderAverage="Male/Female"
 
     return render(request, 'leadsMasterApp/iconicIntroducer.html', {'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
-                                                                    'averageAge':averageAge, 'successProfitHoursSorted':successProfitHoursSorted,
-                                                                    'introducers':introducers, 'profitHoursSortedIntro': profitHoursSortedIntro,
+                                                                    'averageAge':averageAge, 'finalDicSorted':finalDicSorted,
+                                                                    'introducers':introducers, 'finalProfitBasedDicSorted': finalProfitBasedDicSorted,
                                                                     'occupBasedFinal':occupBasedFinal})
 
 
 def IconicClientView(request):
+    today = datetime.now()
 
     lifePlan = ""
     generalPlan=""
@@ -1081,6 +1123,25 @@ def IconicClientView(request):
     profitHoursSorted={}
     if profitSorted:
         for person in profitSorted:
+            #Get hours spent on person
+            hours = 0
+            activities=Calendar.objects.filter(activity__customerid=person)
+            for a in activities:
+                hours+= a.activity.duration
+            profitHours[person] = {'profit': float("{0:.2f}".format(profitSorted[person])), 'hours': float("{0:.2f}".format(hours/60))}
+
+        profitHoursSorted = OrderedDict(sorted(profitHours.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
+        finalDic={}
+        if len(profitHoursSorted)>20:
+            for key in sorted(profitHoursSorted)[:20]:
+                finalDic[key]= profitHoursSorted[key]
+        else:
+            for key in sorted(profitHoursSorted):
+                finalDic[key]= profitHoursSorted[key]
+        finalDicSorted= OrderedDict(sorted(finalDic.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
+
+    if finalDicSorted:
+        for person in finalDicSorted:
             # Get age and Gender
             personAge = relativedelta(today.date(), person.dateofbirth).years
             if personAge > maxAge:
@@ -1093,43 +1154,35 @@ def IconicClientView(request):
             else:
                 males += 1
 
-            #Get occupation of people
+            # Get occupation of people
             if person.occupation not in occupations:
                 occupations[person.occupation] = 1
             else:
                 occupations[person.occupation] += 1
 
-            #Get hours spent on person
-            hours = 0
-            activities=Calendar.objects.filter(activity__customerid=person)
-            for a in activities:
-                hours+= a.activity.duration
-            profitHours[person] = {'profit': profitSorted[person], 'hours': float("{0:.2f}".format(hours/60))}
+    averageAge = ageSum / (len(finalDicSorted))
+    print averageAge
+    averageAge = float("{0:.2f}".format(averageAge))
+    occupBasedSorted = OrderedDict(sorted(occupations.items(), key=lambda x: x[1], reverse=True))
+    if len(occupBasedSorted) > 4:
+        occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
+    else:
+        occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
 
-        profitHoursSorted = OrderedDict(sorted(profitHours.items(), key=lambda x: (-x[1]['profit'],x[1]['hours'])))
-
-
-        averageAge = ageSum / (len(profitSorted))
-        averageAge = float("{0:.2f}".format(averageAge))
-        occupBasedSorted = OrderedDict(sorted(occupations.items(), key=lambda x: x[1], reverse=True))
-        if len(occupBasedSorted) > 4:
-            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())[:4]]
-        else:
-            occupBasedFinal = [k for k in sorted(occupBasedSorted.keys())]
-
-        if males > females:
-            genderAverage = "Male"
-        elif females > males:
-            genderAverage = "Female"
-        else:
-            genderAverage = "Male/Female"
+    if males > females:
+        genderAverage = "Male"
+    elif females > males:
+        genderAverage = "Female"
+    else:
+        genderAverage = "Male/Female"
     return render(request, 'leadsMasterApp/iconicClient.html',{'genderAverage':genderAverage,'minAge':minAge,'maxAge':maxAge,
                                                                     'averageAge':averageAge, 'clients':clients,
-                                                                     'profitHoursSorted': profitHoursSorted,
+                                                                     'finalDicSorted': finalDicSorted,
                                                                     'occupBasedFinal':occupBasedFinal,
                                                                'plansForm':plansForm})
 
 def paymentsReportView(request):
+    today = datetime.now()
 
     toBePaidGeneral={}
     toBePaidLife = {}
