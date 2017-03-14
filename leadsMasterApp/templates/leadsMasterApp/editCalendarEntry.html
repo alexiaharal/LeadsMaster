@@ -1,0 +1,27 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block title %} {{calendar_page }} {% endblock %}}
+{% block nav-calendar %}class="active-menu"{% endblock %}
+<head>
+</head>
+
+{%block body_block %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 style="color:#000">Edit Calendar Entry</h2>
+    </div>
+</div>
+<hr />
+
+<div class="col-md-6">
+    <form method="POST" >{% csrf_token %}
+      {{formActivity|bootstrap}}
+      {{formCalendar|bootstrap}}
+        <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
+        <a class="btn btn-default" href="{% url 'calendar' %}" role="button"> Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

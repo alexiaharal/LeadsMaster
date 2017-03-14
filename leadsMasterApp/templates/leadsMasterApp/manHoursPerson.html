@@ -25,7 +25,7 @@
                 <ul style="list-style-type:square">
                 {% for activity in activities %}
                     <li><b>{{activity.activity.date}} -- {{activity.activity.duration}}min</b>
-                    <br>   {{activity.activity.activityname}}
+                    <br>   {{activity.activity.activityname}}<br> {{activity.activity.meeting_minutes}}
                     <br><br></li>
                 {% endfor %}</ul>
                 <hr />

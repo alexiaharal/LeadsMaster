@@ -57,18 +57,8 @@
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
 
-$(document).ready(function(){
-//    calendarHome()
-    document.getElementById('profitsDiv').style.display = "none"
-    document.getElementById('salesDiv').style.display = "none"
 
-})
 
-//function calendarHome(){
-//    var d = new Date();
-//    console.log(d)
-//    mainFunction(d);
-//}
 function dateConversion(day, month,year){
     d=new Date(year,month-1,day)
     mainFunction(d)
@@ -122,12 +112,8 @@ function mainFunction(d){
     //get previous/upcoming month's number of days
     var futureMonth= new Date(d.setMonth( d.getMonth( ) + 1 ));
     var pastMonth = new Date(d.setUTCMonth(month - 1));
-    console.log("Past month: "+pastMonth)
     var LastPastDay = new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDay();
     var LastMonthDays= new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDate();
-        console.log("Past month days: "+LastMonthDays)
-        console.log("Last past days: "+LastPastDay)
-
     var FirstFutureDay = new Date(futureMonth.getFullYear(),futureMonth.getMonth(),1).getDay();
 
     if (FirstDay.getDay()==0){
@@ -151,9 +137,10 @@ function mainFunction(d){
         day1=i+1
         month1=month+1
         year1=year
+        currentD = new Date(year1,month1,day1)
         url="<a onclick=\"generateUrl("+day1+","+month1+","+year1+")\">"
         html +=url+"<li><b>"+(i+1)+"</b></li></a>";
-    }
+            }
     for (var i=1; i <= 7-LastDay.getDay(); i++) {
         day1=i
         month1=futureMonth.getMonth()+1
@@ -164,10 +151,10 @@ function mainFunction(d){
 
     $("#daysBuilder").append(html);
     };
+
+
 JS_REVERSE_JS_VAR_NAME = 'Urls'
 function generateUrl(day, month, year){
-//    url="{% url \'calendarDay\' day="+day+" month="+month+" year="+year+" %}"
-
     location.href = "/calendar/"+day+"/"+month+"/"+year+"/"
     }
 
@@ -232,12 +219,16 @@ function past(){
     document.getElementById('pastDiv').style.display = "block"
 
 }
+
+/** Show or Hide Sales Banner in home page **/
 function showSales(){
     document.getElementById('hideSales').style.display = "block"
 }
 function hideSales(){
     document.getElementById('hideSales').style.display = "none"
 }
+
+/** Show or Hide each notification banner respectively in home page **/
 function birthdays(){
     document.getElementById('birthdays').style.display = "block"
     document.getElementById('toDo').style.display = "none"
@@ -246,9 +237,8 @@ function birthdays(){
     document.getElementById('generalPayments').style.display = "none"
     document.getElementById('lifePayments').style.display = "none"
     document.getElementById('leadsToContact').style.display = "none"
-
-
 }
+
 function todo(){
     document.getElementById('birthdays').style.display = "none"
     document.getElementById('toDo').style.display = "block"
@@ -257,8 +247,8 @@ function todo(){
     document.getElementById('generalPayments').style.display = "none"
     document.getElementById('lifePayments').style.display = "none"
     document.getElementById('leadsToContact').style.display = "none"
-
 }
+
 function renewals(){
     document.getElementById('birthdays').style.display = "none"
     document.getElementById('toDo').style.display = "none"
@@ -267,8 +257,8 @@ function renewals(){
     document.getElementById('generalPayments').style.display = "none"
     document.getElementById('lifePayments').style.display = "none"
     document.getElementById('leadsToContact').style.display = "none"
-
 }
+
 function payments(){
     document.getElementById('birthdays').style.display = "none"
     document.getElementById('toDo').style.display = "none"
@@ -277,7 +267,6 @@ function payments(){
     document.getElementById('generalPayments').style.display = "block"
     document.getElementById('lifePayments').style.display = "block"
     document.getElementById('leadsToContact').style.display = "none"
-
 }
 
 function leadsToContact(){
@@ -288,5 +277,4 @@ function leadsToContact(){
     document.getElementById('generalPayments').style.display = "none"
     document.getElementById('lifePayments').style.display = "none"
     document.getElementById('leadsToContact').style.display = "block"
-
 }

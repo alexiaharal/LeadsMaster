@@ -41,22 +41,17 @@
 
 <!-- The Form -->
 <div id="myModal" class="modal">
-
   <!-- Form content -->
   <div class="modal-content">
     <span class="close">&times;</span>
         <form method="POST" class="personForm">{% csrf_token %}
-
           {{form1|bootstrap}}
           {{form2|bootstrap}}
             <button type="submit" name="submitBtn" class="save btn btn-default">Save</button>
-
             <a class="btn btn-default" href="{% url 'calendar' %}" role="button"> Cancel</a>
         </form>
   </div>
-
 </div>
-
 
     <div class = "row" id="activityCenter">
         <!-- import results from notifications according to selection -->
@@ -64,8 +59,9 @@
             <div class="panel panel-info">
                 <div class="panel-heading">{{day}} / {{month}} / {{year}}</div>
                 <div class="panel-body">
-                  {% if dailyEntries %}
-                    {% for entry in dailyEntries %}
+
+                  {% if daily_entries %}
+                    {% for entry in daily_entries %}
                       {% if entry.employee.user == request.user %}
                         <div class="timeTag">
                           <b>{{entry.activity.time}}
@@ -73,9 +69,11 @@
                           {{entry.activity.duration}} min</b>
                         </div>
                         <div class="activityTag">
-                          {{entry.activity.activityname}}
-                          <br/>
-                          {{entry.activity.customerid.name}} {{entry.activity.customerid.surname}}
+                            <a href="{% url 'editCalendarEntry' pkc=entry.entryid %}">{{entry.activity.activityname}}</a>
+                            <br/>
+                            With: {{entry.activity.customerid.name}} {{entry.activity.customerid.surname}}
+                            <br/>
+                            Meeting Minutes:{{entry.activity.meeting_minutes}}
                         </div>
                       {% endif %}
                         <hr/>
@@ -94,7 +92,6 @@
 <script>
     $(document).ready(function(){
         dateConversion({{day}},{{month}},{{year}})
-
 })
 
 </script>

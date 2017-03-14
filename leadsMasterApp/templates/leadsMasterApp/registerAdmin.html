@@ -1,0 +1,43 @@
+{% extends 'leadsMasterApp/base.html' %}
+{% load static %}
+{% load bootstrap %}
+{%block body_block %}
+{% if allowed %}
+                <div class="row">
+                    <div class="col-md-5">
+                        <h2 style="color:#000">Register in Leads Master</h2>
+                    </div>
+                </div>
+                <hr />
+
+                {% if registered %}
+                    <h5 style="color:#000">Registration Complete!</h5>
+                    <a href="{% url 'login' %}" class="btn btn-default btn" > Login </a>
+
+                {% else %}
+                    <h5 style="color:#000">Register a User!</h5>
+
+                    <form style="align:center" method="post" action="{% url 'registerAdmin' %}"
+                            enctype="multipart/form-data">{% csrf_token %}
+
+                        <!-- Display each form. The as_p method wraps each element in a paragraph
+                             (<p>) element. This ensures each element appears on a new line,
+                             making everything look neater. -->
+                        {{ user_form|bootstrap }}
+
+                        <!-- Provide a button to click to submit the form. -->
+                        <input type="submit" name="submit" value="Register " />
+                    </form>
+                {% endif %}
+{% else %}
+                <div class="row">
+                    <div class="col-md-5">
+                        <h2 style="color:#000">Register in Leads Master</h2>
+                    </div>
+                </div>
+                <hr />
+                    <h5 style="color:#000">Sorry an admin user is already registered! Please log in:</h5>
+                    <a href="{% url 'login' %}" class="btn btn-default btn" > Login </a>
+
+{% endif %}
+{% endblock %}

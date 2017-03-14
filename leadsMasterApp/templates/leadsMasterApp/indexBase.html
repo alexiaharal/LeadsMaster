@@ -105,6 +105,7 @@
             </div>
         </div>
 </div>
+<hr />
 <div class="row">
         <!-- Select notifications category -->
         <div class="col-md-8">
@@ -129,6 +130,7 @@
                     <div id="birthdays">
                         <!-- Birthdays Results -->
                         {% if birthdays %}
+
                         <div class="panel panel-info">
                             <div class="panel-heading">Birthdays</div>
                             <div class="panel-body">
@@ -139,11 +141,11 @@
                             </div>
                         {% endif %}
                     </div>
+
                     <div id="toDo">
                         <!-- To Do's results -->
                         {% if activities %}
-                        <div class="panel panel-info">
-
+                         <div class="panel panel-info">
                             <div class="panel-heading">To Do</div>
                             <div class="panel-body">
                                 {% for a in activities%}
@@ -153,11 +155,11 @@
                         </div>
                         {% endif %}
                     </div>
+
                     <div id="generalRenewals">
                         <!-- General Renewals results -->
                         {% if generalrenewals %}
                         <div class="panel panel-info">
-
                             <div class="panel-heading">General Renewals</div>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -171,7 +173,7 @@
                                         <tbody>
                                             {% for r in generalrenewals %}
                                             <tr>
-                                                <td>{{r.idcontract}}</td>
+                                                <td><a class="btn btn-default btn-sm" href="{% url 'contractPage' pk=r.id type='general' %}"><span class="glyphicon glyphicon-pencil"></span></a>{{r.idcontract}}</td>
                                                 <td>{{r.client.name}}</td>
                                                 <td>{{r.client.surname}}</td>
                                                 <td>{% for p in r.plan.all %} {{p.name}}  {% endfor %}</td>
@@ -184,6 +186,7 @@
                             </div>
                         {% endif %}
                     </div>
+
                     <div id="lifeRenewals">
                         <!--Life Renewals -->
                         {% if liferenewals %}
@@ -203,7 +206,7 @@
                                     <tbody>
                                         {% for r in liferenewals %}
                                         <tr>
-                                            <td>{{r.idcontract}}</td>
+                                            <td><a class="btn btn-default btn-sm" href="{% url 'contractPage' pk=r.id type='life' %}"><span class="glyphicon glyphicon-pencil"></span></a>{{r.idcontract}}</td>
                                             <td>{{r.client.name}}</td>
                                             <td>{{r.client.surname}}</td>
                                             <td>{% for p in r.plan.all %} {{p.name}} {% endfor %}</td>
@@ -216,6 +219,7 @@
                         </div>
                         {% endif %}
                     </div>
+
                     <div id="generalPayments">
                         <!-- General Payments Results -->
                         {% if generalpayments %}
@@ -235,7 +239,7 @@
                                         <tbody>
                                             {% for r in generalpayments %}
                                             <tr>
-                                                <td>{{r.idcontract}}</td>
+                                                <td><a class="btn btn-default btn-sm" href="{% url 'contractPage' pk=r.id type='general' %}"><span class="glyphicon glyphicon-pencil"></span></a>{{r.idcontract}}</td>
                                                 <td>{{r.client.name}}</td>
                                                 <td>{{r.client.surname}}</td>
                                                 <td>{% for p in r.plan.all %} {{p.name}}  {% endfor %}</td>
@@ -249,6 +253,7 @@
                             </div>
                         {% endif %}
                     </div>
+
                     <div id="lifePayments">
                         <!-- Life Payments Results -->
                         {% if lifepayments %}
@@ -268,7 +273,7 @@
                                         <tbody>
                                             {% for r in lifepayments %}
                                             <tr>
-                                                <td>{{r.idcontract}}</td>
+                                                <td><a class="btn btn-default btn-sm" href="{% url 'contractPage' pk=r.id type='life' %}"><span class="glyphicon glyphicon-pencil"></span></a>{{r.idcontract}}</td>
                                                 <td>{{r.client.name}}</td>
                                                 <td>{{r.client.surname}}</td>
                                                 <td>{% for p in r.plan.all %} {{p.name}} {% endfor %}</td>
@@ -282,6 +287,7 @@
                             </div>
                         {% endif %}
                     </div>
+
                     <div id="leadsToContact">
                         {% if result_entities %}
                         <div class="panel panel-info">
@@ -289,7 +295,7 @@
                             <div class="panel-heading">Leads To Contact</div>
                             <div class="panel-body">
                             {% for lead in result_entities%}
-                                <li>{{lead.idperson}} , {{ lead.name }}  {{lead.surname}} </li>
+                                <li><a href="{% url 'ProfileView' pk=lead.idperson %}">{{lead.idperson}} , {{ lead.name }}  {{lead.surname}} </a></li>
                             {% endfor %}
                             </div>
                         </div>
