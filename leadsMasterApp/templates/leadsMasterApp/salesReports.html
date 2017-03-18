@@ -16,33 +16,33 @@
 </div>
 <hr />
 
+<!-- Period form and Plans form -->
 <div class="row">
 <div class="col-md-9">
     <form method="POST" >{% csrf_token %}
         {{ form}}
         {{ plansForm|bootstrap }}
-
         <br><br>
-
         <button type="submit" name="submitBtn" class="save btn btn-default">Search</button>
         <a class="btn btn-default" href="{% url 'salesReport' %}" role="button"> Clear</a>
     </form>
 </div>
-
-<div class="col-md-6">
-    <div class="container">
-        <form>
-            <label class="radio-inline">
-              <input type="radio"  onclick="sales()" name="reportSelection">Sales
-            </label>
-            <label class="radio-inline">
-              <input type="radio"  onclick="profit()" name="reportSelection">Profits
-            </label>
-        </form>
+    <!-- Radio Buttons to Show/Hide Sales/Profits -->
+    <div class="col-md-6">
+        <div class="container">
+            <form>
+                <label class="radio-inline">
+                  <input type="radio"  onclick="sales()" name="reportSelection">Sales
+                </label>
+                <label class="radio-inline">
+                  <input type="radio"  onclick="profit()" name="reportSelection">Profits
+                </label>
+            </form>
+        </div>
     </div>
 </div>
-</div>
 
+<!-- General Sales and Profits Tables -->
 <div id="salesDiv">
     {% if generalSalesProfits %}
     <div class="row">

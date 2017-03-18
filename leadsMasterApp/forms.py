@@ -12,6 +12,7 @@ from datetime import datetime
 from django.contrib.admin.widgets import AdminDateWidget
 from django.forms.fields import DateField
 
+# These are the years that are shown in every date selection. Can be amended with the passage of the years
 DOY = ('1926', '1927', '1928', '1929', '1930', '1931', '1932', '1933', '1934', '1935', '1936', '1937',
        '1938', '1939', '1940', '1941', '1942', '1943', '1944', '1945', '1946', '1947', '1948', '1949',
        '1950', '1951', '1952', '1953', '1954', '1955', '1956', '1957', '1958', '1959', '1960',
@@ -46,6 +47,7 @@ class UserProfileForm(forms.ModelForm):
         }
 
 
+# Profile Form , i.e. Person Model
 class PersonForm(forms.ModelForm):
     dateofbirth = forms.DateField(label='Date Of Birth  ', widget=extras.SelectDateWidget(years=DOY))
 
@@ -69,11 +71,14 @@ class PersonForm(forms.ModelForm):
         }
 
 
+# Life Contract From
 class LifeContractForm(forms.ModelForm):
+    # Get Life Plans from Lifebusinessplans model
     def __init__(self, *args, **kwargs):
         super(LifeContractForm, self).__init__(*args, **kwargs)
         self.fields['plan'].queryset = Lifebusinessplans.objects.filter(deleted=False)
 
+    # Date widgets used for a more user friendly gui
     issuedate = forms.DateField(widget=extras.SelectDateWidget(years=DOY), initial=datetime.now(), label="Issue Date")
     expirationdate = forms.DateField(widget=extras.SelectDateWidget(years=DOY), initial=datetime.now(),
                                      label="Expiration Date")
@@ -83,29 +88,31 @@ class LifeContractForm(forms.ModelForm):
     class Meta:
         model = LifeContract
         fields = ['idcontract', 'client', 'issuedate', 'expirationdate', 'plan',
-                  'annualpremium', 'doses', 'nextpayment', 'price', 'duration', 'notes', 'cancelled']
+                  'basicvalue', 'doses', 'nextpayment', 'annualpremium', 'duration', 'notes', 'cancelled']
         labels = {
             'idcontract': 'Contract ID',
             'client': 'Client',
             'issuedate': 'Issue Date',
             'expirationdate': 'Expiration Date',
             'plan': 'Plans Included',
-            'annualpremium': 'Basic Value',
+            'basicvalue': 'Basic Value',
             'doses': 'Payment Doses',
             'nextpayment': 'Next Payment Due',
-            'price': 'Annual Premium',
+            'annualpremium': 'Annual Premium',
             'duration': 'Duration',
             'notes': 'Comments',
             'cancelled': 'Do you want to cancel this contract?'
         }
 
 
-
+# General Contract Form
 class GeneralContractForm(forms.ModelForm):
+    # Get General Plans from Generalbusinessplans model
     def __init__(self, *args, **kwargs):
         super(GeneralContractForm, self).__init__(*args, **kwargs)
         self.fields['plan'].queryset = Generalbusinessplans.objects.filter(deleted=False)
 
+    # Date widgets used for a more user friendly gui
     issuedate = forms.DateField(widget=extras.SelectDateWidget(years=DOY), initial=datetime.now(), label="Issue Date")
     expirationdate = forms.DateField(widget=extras.SelectDateWidget(years=DOY), initial=datetime.now(),
                                      label="Expiration Date")
@@ -115,23 +122,24 @@ class GeneralContractForm(forms.ModelForm):
     class Meta:
         model = GeneralContract
         fields = ['idcontract', 'client', 'issuedate', 'expirationdate', 'plan',
-                  'annualpremium', 'doses', 'nextpayment', 'price', 'notes', 'cancelled']
+                  'basicvalue', 'doses', 'nextpayment', 'annualpremium', 'notes', 'cancelled']
         labels = {
             'idcontract': 'Contract ID',
             'client': 'Client',
             'issuedate': 'Issue Date',
             'expirationdate': 'Expiration Date',
             'plan': 'Plans Included',
-            'annualpremium': 'Basic Value',
+            'basicvalue': 'Basic Value',
             'doses': 'Payment Doses',
             'nextpayment': 'Next Payment Due',
-            'price': 'Annual Premium',
+            'annualpremium': 'Annual Premium',
             'notes': 'Comments',
             'cancelled': 'Do you want to cancel this contract?'
 
         }
 
 
+# Edit/Add Company Form, i.e. Company Model
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
@@ -142,6 +150,7 @@ class CompanyForm(forms.ModelForm):
         }
 
 
+# Edit/Add General Plan, i.e. Generalbusinessplans model
 class GeneralPlansForm(forms.ModelForm):
     ORDER = ('name', 'company', 'commission','deleted')
 
@@ -164,6 +173,7 @@ class GeneralPlansForm(forms.ModelForm):
         }
 
 
+# Edit/Add Life Plan, i.e. Lifebusinessplans model
 class LifePlansForm(forms.ModelForm):
     ORDER = ('name', 'company', 'firstyearcommission',
              'futureprofit', 'futureprofit2', 'futureprofit3', 'futureprofit4',
@@ -196,10 +206,12 @@ class LifePlansForm(forms.ModelForm):
                   }
 
 
+# Search Form/Bar used in various places
 class SearchForm(forms.Form):
     searchbox = forms.CharField(label='Search: ')
 
 
+# Plans Selection Form, used in Reports section to select particular plan results
 class PlansOptionsForm(forms.Form):
     lifePlan = forms.ModelChoiceField(queryset=Lifebusinessplans.objects.filter(deleted=False), label=" Select Life Plan: ",
                                       required=False)
@@ -207,11 +219,13 @@ class PlansOptionsForm(forms.Form):
                                          required=False)
 
 
+# Dates Form, used in Reports section to select particular period's results
 class DatesForm(forms.Form):
     date1 = forms.DateField(widget=extras.SelectDateWidget(years=DOY), initial=datetime.now(), label="Date 1")
     date2 = forms.DateField(widget=extras.SelectDateWidget(years=DOY), initial=datetime.now(), label="Date 2")
 
 
+# Activity Form, used in combination with the CalendarForm to enter a calendar activity
 class ActivityForm(forms.ModelForm):
     ORDER = 'activityname', 'customerid', 'date', 'time', 'duration','meeting_minutes'
 
@@ -235,6 +249,7 @@ class ActivityForm(forms.ModelForm):
                   }
 
 
+# Calendar Form, used in combination with the ActivityFrom to enter a calendar activity
 class CalendarForm(forms.ModelForm):
     class Meta:
         model = Calendar
@@ -242,6 +257,7 @@ class CalendarForm(forms.ModelForm):
         labels = {'employee': 'Employee'}
 
 
+# Renewal From, used to renew a contract for a period
 class renewalPeriodForm(forms.Form):
     CHOICES = [(3, '3 months'),
                (6, '6 months'),

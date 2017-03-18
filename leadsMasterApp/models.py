@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import datetime
 
-
-# Create your models here.
+# Person Model
 class Person(models.Model):
     client_CHOICES = (
         (1, 'Yes'),
@@ -53,6 +52,7 @@ class Person(models.Model):
         return str(self.name) + ' ' + str(self.surname) + ' -- ' + str(self.idperson)
 
 
+# UserProfile Model
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
@@ -69,6 +69,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+# Company Model
 class Company(models.Model):
     idcompany = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45)  # Field name made lowercase.
@@ -77,35 +78,38 @@ class Company(models.Model):
         return str(self.name)
 
 
+# General Business Plans Model
 class Generalbusinessplans(models.Model):
-    planid = models.AutoField(primary_key=True)  # Field name made lowercase.
-    name = models.CharField(max_length=45)  # Field name made lowercase.
-    company = models.ForeignKey(Company)  # Field name made lowercase.
-    commission = models.FloatField()  # Field name made lowercase.
+    planid = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)
+    company = models.ForeignKey(Company)
+    commission = models.FloatField()
     deleted = models.BooleanField(default=False);
 
     def __unicode__(self):
         return str(self.company) + ' -- ' + str(self.name)
 
 
+# Life Business Plans Model
 class Lifebusinessplans(models.Model):
-    planlifeid = models.AutoField(primary_key=True)  # Field name made lowercase.
-    name = models.CharField(max_length=45)  # Field name made lowercase.
-    company = models.ForeignKey(Company)  # Field name made lowercase.
-    firstyearcommission = models.FloatField()  # Field name made lowercase.
-    maxpercentage = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
-    minpercentage = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
-    futureprofit = models.FloatField()  # Field name made lowercase.
-    futureprofit2 = models.FloatField(blank=True, null=True)  # Field name made lowercase.
-    futureprofit3 = models.FloatField(blank=True, null=True)  # Field name made lowercase.
-    futureprofit4 = models.FloatField(blank=True, null=True)  # Field name made lowercase.
-    agelimit = models.IntegerField()  # Field name made lowercase.
+    planlifeid = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45)
+    company = models.ForeignKey(Company)
+    firstyearcommission = models.FloatField()
+    maxpercentage = models.IntegerField(blank=True, null=True)
+    minpercentage = models.IntegerField(blank=True, null=True)
+    futureprofit = models.FloatField()
+    futureprofit2 = models.FloatField(blank=True, null=True)
+    futureprofit3 = models.FloatField(blank=True, null=True)
+    futureprofit4 = models.FloatField(blank=True, null=True)
+    agelimit = models.IntegerField()
     deleted = models.BooleanField(default=False);
 
     def __unicode__(self):
         return str(self.company) + ' -- ' + str(self.name)
 
 
+# Life Contract Model
 class LifeContract(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     idcontract = models.IntegerField()
@@ -113,11 +117,11 @@ class LifeContract(models.Model):
     issuedate = models.DateField('date issued')
     expirationdate = models.DateField('expiration date')
     plan = models.ManyToManyField(Lifebusinessplans)
-    annualpremium = models.FloatField()
+    basicvalue = models.FloatField()
     doses = models.IntegerField()
     nextpayment = models.DateField(blank=True, null=True)
-    price = models.FloatField()
-    duration = models.IntegerField(blank=True, null=True)  # Field name made lowercase.
+    annualpremium = models.FloatField()
+    duration = models.IntegerField(blank=True, null=True)
     notes = models.CharField(max_length=80)
     cancelled = models.BooleanField(default=False)
 
@@ -125,18 +129,19 @@ class LifeContract(models.Model):
         return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())
 
 
+# General Contract Model
 class GeneralContract(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     idcontract = models.IntegerField()
     client = models.ForeignKey(Person)
-    issuedate = models.DateField()  # Field name made lowercase.
-    expirationdate = models.DateField()  # Field name made lowercase.
+    issuedate = models.DateField()
+    expirationdate = models.DateField()
     plan = models.ManyToManyField(Generalbusinessplans)
-    annualpremium = models.FloatField()  # Field name made lowercase.
+    basicvalue = models.FloatField()
     doses = models.IntegerField()
-    nextpayment = models.DateField(blank=True, null=True)  # Field name made lowercase.
+    nextpayment = models.DateField(blank=True, null=True)
     years = models.IntegerField(default=1)
-    price = models.FloatField()
+    annualpremium = models.FloatField()
     notes = models.CharField(max_length=80)
     cancelled = models.BooleanField(default=False)
 
@@ -144,6 +149,7 @@ class GeneralContract(models.Model):
         return str(self.idcontract) + ' -- ' + '\n'.join(p.name for p in self.plan.all())
 
 
+# Employee Model
 class Employee(models.Model):
     employeeid = models.OneToOneField(Person, primary_key=True)  # Field name made lowercase.
     position = models.CharField(max_length=45)  # Field name made lowercase.
@@ -152,6 +158,7 @@ class Employee(models.Model):
     password = models.CharField(max_length=40)
 
 
+# Activity Model
 class Activity(models.Model):
     activityid = models.AutoField(primary_key=True)  # Field name made lowercase.
     activityname = models.CharField(max_length=45)  # Field name made lowercase.
@@ -166,6 +173,7 @@ class Activity(models.Model):
         return str(self.activityname + ' -- ' + str(self.date))
 
 
+# Calendar Model
 class Calendar(models.Model):
     entryid = models.AutoField(primary_key=True)  # Field name made lowercase.
     activity = models.ForeignKey(Activity)
@@ -174,6 +182,8 @@ class Calendar(models.Model):
     def __unicode__(self):
         return str(self.entryid)
 
+
+##### Notification Component Models ######
 
 class birthdayNot(models.Model):
     id = models.AutoField(primary_key=True)

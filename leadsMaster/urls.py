@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^ourPeople/$', views.OurPeopleView, name='ourPeople'),
     url(r'^ourPeople/new$', views.AddProfileView, name='addProfile'),
     url(r'^ourPeople/(?P<pk>\d+)/edit/$', views.EditProfileView, name='editProfile'),
+    url(r'^profile/(?P<pk>\d+)/$', views.ProfileView, name='ProfileView'),
 
     url(r'^companies/$', views.CompaniesView, name='companies'),
     url(r'^companies/(?P<pk>\d+)/editCompany$', views.EditCompanyView, name='editCompany'),
@@ -23,11 +24,9 @@ urlpatterns = [
     url(r'^companies/addLifePlan$', views.AddLifePlanView, name='addLifePlan'),
     url(r'^companies/addLifePlan/(?P<pk>\d+)/editLifePlan$', views.EditLifePlanView, name='editLifePlan'),
 
-
     url(r'^reports/$', views.ReportsView, name='reports'),
     url(r'^reports/iconicIntroducer$', views.IconicIntroducerView, name='iconicIntroducer'),
     url(r'^reports/iconicClient$', views.IconicClientView, name='iconicClient'),
-
     url(r'^reports/manHours$', views.ManHoursView, name='manHours'),
     url(r'^reports/manHours/(?P<pk>\d+)/$', views.ManHoursPersonView, name='manHoursPerson'),
     url(r'^reports/succLeads$', views.SuccLeadsView, name='succLeads'),
@@ -44,7 +43,6 @@ urlpatterns = [
     url(r'^editContractLife/(?P<pk>\d+)/$', views.editContractLifeView, name='editContractLife'),
     url(r'^addContractGeneral/$', views.addContractGeneralView, name='addContractGeneral'),
     url(r'^editContractGeneral/(?P<pk>\d+)/$', views.editContractGeneralView, name='editContractGeneral'),
-    url(r'^profile/(?P<pk>\d+)/$', views.ProfileView, name='ProfileView'),
     url(r'^contract/(?P<pk>\w+)/(?P<type>\w+)$', views.ContractPageView, name='contractPage'),
 
 ]

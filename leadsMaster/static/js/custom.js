@@ -1,4 +1,6 @@
 
+/** Handle Menu Bar **/
+
 (function ($) {
     "use strict";
     var mainApp = {
@@ -29,8 +31,10 @@
     }
 
 });
-//calendar functions
 
+/**************************************************************************************/
+
+/** Custom Calendar Functions **/
     var monthsArray = new Array();
     monthsArray["January"] = "0";
     monthsArray["February"] = "1";
@@ -57,22 +61,14 @@
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
 
-$(document).ready(function(){
-//    calendarHome()
-    document.getElementById('profitsDiv').style.display = "none"
-    document.getElementById('salesDiv').style.display = "none"
-
-})
-
-//function calendarHome(){
-//    var d = new Date();
-//    console.log(d)
-//    mainFunction(d);
-//}
+// Convert day, month and year taken on "Calendar" click which is the current date.
+// Generate calendar by running mainFunction
 function dateConversion(day, month,year){
     d=new Date(year,month-1,day)
     mainFunction(d)
 }
+
+// On next month request, generate dates and run mainFunction to generate calendar
 function nextFunction() {
     var month =((document).getElementById('currMonth')).innerHTML;
     var year = ((document).getElementById('currYear')).innerHTML;
@@ -81,6 +77,7 @@ function nextFunction() {
     mainFunction(next)
 }
 
+// On previous month request, generate dates and run mainFunction to generate calendar
 function prevFunction() {
     var month =((document).getElementById('currMonth')).innerHTML;
     var year = ((document).getElementById('currYear')).innerHTML;
@@ -88,6 +85,8 @@ function prevFunction() {
     var previous= new Date(current.setMonth( current.getMonth( ) - 1 ));
     mainFunction(previous)
 }
+
+// This function generates the calendar and builds the calendar on the HTML Template
 function mainFunction(d){
     $('.days').empty()
     html=""
@@ -119,17 +118,14 @@ function mainFunction(d){
     //get number of days this month
     days= LastDay.getDate();
 
-    //get previous/upcoming month's number of days
+    //get previous/next month's number of days
     var futureMonth= new Date(d.setMonth( d.getMonth( ) + 1 ));
     var pastMonth = new Date(d.setUTCMonth(month - 1));
-    console.log("Past month: "+pastMonth)
     var LastPastDay = new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDay();
     var LastMonthDays= new Date(pastMonth.getFullYear(), pastMonth.getMonth()+1, 0).getDate();
-        console.log("Past month days: "+LastMonthDays)
-        console.log("Last past days: "+LastPastDay)
-
     var FirstFutureDay = new Date(futureMonth.getFullYear(),futureMonth.getMonth(),1).getDay();
 
+    // Last month's (previous) days builder
     if (FirstDay.getDay()==0){
         for (var i=LastMonthDays-5; i <= LastMonthDays; i++) {
             day1 = i
@@ -147,6 +143,8 @@ function mainFunction(d){
             html +=url+"<li>"+(i)+"</li></a>";
         }
     }
+
+    // Current month's days builder
     for (var i=0; i < days; i++) {
         day1=i+1
         month1=month+1
@@ -154,6 +152,8 @@ function mainFunction(d){
         url="<a onclick=\"generateUrl("+day1+","+month1+","+year1+")\">"
         html +=url+"<li><b>"+(i+1)+"</b></li></a>";
     }
+
+    // Next month's days builder
     for (var i=1; i <= 7-LastDay.getDay(); i++) {
         day1=i
         month1=futureMonth.getMonth()+1
@@ -162,34 +162,38 @@ function mainFunction(d){
         html +=url+"<li>"+(i)+"</li></a>";
     }
 
+    // Append the build calendar in the HTML template
     $("#daysBuilder").append(html);
-    };
+
+};
+
+/** This function handles the calendars' days onclick function
+**  It is needed in order to get generate the url to redirect onclick **/
+
 JS_REVERSE_JS_VAR_NAME = 'Urls'
 function generateUrl(day, month, year){
 //    url="{% url \'calendarDay\' day="+day+" month="+month+" year="+year+" %}"
 
     location.href = "/calendar/"+day+"/"+month+"/"+year+"/"
-    }
+}
 
+/************************* Calendar functions over **********************************/
+
+/**** Calendar Entry Form Pop Up Handled Here ******/
 // Get the modal
 var modal = document.getElementById('myModal');
-
 // Get the button that opens the modal
 var btn = document.getElementById("myBtn");
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
 // When the user clicks on the button, open the modal
 btn.onclick = function() {
     modal.style.display = "block";
 }
-
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
     modal.style.display = "none";
 }
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
@@ -197,41 +201,49 @@ window.onclick = function(event) {
     }
 }
 
-//Leads Reports Radio Buttons
+/************************** Reports Section Hide/Show  Radio Buttons Handles ****************************/
 
-
+/** Successful Introducers Report **/
 function leadsSelection(){
     document.getElementById('succLeads').style.display = "none"
         document.getElementById('allLeads').style.display = "block"
 
 }
+
 function leadsSelection2(){
     document.getElementById('allLeads').style.display = "none"
         document.getElementById('succLeads').style.display = "block"
 
 }
 
+/** Sales Report **/
 function sales(){
     document.getElementById('profitsDiv').style.display = "none"
         document.getElementById('salesDiv').style.display = "block"
 
 }
+
 function profit(){
     document.getElementById('salesDiv').style.display = "none"
         document.getElementById('profitsDiv').style.display = "block"
 
 }
 
+/** Payments Report **/
 function upcoming(){
     document.getElementById('upcomingDiv').style.display = "block"
     document.getElementById('pastDiv').style.display = "none"
 
 }
+
 function past(){
     document.getElementById('upcomingDiv').style.display = "none"
     document.getElementById('pastDiv').style.display = "block"
 
 }
+
+/************* Home Page Functions **********************************/
+
 function showSales(){
     document.getElementById('hideSales').style.display = "block"
 }
@@ -247,8 +259,8 @@ function birthdays(){
     document.getElementById('lifePayments').style.display = "none"
     document.getElementById('leadsToContact').style.display = "none"
 
-
 }
+
 function todo(){
     document.getElementById('birthdays').style.display = "none"
     document.getElementById('toDo').style.display = "block"
@@ -259,6 +271,7 @@ function todo(){
     document.getElementById('leadsToContact').style.display = "none"
 
 }
+
 function renewals(){
     document.getElementById('birthdays').style.display = "none"
     document.getElementById('toDo').style.display = "none"
@@ -269,6 +282,7 @@ function renewals(){
     document.getElementById('leadsToContact').style.display = "none"
 
 }
+
 function payments(){
     document.getElementById('birthdays').style.display = "none"
     document.getElementById('toDo').style.display = "none"

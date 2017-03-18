@@ -27,54 +27,51 @@ from dateutil.relativedelta import relativedelta
 
 today = datetime.now()
 
+
+# Register An admin user only when one is not already created
 def registerAdmin(request):
     # get the request's context.
     context = RequestContext(request)
     registered = False
-    #Determine whether an admin is already registered
+    # Check whether an admin is already registered
     admins = User.objects.filter(is_superuser=True, is_staff=True)
     if admins.count()>0:
-        allowed=False
+        allowed = False
     else:
-        allowed=True
+        allowed = True
 
-    # If it's a HTTP POST, we're processing form data.
     if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-
         user_form = UserForm(data=request.POST)
 
-        # If the two forms are valid...
-        if user_form.is_valid() :
-
+        # If form is valid
+        if user_form.is_valid():
             # Save the user's form data to the database.
             user = user_form.save()
             # Now we hash the password with the set_password method.
             # Once hashed, we can update the user object.
             user.set_password(user.password)
-            user.is_staff=True
-            user.is_superuser=True
+            user.is_staff = True
+            user.is_superuser = True
             user.save()
-
             # tell the template registration was successful.
             registered = True
 
-        # Invalid form or forms - mistakes or something else?
+        # Invalid form or forms - mistakes or something else
         else:
             print(user_form.errors)
 
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
     else:
         user_form = UserForm()
 
-
     # Render the template depending on the context.
     return render(request,
                   'leadsMasterApp/registerAdmin.html',
-                  {'user_form': user_form, 'registered': registered,'allowed':allowed},
+                  {'user_form': user_form, 'registered': registered, 'allowed': allowed},
                   context)
 
+
+# Register a user/employee of the system
 def register(request):
     # get the request's context.
     context = RequestContext(request)
@@ -84,21 +81,18 @@ def register(request):
 
     # If it's a HTTP POST, we're processing form data.
     if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-
+        # Combine user form and profile form
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
 
         # If the two forms are valid...
         if user_form.is_valid() and profile_form.is_valid():
-
             # Save the user's form data to the database.
             user = user_form.save()
             # Now we hash the password with the set_password method.
             # Once hashed, we can update the user object.
             user.set_password(user.password)
             user.save()
-
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
@@ -114,7 +108,6 @@ def register(request):
         else:
             print (user_form.errors, profile_form.errors)
 
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
     else:
         user_form = UserForm()
@@ -127,6 +120,7 @@ def register(request):
                   context)
 
 
+# Login Form view
 def user_login(request):
     context = RequestContext(request)
 
@@ -158,7 +152,6 @@ def user_login(request):
             print ("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
-    # The request is not a HTTP POST, so display the login form.
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
@@ -170,14 +163,13 @@ def user_login(request):
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
-
     # Take the user back to the homepage.
     return redirect('login')
-
 
 actEmails = {}
 
 
+# Index or Home Page Handler View
 def IndexView(request):
     if request.user.is_authenticated():
         today = datetime.now()
@@ -187,20 +179,23 @@ def IndexView(request):
         for a in Activity.objects.filter(date=today.date()):
             activities.append(a)
 
+            # Notification Component
             if a.customerid.email:
+                # Check if an email was already sent
                 if a.email == False:
-                    # insert code here to send email if you want to
+                    # insert code here to send email if wanted
                     a.email = True
                     a.save()
 
         # Gather birthdays for current day
         birthdays = []
         emails = []
-
         for p in Person.objects.filter(dateofbirth__month=today.month, dateofbirth__day=today.day):
             birthdays.append(p)
             birthdayTable = birthdayNot.objects.all()
 
+            # Notification Component - check if an email was already sent
+            # I.e. check if a unique entry is already in the corresponding table
             if birthdayTable.filter(birthday=p, date=today.date()).exists():
                 flag = True
             else:
@@ -208,6 +203,7 @@ def IndexView(request):
                     emails.append(p.email)
                     obj = birthdayNot(birthday=p, date=today.date(), email=True)
                     obj.save()
+        # If there are emails to be sent, send them
         if emails:
             send_mail(
                 'Happy Birthday',
@@ -216,10 +212,13 @@ def IndexView(request):
                 emails
             )
 
-        # Gather renewals for current day
+        # Gather  General renewals for current day
         generalrenewals = []
         for contract in GeneralContract.objects.filter(expirationdate=today.date(), cancelled=False):
             generalrenewals.append(contract)
+
+            # Notification Component - check if an email was already sent
+            # I.e. check if a unique entry is already in the corresponding table
             genRenTable = genRenewalsNot.objects.all()
             if genRenTable.filter(renewal=contract, date=today.date()).exists():
                 flag = True
@@ -239,9 +238,13 @@ def IndexView(request):
                     obj = genRenewalsNot(renewal=contract, date=today.date(), email=True)
                     obj.save()
 
+        # Gather Life renewals for current day
         liferenewals = []
         for contract in LifeContract.objects.filter(expirationdate=today.date(), cancelled=False):
             liferenewals.append(contract)
+
+            # Notification Component - check if an email was already sent
+            # I.e. check if a unique entry is already in the corresponding table
             lifeRenTable = lifeRenewalsNot.objects.all()
             if lifeRenTable.filter(renewal=contract, date=today.date()).exists():
                 flag = True
@@ -261,10 +264,13 @@ def IndexView(request):
                     obj = lifeRenewalsNot(renewal=contract, date=today.date(), email=True)
                     obj.save()
 
-        # Gather payments for current day
+        # Gather General payments for current day
         generalpayments = []
         for contract in GeneralContract.objects.filter(nextpayment=today.date(), cancelled=False):
             generalpayments.append(contract)
+
+            # Notification Component - check if an email was already sent
+            # I.e. check if a unique entry is already in the corresponding table
             genPaymTable = genPaymentsNot.objects.all()
             if genPaymTable.filter(payment=contract, date=today.date()).exists():
                 flag = True
@@ -286,9 +292,13 @@ def IndexView(request):
                     obj = genPaymentsNot(payment=contract, date=today.date(), email=True)
                     obj.save()
 
+        # Gather Life payments for current day
         lifepayments = []
         for contract in LifeContract.objects.filter(nextpayment=today.date(), cancelled=False):
             lifepayments.append(contract)
+
+            # Notification Component - check if an email was already sent
+            # I.e. check if a unique entry is already in the corresponding table
             lifePaymTable = lifePaymentsNot.objects.all()
             if lifePaymTable.filter(payment=contract, date=today.date()).exists():
                 flag = True
@@ -316,11 +326,6 @@ def IndexView(request):
             c.expirationdate = newDate
             c.save()
 
-        # Gather sales this day last year
-        Generalsales = []
-        Lifesales = []
-        totalGeneralSales = 0
-        totalLifeSales = 0
         # Choose 10 random records to show
         if today.weekday() == 0:
             result_entities = []
@@ -328,7 +333,13 @@ def IndexView(request):
                 result_entities.append(p)
         else:
             result_entities = []
-        # Calculate Sales Past Years This Day
+
+        # Gather sales this day last year
+        Generalsales = []
+        Lifesales = []
+        totalGeneralSales = 0
+        totalLifeSales = 0
+        # Sum Up Sales Past Years This Day
         for contract in GeneralContract.objects.filter(issuedate__day=today.day, issuedate__month=today.month):
             Generalsales.append(contract)
             totalGeneralSales += contract.annualpremium
@@ -348,18 +359,20 @@ def IndexView(request):
         return redirect('login')
 
 
+# Calendar Page Handler View
 def calendar(request, day=None, month=None, year=None):
     today = datetime.now()
-
     calendar_entries = Calendar.objects.all()
     if day is None:
         day = today.date().day
         month = today.date().month
         year = today.date().year
-
+    # Gather current days entries
     daily_entries = Calendar.objects.filter(activity__date__day=day, activity__date__month=month, activity__date__year=year)
 
+    # Handle Insert Calendar Entry Form
     if request.method == "POST":
+        # Combine both forms
         form1 = ActivityForm(request.POST)
         form2 = CalendarForm(request.POST)
         if form1.is_valid() and form2.is_valid():
@@ -378,7 +391,8 @@ def calendar(request, day=None, month=None, year=None):
                    'daily_entries': daily_entries, 'form1': form1, 'form2': form2})
 
 
-def edit_Calendar_Entry(request,pkc):
+# Edit Calendar Entry Handler View
+def edit_Calendar_Entry(request, pkc):
     entryCalendar = get_object_or_404(Calendar,entryid=pkc)
     act = entryCalendar.activity.activityid
     entryActivity = get_object_or_404(Activity,activityid=act)
@@ -390,30 +404,12 @@ def edit_Calendar_Entry(request,pkc):
         entryCalendar = formCalendar.save(commit=False)
         entryCalendar.save()
         return redirect('calendar')
-    return render(request, 'leadsMasterApp/editCalendarEntry.html', {'formActivity':formActivity,'formCalendar':formCalendar})
+    return render(request, 'leadsMasterApp/editCalendarEntry.html', {'formActivity':formActivity,'formCalendar': formCalendar})
 
 
-def successfulLeadsPercentage(introducer):
-    numOfLeads = 0
-    numOfSuccLeads = 0
-    leadsFromIntroducer = Person.objects.filter(leadfrom=introducer.id)
-    # Calculate
-    for person in leadsFromIntroducer:
-        numOfLeads += 1
-        if person.isclient == 1:
-            numOfSuccLeads += 1
-            # Calculate successful PERCENTAGE
-            # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
-    if numOfSuccLeads > 0:
-        percentage = numOfSuccLeads / numOfLeads * 100.0
-    else:
-        percentage = 0
-    percentage = float("{0:.2f}".format(percentage))
-
-    return percentage
-
-
+# Our People Page Handler View
 def OurPeopleView(request):
+    # Check if search requested
     query = ""
     if request.method == "POST":
         form = SearchForm(request.POST)
@@ -422,6 +418,7 @@ def OurPeopleView(request):
     else:
         form = SearchForm()
 
+    # Get corresponding results. Check name, surname or id.
     if query != "":
         people = []
         for p in Person.objects.filter(Q(name__startswith=query)):
@@ -437,10 +434,13 @@ def OurPeopleView(request):
         people = []
         for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person '):
             people.append(p)
+
     return render(request, 'leadsMasterApp/ourPeople.html', {'form': form, 'people': people})
 
 
+# Report: Man Hours View Report Handler View
 def ManHoursView(request):
+    # Check if search requested
     query = ""
     if request.method == "POST":
         form = SearchForm(request.POST)
@@ -464,9 +464,11 @@ def ManHoursView(request):
         people = []
         for p in Person.objects.raw('SELECT * FROM leadsMasterApp_Person'):
             people.append(p)
+
     return render(request, 'leadsMasterApp/manHoursBase.html', {'form': form, 'people': people})
 
 
+# Detailed Man Hours of a particular person page handler view
 def ManHoursPersonView(request, pk):
     person = get_object_or_404(Person, pk=pk)
     activities = Calendar.objects.filter(activity__customerid=person).order_by('activity__date')
@@ -479,6 +481,7 @@ def ManHoursPersonView(request, pk):
                   {'person': person, 'activities': activities, 'totalHours': totalHours})
 
 
+# Report: Successful Introducers
 def SuccLeadsView(request):
     query = ""
     if request.method == "POST":
@@ -519,6 +522,7 @@ def SuccLeadsView(request):
                   {'form': form, 'flag': flag, 'myintroducers': myintroducers})
 
 
+# Detailed view of leads given from a person view
 def succLeadsPersonView(request, pk):
     person = get_object_or_404(Person, pk=pk)
     leads = Person.objects.filter(leadfrom=person)
@@ -531,6 +535,7 @@ def succLeadsPersonView(request, pk):
                    'successfulLeads': successfulLeads, 'person': person, 'leads': leads})
 
 
+# Report: Sales Report
 def salesReportsView(request):
     today = datetime.now()
 
@@ -653,7 +658,9 @@ def generalContractProfit(contract):
     profitPercentage = 0
     for plan in contract.plan.all():
         profitPercentage += plan.commission
-    profit = (contract.annualpremium * profitPercentage / 100)
+    print (contract.basicvalue)
+    profit = (contract.basicvalue * profitPercentage / 100)
+    print (profit)
     return profit
 
 # This function calculates the profit gained from a
@@ -721,15 +728,16 @@ def lifeContractProfit(contract, person):
             thisYearProfit = first_year
 
     # sum up profits from this contract
-    totalProfit = (first_year * contract.annualpremium / 100) + (nextyears * yearsOfContract * contract.annualpremium / 100)
+    totalProfit = (first_year * contract.basicvalue / 100) + (nextyears * yearsOfContract * contract.basicvalue / 100)
     profit = {}
     totalProfit = float("{0:.2f}".format(totalProfit))
     thisYearProfit = float("{0:.2f}".format(thisYearProfit))
     profit['total'] = totalProfit
-    profit['thisYearProfit'] = thisYearProfit * contract.annualpremium / 100
+    profit['thisYearProfit'] = thisYearProfit * contract.basicvalue / 100
     return profit
 
 
+# Add a profile, i.e. Person entity
 def AddProfileView(request):
     if request.method == "POST":
         form = PersonForm(request.POST)
@@ -747,6 +755,7 @@ def AddProfileView(request):
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
 
 
+# Edit a profile, i.e. Person entity
 def EditProfileView(request, pk):
     person = get_object_or_404(Person, pk=pk)
     form = PersonForm(data=request.POST or None, instance=person)
@@ -762,6 +771,7 @@ def EditProfileView(request, pk):
     return render(request, 'leadsMasterApp/addProfile.html', {'form': form})
 
 
+# Profile Page
 def ProfileView(request, pk):
     person = get_object_or_404(Person, pk=pk)
     generalContracts = GeneralContract.objects.filter(client=person, cancelled=False)
@@ -773,9 +783,11 @@ def ProfileView(request, pk):
                    'lifeContracts': lifeContracts, 'leads': leads, 'percentage': percentage})
 
 
+# Contract Page
 def ContractPageView(request, pk, type):
     today = datetime.now()
 
+    # Check if is a life or general contract
     if type == 'life':
         contract = get_object_or_404(LifeContract, pk=pk)
         life = 1
@@ -791,15 +803,18 @@ def ContractPageView(request, pk, type):
         yearsInyears = float("{0:.2f}".format(yearsInyears))
 
     person = contract.client
-    totalPayment = contract.price
+    # Calculate current dose amount
+    totalPayment = contract.annualpremium
     if contract.nextpayment != "":
-        nextPayment = float("{0:.2f}".format(contract.price / contract.doses))
+        nextPayment = float("{0:.2f}".format(contract.annualpremium / contract.doses))
     else:
         nextPayment = ""
+
+    # Check if this contract has expired
     expired = 0
     if contract.expirationdate < today.date():
         expired = 1
-
+    # Renewal form handler
     if request.method == "POST":
         form = renewalPeriodForm(request.POST)
         if form.is_valid():
@@ -824,6 +839,7 @@ def ContractPageView(request, pk, type):
                    'nextPayment': nextPayment, 'expired': expired, 'form': form})
 
 
+# Add a Life Contract entity
 def addContractLifeView(request):
     if request.method == 'POST':
         contract_form = LifeContractForm(request.POST)
@@ -845,6 +861,7 @@ def addContractLifeView(request):
                   {'add_contract_form': contract_form})
 
 
+# Edit a Life Contract entity
 def editContractLifeView(request, pk):
     instance = get_object_or_404(LifeContract, pk=pk)
     form = LifeContractForm(data=request.POST or None, instance=instance)
@@ -870,6 +887,7 @@ def editContractLifeView(request, pk):
                   {'add_contract_form': form})
 
 
+# Add a General Contract entity
 def addContractGeneralView(request):
     if request.method == 'POST':
         contract_form = GeneralContractForm(request.POST)
@@ -891,6 +909,7 @@ def addContractGeneralView(request):
                   {'add_contract_form': contract_form})
 
 
+# Edit a General Contract entity
 def editContractGeneralView(request, pk):
     instance = get_object_or_404(GeneralContract, pk=pk)
     form = GeneralContractForm(data=request.POST or None, instance=instance)
@@ -916,11 +935,13 @@ def editContractGeneralView(request, pk):
                   {'add_contract_form': form})
 
 
+# Reports page handler view
 def ReportsView(request):
     table = Person.objects.all()
     return render(request, 'leadsMasterApp/reports.html', {'table': table})
 
 
+# Companies page handler View
 def CompaniesView(request):
     companies = Company.objects.all()
     genPlans = Generalbusinessplans.objects.filter(deleted=False).order_by('company')
@@ -930,6 +951,7 @@ def CompaniesView(request):
                   {'companies': companies, 'genPlans': genPlans, 'lifePlans': lifePlans})
 
 
+# Add Company entity
 def AddCompanyView(request):
     if request.method == "POST":
         form = CompanyForm(request.POST)
@@ -943,6 +965,7 @@ def AddCompanyView(request):
     return render(request, 'leadsMasterApp/addCompany.html', {'form': form})
 
 
+# Edit Company entity
 def EditCompanyView(request, pk):
     instance = get_object_or_404(Company, pk=pk)
     if request.method == "POST":
@@ -957,6 +980,7 @@ def EditCompanyView(request, pk):
     return render(request, 'leadsMasterApp/addCompany.html', {'form': form})
 
 
+# Add General Plan entity
 def AddGenPlanView(request):
     if request.method == "POST":
         form = GeneralPlansForm(request.POST)
@@ -970,6 +994,7 @@ def AddGenPlanView(request):
     return render(request, 'leadsMasterApp/addGenPlan.html', {'form': form})
 
 
+# Edit General Plan entity
 def EditGenPlanView(request, pk):
     instance = get_object_or_404(Generalbusinessplans, pk=pk)
     if request.method == "POST":
@@ -984,6 +1009,7 @@ def EditGenPlanView(request, pk):
     return render(request, 'leadsMasterApp/addGenPlan.html', {'form': form})
 
 
+# Add Life Plan entity
 def AddLifePlanView(request):
     if request.method == "POST":
         form = LifePlansForm(request.POST)
@@ -997,6 +1023,7 @@ def AddLifePlanView(request):
     return render(request, 'leadsMasterApp/addLifePlan.html', {'form': form})
 
 
+# Edit Life Plan entity
 def EditLifePlanView(request, pk):
     instance = get_object_or_404(Lifebusinessplans, pk=pk)
     if request.method == "POST":
@@ -1011,6 +1038,7 @@ def EditLifePlanView(request, pk):
     return render(request, 'leadsMasterApp/addGenPlan.html', {'form': form})
 
 
+# Report: Iconic Introducer Profile
 def IconicIntroducerView(request):
     today = datetime.now()
     minAge = 100
@@ -1179,6 +1207,7 @@ def IconicIntroducerView(request):
                    'occupBasedFinal': occupBasedFinal})
 
 
+# Report: Iconic Client Profile
 def IconicClientView(request):
     today = datetime.now()
 
@@ -1320,6 +1349,7 @@ def IconicClientView(request):
                    'plansForm': plansForm})
 
 
+# Report: Payments Report
 def paymentsReportView(request):
     today = datetime.now()
 
@@ -1330,11 +1360,11 @@ def paymentsReportView(request):
     # Filter past payments
     for item in GeneralContract.objects.filter(nextpayment__lte=today.date(), cancelled=False):
         contract = item
-        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        nextPayment = float("{0:.2f}".format(contract.annualpremium / int(contract.doses)))
         toBePaidGeneral[contract] = nextPayment
     for item in LifeContract.objects.filter(nextpayment__lte=today.date(), cancelled=False):
         contract = item
-        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        nextPayment = float("{0:.2f}".format(contract.annualpremium / int(contract.doses)))
         toBePaidLife[contract] = nextPayment
 
     # Filter future payments due in 5 days
@@ -1342,15 +1372,36 @@ def paymentsReportView(request):
             nextpayment__range=[(today.date() + timedelta(days=1)), (today.date() + timedelta(days=6))],
             cancelled=False):
         contract = item
-        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        nextPayment = float("{0:.2f}".format(contract.annualpremium / int(contract.doses)))
         upcomingGeneral[contract] = nextPayment
     for item in LifeContract.objects.filter(
             nextpayment__range=[(today.date() + timedelta(days=1)), (today.date() + timedelta(days=6))],
             cancelled=False):
         contract = item
-        nextPayment = float("{0:.2f}".format(contract.price / int(contract.doses)))
+        nextPayment = float("{0:.2f}".format(contract.annualpremium / int(contract.doses)))
         upcomingLife[contract] = nextPayment
     return render(request, 'leadsMasterApp/paymentsPage.html', {'toBePaidLife': toBePaidLife,
                                                                 'toBePaidGeneral': toBePaidGeneral,
                                                                 'upcomingGeneral': upcomingGeneral,
                                                                 'upcomingLife': upcomingLife})
+
+
+# This function calculates The Successful Percentage of Leads given from an introducer
+def successfulLeadsPercentage(introducer):
+    numOfLeads = 0
+    numOfSuccLeads = 0
+    leadsFromIntroducer = Person.objects.filter(leadfrom=introducer.id)
+    # Calculate
+    for person in leadsFromIntroducer:
+        numOfLeads += 1
+        if person.isclient == 1:
+            numOfSuccLeads += 1
+            # Calculate successful PERCENTAGE
+            # Where successful PERCENTAGE is ((leads-successfulLeads)/leads)*100
+    if numOfSuccLeads > 0:
+        percentage = numOfSuccLeads / numOfLeads * 100.0
+    else:
+        percentage = 0
+    percentage = float("{0:.2f}".format(percentage))
+
+    return percentage

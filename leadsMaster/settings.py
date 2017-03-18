@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -29,6 +28,8 @@ ALLOWED_HOSTS = ['127.0.0.1','alexiaharal.pythonanywhere.com']
 
 
 # Application definition
+
+# Required applications
 
 INSTALLED_APPS = [
     'leadsMasterApp.apps.LeadsmasterappConfig',
@@ -76,7 +77,6 @@ WSGI_APPLICATION = 'leadsMaster.wsgi.application'
 CSRF_COOKIE_DOMAIN=None
 
 # Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -84,6 +84,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Email settings
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'leadsmaster17@gmail.com'
