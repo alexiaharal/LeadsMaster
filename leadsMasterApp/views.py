@@ -644,31 +644,45 @@ def salesReportsView(request):
                                                                 'plansForm': plansForm
                                                                 })
 
+# This function calculates the profit gained from
+# a given contract any year, since the profit for
+# general contracts is every year the same amount.
+
 
 def generalContractProfit(contract):
     profitPercentage = 0
     for plan in contract.plan.all():
         profitPercentage += plan.commission
     profit = (contract.annualpremium * profitPercentage / 100)
-    return (profit)
+    return profit
 
+# This function calculates the profit gained from a
+# given life contract. It returns a dictionary of the form
+# {'total': amount A , 'thisYearProfit': amount B }, which
+# contains the total profit gained from this contract during all
+# years of issue , and the profit gained current year.
 
 def lifeContractProfit(contract, person):
     today = datetime.now()
-
     yearsOfContract = relativedelta(today.date(), contract.issuedate).years
-    profit = 0
-    firstyear = 0
+    first_year = 0
     nextyears = 0
     # get profit from all plans if more than one plan
     for plan in contract.plan.all():
-        ## FIRST year profit ##
+        # Calculate FIRST year's profit
+        # Get profit percentage of first year
 
-        # Get percentage
-        if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4):
+        # If this contract is of type Life Plan C which contains more than one future profits
+        # and makes the percentage being just the first year commission percentage
+        if plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4:
             percentage = plan.firstyearcommission
+        # If contract has duration, then is of type Life Plan B
+        # which makes the percentage being the duration multiplied by the first year commission
         elif contract.duration:
             percentage = contract.duration * plan.firstyearcommission
+        # Else if it is of type Life  Plan A then the percentage is
+        # the years difference of the age limit and the person's years
+        # multiplied by the first year commission
         else:
             percentage = (plan.agelimit - (
                 relativedelta(today.date(), person.dateofbirth).years)) * plan.firstyearcommission
@@ -678,38 +692,42 @@ def lifeContractProfit(contract, person):
             percentage = plan.minpercentage
         elif percentage > plan.maxpercentage:
             percentage = plan.maxpercentage
-
-        # Save First Year's Commission
-        firstyear = percentage
-
+        # Save final First Year's Commission Percentage
+        first_year = percentage
+#######################
+        # REST OF THE YEARS profit calculation - up to now
         # If current contract is issued for more than one year
-        # REST OF THE YEARS profit -  up to now
         if yearsOfContract > 0:
-            if (plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4):
+            # If type: Life Plan C
+            if plan.futureprofit2 or plan.futureprofit3 or plan.futureprofit4:
+                # If this is the second year of issue, get percentage of profit
                 if yearsOfContract == 1:
                     nextyears += plan.futureprofit2
                     thisYearProfit = plan.futureprofit2
+                # If this is the third year of issue
                 elif yearsOfContract == 2:
-                    nextyears += (plan.futureprofit3) + (plan.futureprofit2)
+                    nextyears += plan.futureprofit3 + plan.futureprofit2
                     thisYearProfit = plan.futureprofit3
+                # For next years of issue
                 else:
-                    nextyears += (plan.futureprofit3) + (
-                        plan.futureprofit2) + (plan.futureprofit4 * (yearsOfContract - 2))
+                    nextyears += ((plan.futureprofit3 + plan.futureprofit2 + plan.futureprofit4) * (yearsOfContract - 2))
                     thisYearProfit = plan.futureprofit4
+            # Else if of type Life Plan A or Life Plan B
             else:
                 nextyears += plan.futureprofit
                 thisYearProfit = plan.futureprofit
+        # If this is the first year of issue
         else:
-            thisYearProfit = firstyear
-    # sum up profit from this contract
-    totalProfit = (firstyear * contract.annualpremium / 100) + (
-        nextyears * yearsOfContract * contract.annualpremium / 100)
+            thisYearProfit = first_year
+
+    # sum up profits from this contract
+    totalProfit = (first_year * contract.annualpremium / 100) + (nextyears * yearsOfContract * contract.annualpremium / 100)
     profit = {}
     totalProfit = float("{0:.2f}".format(totalProfit))
     thisYearProfit = float("{0:.2f}".format(thisYearProfit))
     profit['total'] = totalProfit
     profit['thisYearProfit'] = thisYearProfit * contract.annualpremium / 100
-    return (profit)
+    return profit
 
 
 def AddProfileView(request):
